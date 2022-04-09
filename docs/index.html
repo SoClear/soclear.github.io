@@ -25,6 +25,7 @@
     window.$docsify = {
       loadSidebar: true,
       subMaxLevel: 6,
+      auto2top: true,
       search: {
         placeholder: '搜索',
         noData: '找不到结果!'
@@ -80,6 +81,13 @@
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-java.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-rust.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-sql.min.js"></script>
+
+  <!-- Offline Mode -->
+  <script>
+    if (typeof navigator.serviceWorker !== 'undefined') {
+      navigator.serviceWorker.register('sw.js')
+    }
+  </script>
 </body>
 
 </html>
