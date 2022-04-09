@@ -1,12 +1,4 @@
----
-title: blame
-description: 
-published: true
-date: 2022-04-02T08:34:11.385Z
-tags: 
-editor: markdown
-dateCreated: 2022-04-02T08:34:11.385Z
----
+# blame
 
 以列表形式查看***指定文件***的历史修改记录。
 例子:

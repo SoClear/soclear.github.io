@@ -4,8 +4,6 @@
 
 ![[commands/init.md]]
 
-[git init](commands/init.md ':include')
-
 ## git clone
 
 ![[commands/clone.md]]
