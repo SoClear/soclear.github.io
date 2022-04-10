@@ -37,3 +37,6 @@
     * [ufw防火墙](InfoTech/Linux/ufw.md)
     * [Nginx Proxy Manager](InfoTech/Linux/nginx-proxy-manager.md)
     * [tmux终端复用](InfoTech/Linux/tmux.md)
+  * Rust
+    * [介绍](InfoTech/Rust/introduce.md)
+    * [入门](InfoTech/Rust/get-started.md)
