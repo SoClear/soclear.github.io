@@ -12,7 +12,7 @@
 >
 > 引用自 [阮一峰的网络日志](http://www.ruanyifeng.com/blog/2019/10/tmux.html)
 
-一个*会话session*通常指一个任务里面可以有很多*窗口window*，一个窗口又可以有很多的*窗格pane*。
+一个*会话session*通常指一个任务里面可以有很多*窗口window*，一个窗口又可以有很多的*窗格pane*。  
 前缀键Ctrl+B
 
 ## 安装

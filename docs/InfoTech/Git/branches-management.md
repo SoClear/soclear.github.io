@@ -17,9 +17,9 @@
 
 ---
 
-![branches-management-1.jpg](branches-management-1.jpg)
-![branches-management-2.jpg](branches-management-2.jpg)
-![branches-management-3.png](branches-management-3.png)
+![branches-management-1.jpg](branches-management-1.jpg)  
+![branches-management-2.jpg](branches-management-2.jpg)  
+![branches-management-3.png](branches-management-3.png)  
 
 ---
 
