@@ -8,6 +8,10 @@
     * [工作区、暂存区和版本库](InfoTech/Git/workspace-stage-repo.md)
     * [工作流程](InfoTech/Git/procedure.md)
     * [创建仓库](InfoTech/Git/create-repo.md)
+    * [文件操作](InfoTech/Git/file-operation.md)
+    * [管理分支](InfoTech/Git/branches-management.md)
+    * [查看提交历史](InfoTech/Git/log-blame.md)
+    * [标签](InfoTech/Git/commands/tag.md)
     * 命令
       * [add](InfoTech/Git/commands/add.md)
       * [blame](InfoTech/Git/commands/blame.md)
@@ -29,5 +33,7 @@
       * [status](InfoTech/Git/commands/status.md)
       * [tag](InfoTech/Git/commands/tag.md)
   * Linux
-    * Docker
-    * tmux
+    * [Docker](InfoTech/Linux/docker.md)
+    * [ufw防火墙](InfoTech/Linux/ufw.md)
+    * [Nginx Proxy Manager](InfoTech/Linux/nginx-proxy-manager.md)
+    * [tmux终端复用](InfoTech/Linux/tmux.md)

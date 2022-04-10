@@ -1,14 +1,6 @@
----
-title: tmux终端复用
-description: 
-published: true
-date: 2022-04-05T18:12:38.024Z
-tags: 
-editor: markdown
-dateCreated: 2022-04-02T10:49:30.329Z
----
+# tmux终端复用
 
-# 前置知识
+## 前置知识
 
 > 命令行的典型使用方式是，打开一个终端窗口（terminal window，以下简称"窗口"），在里面输入命令。用户与计算机的这种临时的交互，称为一次"会话"（session） 。
 >
@@ -23,28 +15,28 @@ dateCreated: 2022-04-02T10:49:30.329Z
 一个*会话session*通常指一个任务里面可以有很多*窗口window*，一个窗口又可以有很多的*窗格pane*。
 前缀键Ctrl+B
 
-# 安装
+## 安装
 
 `apt/yum/brew install tmux`
 
-# 会话 session
+## 会话 session
 
-| 功能                           | 命令                                                           |
-| ------------------------------ | -------------------------------------------------------------- |
-| 使用会话名称切换会话           | `tmux switch -t <session-name>`                                |
-| 使用会话名称接入会话           | `tmux attach -t <session-name>`<br/>`tmux a -t <session-name>` |
-| 使用会话名称杀死会话           | `tmux kill-session -t <session-name>`                          |
-| 使用会话编号切换会话           | `tmux switch -t 0`                                             |
-| 使用会话编号接入会话           | `tmux attach -t 0`<br/>`tmux a -t 0`                           |
-| 使用会话编号杀死会话           | `tmux kill-session -t 0`                                       |
-| 创建以<session-name 命名的会话 | `tmux new -s <session-name>`                                   |
-| 创建以序号命名的会话           | `tmux`                                                         |
-| 查看所有会话 s                 | `tmux ls`<br/><kbd>Ctrl</kbd>+<kbd>B</kbd> <kbd>S</kbd>        |
-| 离开会话 d                     | `tmux detach`<br/><kbd>Ctrl</kbd>+<kbd>B</kbd> <kbd>D</kbd>    |
-| 重命名会话                     | `tmux rename-session -t <old-name> <new-name>`                 |
-| 重命名当前会话$                | <kbd>Ctrl</kbd>+<kbd>B</kbd> <kbd>$</kbd>                      |
+| 功能                            | 命令                                                           |
+| ------------------------------- | -------------------------------------------------------------- |
+| 使用会话名称切换会话            | `tmux switch -t <session-name>`                                |
+| 使用会话名称接入会话            | `tmux attach -t <session-name>`<br/>`tmux a -t <session-name>` |
+| 使用会话名称杀死会话            | `tmux kill-session -t <session-name>`                          |
+| 使用会话编号切换会话            | `tmux switch -t 0`                                             |
+| 使用会话编号接入会话            | `tmux attach -t 0`<br/>`tmux a -t 0`                           |
+| 使用会话编号杀死会话            | `tmux kill-session -t 0`                                       |
+| 创建以<session-name> 命名的会话 | `tmux new -s <session-name>`                                   |
+| 创建以序号命名的会话            | `tmux`                                                         |
+| 查看所有会话 s                  | `tmux ls`<br/><kbd>Ctrl</kbd>+<kbd>B</kbd> <kbd>S</kbd>        |
+| 离开会话 d                      | `tmux detach`<br/><kbd>Ctrl</kbd>+<kbd>B</kbd> <kbd>D</kbd>    |
+| 重命名会话                      | `tmux rename-session -t <old-name> <new-name>`                 |
+| 重命名当前会话$                 | <kbd>Ctrl</kbd>+<kbd>B</kbd> <kbd>$</kbd>                      |
 
-# 窗口 window
+## 窗口 window
 
 | 功能                                                                              | 命令                                                                                 |
 | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
@@ -58,7 +50,7 @@ dateCreated: 2022-04-02T10:49:30.329Z
 | 相邻窗口切换 l                                                                    | <kbd>Ctrl</kbd>+<kbd>B</kbd> <kbd>L</kbd>                                            |
 | 重命名窗口,                                                                       | `tmux rename-window <new-window-name>`<br/><kbd>Ctrl</kbd>+<kbd>B</kbd> <kbd>,</kbd> |
 
-# 窗格 pane
+## 窗格 pane
 
 | 功能                                    | 命令                                                                 |
 | --------------------------------------- | -------------------------------------------------------------------- |
@@ -77,7 +69,7 @@ dateCreated: 2022-04-02T10:49:30.329Z
 | 移动到左方的窗格 ←                      | `tmux select-pane -L`<br/><kbd>Ctrl</kbd>+<kbd>B</kbd> <kbd>←</kbd>  |
 | 退出                                    | `exit`<br/><kbd>Ctrl</kbd>+<kbd>D</kbd>                              |
 
-# 其他命令
+## 其他命令
 
 | 功能     | 命令                                      |
 | -------- | ----------------------------------------- |
@@ -85,7 +77,7 @@ dateCreated: 2022-04-02T10:49:30.329Z
 | 退出     | `exit`<br/><kbd>Ctrl</kbd>+<kbd>D</kbd>   |
 | 退出帮助 | <kbd>ESC</kbd><br/><kbd>q</kbd>           |
 
-# 自定义前置键
+## 自定义前置键
 
 在~/.tmux.conf中更改前缀键为Ctrl+x
 

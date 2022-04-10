@@ -1,12 +1,4 @@
----
-title: 管理分支
-description: 
-published: true
-date: 2022-04-02T08:20:49.688Z
-tags: 
-editor: markdown
-dateCreated: 2022-04-02T08:19:58.098Z
----
+# 管理分支
 
 |功能|命令|
 |-|-|
@@ -25,12 +17,11 @@ dateCreated: 2022-04-02T08:19:58.098Z
 
 ---
 
-![branches-management-1.jpg](/InfoTech/Git/branches-management-1.jpg)
-![branches-management-2.jpg](/InfoTech/Git/branches-management-2.jpg)
-![branches-management-3.png](/InfoTech/Git/branches-management-3.png)
+![branches-management-1.jpg](branches-management-1.jpg)
+![branches-management-2.jpg](branches-management-2.jpg)
+![branches-management-3.png](branches-management-3.png)
 
 ---
-
 
 如果同一个文件在合并分支时都被修改了则会引起冲突：解决的办法是我们可以修改冲突文件后重新提交！选择要保留他的代码还是你的代码！
 

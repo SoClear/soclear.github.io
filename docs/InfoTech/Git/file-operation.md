@@ -1,12 +1,4 @@
----
-title: 文件操作
-description: 
-published: 1
-date: 2022-04-01T16:11:29.661Z
-tags: 
-editor: undefined
-dateCreated: 2022-04-01T15:55:44.506Z
----
+# 文件操作
 
 ## 文件的四种状态
 
@@ -16,7 +8,7 @@ dateCreated: 2022-04-01T15:55:44.506Z
 - **Modified** 文件已修改, 仅仅是修改, 并没有进行其他的操作. 这个文件也有两个去处, 通过git add可进入暂存staged状态, 使用git checkout 则丢弃修改过, 返回到unmodify状态, 这个git checkout即从库中取出文件, 覆盖当前修改 !
 - **Staged** 暂存状态. 执行git commit则将修改同步到库中, 这时库中的文件和本地文件又变为一致, 文件为Unmodify状态. 执行git reset HEAD filename取消暂存, 文件状态为Modified
 
-注意区分*文件的四种状态*与[*git管理的文件的三种状态*](/InfoTech/Git/procedure#Git管理的文件的三种状态)
+注意区分*文件的四种状态*与[*git管理的文件的三种状态*](procedure#Git管理的文件的三种状态)
 
 ## 查看文件状态
 
