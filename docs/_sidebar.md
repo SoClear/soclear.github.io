@@ -33,8 +33,15 @@
       * [status](InfoTech/Git/commands/status.md)
       * [tag](InfoTech/Git/commands/tag.md)
   * Linux
-    * [Linux 系统目录结构](InfoTech/Linux/dirs.md)
-    * [bash](InfoTech/Linux/bash.md)
+    * 基础
+      * [Linux 系统目录结构](InfoTech/Linux/bases/dirs.md)
+      * [bash](InfoTech/Linux/bases/bash.md)
+      * [远程登录](InfoTech/Linux/bases/remote-login.md)
+      * [Linux 文件基本属性](InfoTech/Linux/bases/file-attr-permission.md)
+      * [管理文件和目录](InfoTech/Linux/bases/manage-files-and-dirs.md)
+      * [管理用户和用户组](InfoTech/Linux/bases/manage-users.md)
+      * [管理磁盘](InfoTech/Linux/bases/manage-disks.md)
+      * [apt命令](InfoTech/Linux/bases/apt.md)
     * [Docker](InfoTech/Linux/docker.md)
     * [ufw防火墙](InfoTech/Linux/ufw.md)
     * [Nginx Proxy Manager](InfoTech/Linux/nginx-proxy-manager.md)
