@@ -33,6 +33,8 @@
       * [status](InfoTech/Git/commands/status.md)
       * [tag](InfoTech/Git/commands/tag.md)
   * Linux
+    * [Linux 系统目录结构](InfoTech/Linux/dirs.md)
+    * [bash](InfoTech/Linux/bash.md)
     * [Docker](InfoTech/Linux/docker.md)
     * [ufw防火墙](InfoTech/Linux/ufw.md)
     * [Nginx Proxy Manager](InfoTech/Linux/nginx-proxy-manager.md)
