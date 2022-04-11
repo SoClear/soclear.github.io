@@ -9,7 +9,8 @@ ssh默认端口为22
 
 1. 生成密钥 `ssh-keygen -t rsa`  
 一路回车，在`$HOME/.ssh/`中就可以看到生产的公钥 `id_rsa.pub` 和私钥 `id_rsa`  
-2. 复制到远程主机的`$HOME/.ssh/authorized_keys` 最后：`ssh-copy-id -i 【公钥路径】 -p 端口 远程主机用户名@IP地址`
+2. 复制到远程主机的`$HOME/.ssh/authorized_keys`：  
+`ssh-copy-id -i 【公钥路径】 -p 端口 远程主机用户名@IP地址`
 
 ## 禁用密码登录、修改端口
 
