@@ -48,6 +48,8 @@
     * [Nginx Proxy Manager](InfoTech/Linux/nginx-proxy-manager.md)
     * [tmux终端复用](InfoTech/Linux/tmux.md)
   * SQLite
+    * [安装](InfoTech/SQLite/intall.md)
+    * [命令](InfoTech/SQLite/commands.md)
     * [在安卓中使用 SQLite](InfoTech/SQLite/sqlite-in-android.md)
   * Rust
     * [介绍](InfoTech/Rust/introduce.md)
