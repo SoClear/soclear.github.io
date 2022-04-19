@@ -50,6 +50,8 @@
   * SQLite
     * [安装](InfoTech/SQLite/intall.md)
     * [命令](InfoTech/SQLite/commands.md)
+    * [语法](InfoTech/SQLite/syntax.md)
+    * [数据类型](InfoTech/SQLite/data-types.md)
     * [在安卓中使用 SQLite](InfoTech/SQLite/sqlite-in-android.md)
   * Rust
     * [介绍](InfoTech/Rust/introduce.md)
