@@ -1,4 +1,14 @@
 * IT
+  * Android
+    * 阿里Android开发规范
+      * [一、Android 资源文件命名与使用](InfoTech/Android/AliAndroidDevelopmentStandard/asset.md)
+      * [二、Android 基本组件](InfoTech/Android/AliAndroidDevelopmentStandard/component.md)
+      * [三、UI 与布局](InfoTech/Android/AliAndroidDevelopmentStandard/ui-layout.md)
+      * [四、进程、线程与消息通信](InfoTech/Android/AliAndroidDevelopmentStandard/process-thread-meassage.md)
+      * [五、文件与数据库](InfoTech/Android/AliAndroidDevelopmentStandard/file-db.md)
+      * [六、Bitmap、Drawable 与动画](InfoTech/Android/AliAndroidDevelopmentStandard/bitmap-drawable-animation.md)
+      * [七、安全](InfoTech/Android/AliAndroidDevelopmentStandard/safety.md)
+      * [八、其他](InfoTech/Android/AliAndroidDevelopmentStandard/others.md)
   * Git
     * [什么是版本控制](InfoTech/Git/what_is_version_control.md)
     * [常见的版本控制系统](InfoTech/Git/tools.md)
