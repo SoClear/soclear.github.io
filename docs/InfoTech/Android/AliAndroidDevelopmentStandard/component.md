@@ -508,8 +508,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         unregisterReceiver(myReceiver);
-        阿里巴巴 Android 开发手册
-                - 21 -
     }
  ...
 }
