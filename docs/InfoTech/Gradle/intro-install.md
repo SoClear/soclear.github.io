@@ -40,7 +40,7 @@ Gradle将其构建建模为任务（工作单元）的有向无环图（DAG）�
 
 实际上，上述所有内容都是可选的，具体取决于任务需要执行的操作。某些任务（如[标准生命周期任务](https://docs.gradle.org/current/userguide/what_is_gradle.html#five_thingsbase_plugin.html#sec:base_tasks)）甚至没有任何操作。为了方便起见，它们只是将多个任务聚合在一起。`test assemble`
 
-> 选择要运行的任务。通过指定执行所需任务的任务来节省时间，但不超过此值。如果只想运行单元测试，请选择执行此操作的任务 — 通常为 。如果要打包应用程序，大多数生成都有一个任务。
+> 你选择运行哪个任务。通过指定做你需要的任务来节省时间，但不要超过这个范围。如果你只想运行单元测试，选择做这个的任务--通常是测试。如果你想打包一个应用程序，大多数构建有一个`assemble`任务。
 
 最后一件事：Gradle的[增量构建](https://docs.gradle.org/current/userguide/what_is_gradle.html#five_thingsmore_about_tasks.html#sec:up_to_date_checks)支持是强大而可靠的，所以除非你真的想执行干净，否则通过避免任务来保持你的构建快速运行。`clean`
 
