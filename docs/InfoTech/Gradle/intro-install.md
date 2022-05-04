@@ -70,9 +70,9 @@ Gradle将其构建建模为任务（工作单元）的有向无环图（DAG）�
 
 设计良好的生成脚本主要由[声明性配置而不是命令性逻辑](https://docs.gradle.org/current/userguide/what_is_gradle.html#five_thingsauthoring_maintainable_build_scripts.html#sec:avoid_imperative_logic_in_scripts)组成。在配置阶段可以理解地评估该配置。即便如此，许多这样的构建还具有任务操作（例如 via 和块），这些操作在执行阶段进行评估。这一点很重要，因为在配置阶段评估的代码不会看到在执行阶段发生的更改。 `doLast {}` `doFirst {}`
 
-配置阶段的另一个重要方面是，_每次运行生成时都会_评估其中涉及的所有内容。这就是为什么[在配置阶段避免昂贵的工作](https://docs.gradle.org/current/userguide/what_is_gradle.html#five_thingsauthoring_maintainable_build_scripts.html#sec:minimize_logic_executed_configuration_phase)是最佳做法的原因。[构建扫描](https://scans.gradle.com/)可以帮助您识别此类热点等。
+配置阶段的另一个重要方面是，_每次运行生成时都会_ 评估其中涉及的所有内容。这就是为什么[在配置阶段避免昂贵的工作](https://docs.gradle.org/current/userguide/what_is_gradle.html#five_thingsauthoring_maintainable_build_scripts.html#sec:minimize_logic_executed_configuration_phase)是最佳做法。[构建扫描](https://scans.gradle.com/)可以帮助您识别此类热点等。
 
-### [](https://docs.gradle.org/current/userguide/what_is_gradle.html#five_things#4_gradle_is_extensible_in_more_ways_than_one)[4\. Gradle 以多种方式可扩展](https://docs.gradle.org/current/userguide/what_is_gradle.html#five_things#4_gradle_is_extensible_in_more_ways_than_one)
+### [4. Gradle 以多种方式可扩展](https://docs.gradle.org/current/userguide/what_is_gradle.html#five_things#4_gradle_is_extensible_in_more_ways_than_one)
 
 如果您只能使用与Gradle捆绑在一起的构建逻辑来构建项目，那就太好了，但这很少可能。大多数生成都有一些特殊要求，这意味着需要添加自定义生成逻辑。
 
@@ -84,23 +84,23 @@ Gradle 提供了几种允许您扩展它的机制，例如：
 
 - 自定义任务操作。
 
-    您可以通过 [Task.doFirst（） 和 Task.doLast（）](https://docs.gradle.org/current/userguide/what_is_gradle.html#five_things../dsl/org.gradle.api.Task.html#org.gradle.api.Task:doFirst(org.gradle.api.Action)) 方法附加在任务之前或之后执行[的](https://docs.gradle.org/current/userguide/what_is_gradle.html#five_things../dsl/org.gradle.api.Task.html#org.gradle.api.Task:doLast(org.gradle.api.Action))自定义生成逻辑。
+    您可以通过 [Task.doFirst()](https://docs.gradle.org/current/dsl/org.gradle.api.Task.html#org.gradle.api.Task:doFirst(org.gradle.api.Action))和 [Task.doLast()](https://docs.gradle.org/current/dsl/org.gradle.api.Task.html#org.gradle.api.Task:doLast(org.gradle.api.Action)) 方法附加在任务之前或之后执行的自定义构建逻辑。
 
-- 项目和任务[的额外属性](https://docs.gradle.org/current/userguide/what_is_gradle.html#five_thingswriting_build_scripts.html#sec:extra_properties)。
+- 项目和任务的[额外属性](https://docs.gradle.org/current/userguide/what_is_gradle.html#five_thingswriting_build_scripts.html#sec:extra_properties)。
 
     这些允许您将自己的属性添加到项目或任务中，然后可以从自己的自定义操作或任何其他生成逻辑中使用这些属性。额外的属性甚至可以应用于不是由您显式创建的任务，例如由Gradle的核心插件创建的任务。
 
 - 自定义约定。
 
-    约定是简化生成的一种强大方法，以便用户可以更轻松地理解和使用它们。这可以在使用标准项目结构和命名约定的构建（如 [Java 构建）中看到](https://docs.gradle.org/current/userguide/what_is_gradle.html#five_thingsbuilding_java_projects.html#building_java_projects)。您可以编写自己的插件来提供约定 - 它们只需要为构建的相关方面配置默认值。
+    约定是简化生成的一种强大方法，以便用户可以更轻松地理解和使用它们。这可以在使用标准项目结构和命名约定的构建（如 [Java 构建](https://docs.gradle.org/current/userguide/what_is_gradle.html#five_thingsbuilding_java_projects.html#building_java_projects)中看到）。您可以编写自己的插件来提供约定 - 它们只需要为构建的相关方面配置默认值。
 
 - [自定义模型](https://docs.gradle.org/current/userguide/what_is_gradle.html#five_thingsimplementing_gradle_plugins.html#modeling_dsl_like_apis)。
 
-    Gradle 允许您在构建中引入新概念，超越任务、文件和依赖项配置。您可以在大多数语言插件中看到这一点，这些插件将[_源代码集_](https://docs.gradle.org/current/userguide/what_is_gradle.html#five_thingsbuilding_java_projects.html#sec:java_source_sets)的概念添加到构建中。对生成过程进行适当的建模可以大大提高生成的易用性和效率。
+    Gradle允许你在任务、文件和依赖性配置之外向构建中引入新的概念。你可以从大多数语言插件中看到这一点，它们在构建中加入了[源码集](https://docs.gradle.org/current/userguide/building_java_projects.html#sec:java_source_sets)的概念。对构建过程进行适当的建模，可以大大改善构建的易用性和效率。
 
 ### [5. 构建脚本针对 API 运行](https://docs.gradle.org/current/userguide/what_is_gradle.html#five_things#5_build_scripts_operate_against_an_api)
 
-很容易将 Gradle 的构建脚本视为可执行代码，因为这就是它们的本质。但这是一个实现细节：精心设计的构建_脚本描述了构建_软件所需的步骤，而不是这些步骤应该_如何_完成工作。这是自定义任务类型和插件的工作。
+很容易将 Gradle 的构建脚本视为可执行代码，因为这就是它们的本质。但这是一个实现细节：精心设计的构建脚本应该描述构建软件所需的步骤 _是什么_ ，而不是这些步骤应该 _如何_ 完成工作。这是自定义任务类型和插件的工作。
 
 > 人们普遍存在一种误解，认为Gradle的强大功能和灵活性来自于其构建脚本是代码的事实。这与事实大相径庭。底层模型和 API 提供了强大的功能。正如我们在最佳实践中建议的那样，您应该[避免在生成脚本中放置太多（如果有）命令性逻辑](https://docs.gradle.org/current/userguide/what_is_gradle.html#five_thingsauthoring_maintainable_build_scripts.html#sec:avoid_imperative_logic_in_scripts)
 
