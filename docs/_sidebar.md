@@ -43,6 +43,10 @@
       * [rm](InfoTech/Git/commands/rm.md)
       * [status](InfoTech/Git/commands/status.md)
       * [tag](InfoTech/Git/commands/tag.md)
+  * Gradle
+    * [介绍和安装](InfoTech/Gradle/intro-install.md)
+    * [构建 Kotlin 应用程序示例](InfoTech/Gradle/sample_building_kotlin_applications.md)
+    * [临时笔记](InfoTech/Gradle/tmp.md)
   * Linux
     * 基础
       * [Linux 系统目录结构](InfoTech/Linux/bases/dirs.md)
@@ -57,6 +61,9 @@
     * [ufw防火墙](InfoTech/Linux/ufw.md)
     * [Nginx Proxy Manager](InfoTech/Linux/nginx-proxy-manager.md)
     * [tmux终端复用](InfoTech/Linux/tmux.md)
+  * Rust
+    * [介绍](InfoTech/Rust/introduce.md)
+    * [入门](InfoTech/Rust/get-started.md)
   * SQLite
     * [安装](InfoTech/SQLite/intall.md)
     * [命令](InfoTech/SQLite/commands.md)
@@ -83,6 +90,3 @@
     * [Having 子句](InfoTech/SQLite/having.md)
     * [Distinct 关键字](InfoTech/SQLite/distinct.md)
     * [在安卓中使用 SQLite](InfoTech/SQLite/sqlite-in-android.md)
-  * Rust
-    * [介绍](InfoTech/Rust/introduce.md)
-    * [入门](InfoTech/Rust/get-started.md)
