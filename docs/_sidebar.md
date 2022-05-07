@@ -1,5 +1,5 @@
 * IT
-  * Algorithm problems
+  * 力扣算法题
     * 简单
       * [两数之和](InfoTech/AlgorithmProblems/easy/two-sum.md)
       * [回文数](InfoTech/AlgorithmProblems/easy/palindrome-number.md)
