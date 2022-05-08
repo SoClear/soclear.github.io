@@ -3,6 +3,8 @@
     * 简单
       * [两数之和](InfoTech/AlgorithmProblems/easy/two-sum.md)
       * [回文数](InfoTech/AlgorithmProblems/easy/palindrome-number.md)
+      * [罗马数字转整数](InfoTech/AlgorithmProblems/easy/roman-to-integer.md)
+      * [最长公共前缀](InfoTech/AlgorithmProblems/easy/longest-common-prefix.md)
   * Android
     * 阿里Android开发规范
       * [一、Android 资源文件命名与使用](InfoTech/Android/AliAndroidDevelopmentStandard/asset.md)
