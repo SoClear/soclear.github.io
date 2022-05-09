@@ -80,3 +80,7 @@ QuizViewModel和MainActivity的关系是单向的。某个activity会引用其�
 ## MVC
 
 ![MVC](mvc.png)
+
+## 单一抽象方法（SAM）
+
+单一抽象方法（single abstract method）：一个接口里只有一个抽象方法。
