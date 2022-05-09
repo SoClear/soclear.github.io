@@ -269,3 +269,94 @@ private static void addInBitmapOptions(BitmapFactory.Options options, ImageCache
     }
 }
 ```
+
+## 使用 ARGB_565 代替 ARGB_888，减少内存占用。【推荐】
+
+使用 ARGB_565 代替 ARGB_888，在不怎么降低视觉效果的前提下，减少内存占用。
+
+说明：
+
+`android.graphics.Bitmap.Config` 类中关于图片颜色的存储方式定义：
+
+- ALPHA_8 代表 8 位 Alpha 位图；
+- ARGB_4444 代表 16 位 ARGB 位图；
+- ARGB_8888 代表 32 位 ARGB 位图；
+- RGB_565 代表 8 位 RGB 位图。
+
+位图位数越高，存储的颜色信息越多，图像也就越逼真。  
+大多数场景使用的是ARGB_8888 和 RGB_565，RGB_565 能够在保证图片质量的情况下大大减少内存的开销，是解决 oom 的一种方法。  
+但是一定要注意 RGB_565 是没有透明度的，如果图片本身需要保留透明度，那么就不能使用 RGB_565。
+
+正例：
+
+```java
+Config config = drawableSave.getOpacity() != PixelFormat.OPAQUE ? Config.ARGB_8888 : 
+Config.RGB_565; 
+Bitmap bitmap = Bitmap.createBitmap(w, h, config);
+```
+
+反例：
+
+```java
+Bitmap newb = Bitmap.createBitmap(width, height, Config.ARGB_8888);
+```
+
+## 少用 BitMap【推荐】
+
+尽量减少 Bitmap（BitmapDrawable）的使用，尽量使用纯色（ColorDrawable）、渐变色（GradientDrawable）、StateSelector（StateListDrawable）等与 Shape 结合的形式构建绘图。
+
+## 谨慎使用 gif【推荐】
+
+谨慎使用 gif 图片，注意限制每个页面允许同时播放的 gif 图片，以及单个 gif 图片的大小。
+
+## 大图片资源不要直接打包到 apk【参考】
+
+大图片资源不要直接打包到 apk，可以考虑通过文件仓库远程下载，减小包体积。
+
+## 根据设备性能，选择性开启复杂动画【推荐】
+
+根据设备性能，选择性开启复杂动画，以实现一个整体较优的性能和体验；
+
+## 建议加上超时保护或通过 postDelay 替代onAnimationEnd【推荐】
+
+在有强依赖 `onAnimationEnd` 回调的交互时，如动画播放完毕才能操作页面， [onAnimationEnd 可能会因各种异常没被回调](https://stackoverflow.com/questions/5474923/onanimationend-is-not-getting-called-onanimationstart-works-fine)，建议加上超时保护或通过 `postDelay` 替代 `onAnimationEnd` 。
+
+正例：
+
+```java
+View v = findViewById(R.id.xxxViewID);
+final FadeUpAnimation anim = new FadeUpAnimation(v);
+anim.setInterpolator(new AccelerateInterpolator());
+anim.setDuration(1000);
+anim.setFillAfter(true);
+new Handler().postDelayed(new Runnable() {
+    public void run() {
+        if (v != null) {
+            v.clearAnimation();
+        }
+    }
+}, anim.getDuration());
+v.startAnimation(anim);
+```
+
+## 当 View Animation 执行结束时，调用 View.clearAnimation()释放相关资源【推荐】
+
+正例：
+
+```java
+View v = findViewById(R.id.xxxViewID);
+final FadeUpAnimation anim = new FadeUpAnimation(v);
+anim.setInterpolator(new AccelerateInterpolator());
+anim.setDuration(1000);
+anim.setFillAfter(true);
+anim.setAnimationListener(new AnimationListener() {
+    @Override
+    public void onAnimationEnd(Animation arg0) {
+        //判断一下资源是否被释放了
+        if (v != null) {
+            v.clearAnimation();
+        }
+    }
+});
+v.startAnimation(anim);
+```
