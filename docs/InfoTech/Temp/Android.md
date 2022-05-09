@@ -1,27 +1,25 @@
----
-title: Android
-description: 
-published: true
-date: 2022-04-03T04:33:11.876Z
-tags: 
-editor: markdown
-dateCreated: 2022-04-03T02:02:05.646Z
----
+# Android 碎片知识，待整理
 
-# 引入ViewModel
+## 引入ViewModel
+
 在Activity关联ViewModel需要在模块下引入依赖
+
 ```groovy
 implementation "androidx.activity:activity-ktx:$activity_version"
 implementation "androidx.fragment:fragment-ktx:$fragment_version"
 ```
+
 用到那个引用哪个
 使用方法:
+
 ```kotlin
 val quizViewModel:QuizViewModel by viewModels()
 ```
+
 QuizViewModel和MainActivity的关系是单向的。某个activity会引用其关联ViewModel，反过来则不行。一个ViewModel绝不能引用activity或view，否则会引发内存泄漏。
 
-# 暂存状态
+## 暂存状态
+
 只要在未结束使用的activity进入停止状态时（比如用户按了Home按钮，启动另一个应用时），操作系统都会调用Activity.onSaveInstanceState(Bundle)。这个时间点很重要，因为停止的activity会被标记为killable。如果应用进程因低优先级被“杀死”，那么，你大可放心Activity.onSaveInstanceState(Bundle)肯定已被调用过。
 
 保留实例状态数据是要序列化到磁盘的，所以应避免用它保存任何大而复杂的对象。
@@ -35,8 +33,10 @@ QuizViewModel和MainActivity的关系是单向的。某个activity会引用其�
 
 使用保留实例状态保存少量必需信息以重建UI状态（例如，GeoQuiz应用的currentIndex）。使用ViewModel保存的更丰富的数据，可以快速方便地取回来填充UI，以应对设备配置改变。如果activity是在进程销毁后重建，那就借助保留实例状态先创建ViewModel，从而达到ViewModel和activity从未失效的效果。
 
-# 何时会销毁ViewModel?
+## 何时会销毁ViewModel?
+
 两种情况:
+
 - 用户主动销毁 : `Actiuvity.isFinishing`为`true`
 - 被系统销毁 : `Actiuvity.isFinishing`为`false`
 
@@ -46,5 +46,37 @@ QuizViewModel和MainActivity的关系是单向的。某个activity会引用其�
 如果isFinishing属性值是true，那么activity正在被销毁，因为用户结束使用当前activity了（比如按了回退键，或者从概览屏消除了应用卡片）。
 如果isFinishing属性值是false，activity则正在被系统销毁，因为设备配置改变了。
 
-# 新版Logcat
-见 https://androidstudio.googleblog.com/2022/03/android-studio-dolphin-canary-6-now.html
+## 新版Logcat
+
+见 <https://androidstudio.googleblog.com/2022/03/android-studio-dolphin-canary-6-now.html>
+
+## gradlew
+
+有时，出于某种原因，可能需要脱离Android Studio编译代码。最简单的方法是使用命令行编译工具。Android编译系统使用的编译工具叫Gradle。
+
+（注意，能读懂本节内容并按步骤操作是最好的。如果看不懂，甚至不知道为什么要手动编译代码，或者是无法正确使用命令行，也不必太在意，请继续学习下一章内容。命令行工具的具体使用不在本书讨论范围内。）
+
+要从命令行使用Gradle，请切换至项目目录并执行以下命令：  
+`./gradlew tasks`
+
+如果是Windows系统，执行以下命令：  
+`gradlew.bat tasks`
+
+执行以上命令会显示一系列可用任务。你需要的任务是`installDebug`，因此，再执行以下命令：
+`./gradlew installDebug`
+
+如果是Windows系统，执行以下命令：  
+`gradlew.bat installDebug`  
+
+以上命令将把应用安装到当前连接的设备上，但不会运行它。要运行应用，需要在设备上手动启动。
+
+## 定义Int型的ResourceId形参要加 @StringRes
+
+`@StringRes` 注解可以不加，但最好加上，原因有两个。  
+首先，Android Studio内置有Lint代码检查器，有了该注解，它在编译时就知道构造函数会提供有效的资源ID。  
+这样一来，构造函数使用无效资源ID的情况（比如提供的资源ID指向非String类型资源）就能避免，从而阻止了应用的运行时崩溃。  
+其次，注解可以方便其他开发人员阅读和理解你的代码。
+
+## MVC
+
+![MVC](mvc.png)
