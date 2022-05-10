@@ -6,6 +6,7 @@
       * [罗马数字转整数](InfoTech/AlgorithmProblems/easy/roman-to-integer.md)
       * [最长公共前缀](InfoTech/AlgorithmProblems/easy/longest-common-prefix.md)
       * [有效的括号](InfoTech/AlgorithmProblems/easy/valid-parentheses.md)
+      * [合并两个有序链表](InfoTech/AlgorithmProblems/easy/merge-two-sorted-lists.md)
   * Android
     * 阿里Android开发规范
       * [一、Android 资源文件命名与使用](InfoTech/Android/AliAndroidDevelopmentStandard/asset.md)
