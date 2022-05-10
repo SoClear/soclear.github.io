@@ -19,3 +19,5 @@
 | 查看镜像               | `docker images`                                                                               |
 | 删除镜像               | `docker rmi 镜像ID或者作者/镜像名:TAG`                                                        |
 | 创建卷                 | `docker volume create 卷名`                                                                   |
+| 复制容器内文件到宿主机 | `docker cp 容器名或容器ID:容器内文件或文件夹路径 宿主机文件路径`                              |
+| 复制宿主机文件到容器内 | `docker cp 宿主机文件路径 容器名或容器ID:容器内文件或文件夹路径`                              |
