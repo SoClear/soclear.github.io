@@ -8,6 +8,7 @@
       * [有效的括号](InfoTech/AlgorithmProblems/easy/valid-parentheses.md)
       * [合并两个有序链表](InfoTech/AlgorithmProblems/easy/merge-two-sorted-lists.md)
       * [删除有序数组中的重复项](InfoTech/AlgorithmProblems/easy/remove-duplicates-from-sorted-array.md)
+      * [移除元素](InfoTech/AlgorithmProblems/easy/remove-element.md)
   * Android
     * 阿里Android开发规范
       * [一、Android 资源文件命名与使用](InfoTech/Android/AliAndroidDevelopmentStandard/asset.md)
