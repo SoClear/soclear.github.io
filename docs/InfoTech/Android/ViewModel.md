@@ -13,6 +13,10 @@ ViewModel持有模型对象。
 在设备配置改变之后，Activity再次访问ViewModel对象时，它返回的是之前创建的QuizViewModel。  
 在MainActivity完成使命销毁时（比如用户按了回退键），ViewModel-Activity这对好朋友也就从内存里抹掉了。
 
+## 如何让ViewModel在进程消亡时也能保存状态数据？
+
+Android团队正努力改善ViewModel开发使用体验，已发布lifecycle-viewmodel-savedstate这个新库，让ViewModel在进程消亡时也能保存状态数据。
+
 ## 注意
 
 请在Activity里惰性初始化ViewModel对象。
