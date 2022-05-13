@@ -1,9 +1,12 @@
-# activity状态与生命周期回调
+# activity
 
-## 生命周期
+## 生命周期状态与生命周期回调
 
-![activity生命周期](activity_lifecycle.jfif)
+简化的生命周期
+![简化的生命周期](activity_lifecycle.jfif)
 
+完整的生命周期
+![完整的生命周期](activity_lifecycle_accurate.jfif)
 | 状态   | 是否有内存实例 | 用户是否可见 | 是否活跃在前台 |
 | ------ | -------------- | ------------ | -------------- |
 | 不存在 | 否             | 否           | 否             |
@@ -36,3 +39,37 @@ activity何时被销毁有两种情况：
 如果isFinishing属性值是false，activity则正在被系统销毁，因为设备配置改变了。
 
 如果 `Activity.isFinishing` 是 `true` ，即用户主动销毁Activity，那么与该Activity关联的ViewModel对象也会被销毁。
+
+## Activity.onSaveInstanceState(Bundle)
+
+### 介绍与使用
+
+只要在未结束使用的activity进入停止状态时（比如用户按了Home按钮，启动另一个应用时），操作系统都会调用Activity.onSaveInstanceState(Bundle)。  
+这个时间点很重要，因为停止的activity会被标记为killable。  
+如果应用进程因低优先级被“杀死”，那么，你大可放心Activity.onSaveInstanceState(Bundle)肯定已被调用过。
+
+onSaveInstanceState(Bundle)的默认实现要求所有activity视图将自身状态数据保存在Bundle对象中。  
+Bundle是存储字符串键与特定类型值之间映射关系（键值对）的一种结构。
+
+覆盖onSaveInstanceState(...)函数：
+
+```kotlin
+override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Log.d(TAG, "onCreate(Bundle?) called")
+        outState.putString("your key","your value")
+    }
+```
+
+onCreate接受传入可空值bundle。这是因为用户首次启动的activity新实例是没有状态的，自然对应的bundle为空。当设备旋转或进程被销毁后重建应用activity时，Bundle对象就有值了。此时的bundle会保存你在`onSaveInstanceState(Bundle)`里添加的键值对。另外，Bundle对象里也可能包含系统框架添加的额外信息，比如某个EditText的内容或者其他基本UI部件的状态。
+
+### 最佳实践
+
+常见的做法是:
+
+- 覆盖onSaveInstanceState(Bundle)函数，在Bundle对象中，保存当前activity小的或暂存状态的数据；
+- 覆盖onStop()函数，保存永久性数据，比如用户编辑的文字等。调用完onStop()函数后，activity随时会被系统销毁，所以用它保存永久性数据。
+
+### bundle会保存多久？
+
+那么暂存的activity记录到底可以保留多久呢？前面说过，用户按了回退键后，系统会彻底销毁当前的activity。此时，暂存的activity记录会同时被清除。此外，如果系统重启，那么暂存的activity记录也会被清除。
