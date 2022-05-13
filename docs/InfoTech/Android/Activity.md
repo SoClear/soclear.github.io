@@ -38,7 +38,7 @@ activity何时被销毁有两种情况：
 如果isFinishing属性值是true，那么activity正在被用户销毁，因为用户结束使用当前activity了（比如按了回退键，或者从概览屏消除了应用卡片）。  
 如果isFinishing属性值是false，activity则正在被系统销毁，因为设备配置改变了。
 
-如果 `Activity.isFinishing` 是 `true` ，即用户主动销毁Activity，那么与该Activity关联的ViewModel对象也会被销毁。
+33如果 `Activity.isFinishing` 是 `true` ，即用户主动销毁Activity，那么与该Activity关联的ViewModel对象也会被销毁。
 
 ## Activity.onSaveInstanceState(Bundle)
 
@@ -75,3 +75,91 @@ onCreate接受传入可空值bundle。这是因为用户首次启动的activity�
 那么暂存的activity记录到底可以保留多久呢？前面说过，用户按了回退键后，系统会彻底销毁当前的activity。此时，暂存的activity记录会同时被清除。此外，如果系统重启，那么暂存的activity记录也会被清除。
 
 因为保留实例状态数据是要序列化到磁盘的，所以应避免用它保存任何大而复杂的对象。
+
+## 启动activity
+
+### 启动原理
+
+一个activity启动另一个activity最简单的方式是使用startActivity(Intent)函数。
+
+你也许会想当然地认为，startActivity(Intent)函数是一个静态函数，启动activity就是调用Activity子类的该函数。  
+实际并非如此。activity调用startActivity(Intent)函数时，调用请求实际发给了操作系统。
+
+准确地说，调用请求发送给了操作系统的ActivityManager。ActivityManager负责创建Activity实例并调用其onCreate(Bundle?)函数，如图所示。
+
+![启动Activity](activity_launch.jfif)
+
+ActivityManager该启动哪个activity呢？那就要看Intent参数里的信息了。
+
+### 最普通的startActivity
+
+`Activity.startActivity(Intent)`
+
+### startActivityForResult
+
+需要从子activity获取返回信息时，可调用如下函数：
+
+`Activity.startActivityForResult(Intent, Int)`
+
+该函数的第一个参数同前述的intent。  
+第二个参数是请求代码。  
+请求代码是先发送给子activity，然后再返回给父activity的整数值，由用户定义。  
+在一个activity启动多个不同类型的子activity且需要判断消息回馈方时，就会用到该请求代码。
+
+## intent
+
+intent对象是component用来与操作系统通信的一种媒介工具。  
+intent是一种多用途通信工具。  
+Intent类有多个构造函数，能满足不同的使用需求。
+
+### 启动 Activity
+
+`Intent(packageContext: Context, class: Class<?>)`
+
+### 携带信息
+
+![启动Activity](activity_intent_extra.jfif)
+
+```kotlin
+Intent.putExtra(name: String, value: Boolean)
+```
+
+`Intent.putExtra(...)`函数形式多变。  
+不变的是，它总是有两个参数。  
+一个参数是固定为String类型的键，另一个参数是键值，可以是各种数据类型。  
+该函数返回intent自身，因此，需要时可进行链式调用。
+
+获取数据：
+
+```kotlin
+Intent.getXXXExtra(String,XXX)
+```
+
+第一个参数是键，第二个是默认值。
+
+### 显式intent与隐式intent
+
+通过指定Context与Class对象，然后调用intent的构造函数来创建Intent，这样创建的是显式intent。  
+在同一应用中，我们使用显式intent来启动activity。
+
+## 实现子activity发送返回信息给父activity，有以下两种函数可用
+
+```koltin
+setResult(resultCode: Int)
+setResult(resultCode: Int, data: Intent)
+```
+
+一般来说，参数resultCode可以是以下任意一个预定义常量。
+
+- `Activity.RESULT_OK`
+- `Activity.RESULT_CANCELED`
+
+（如需自己定义结果代码，还可使用另一个常量：RESULT_FIRST_USER。）
+
+在父activity需要依据子activity的完成结果采取不同操作时，设置结果代码就非常有用。
+
+例如，假设子activity有一个OK按钮和一个Cancel按钮，并且每个按钮的点击动作分别设置有不同的结果代码。那么，根据不同的结果代码，父activity就能采取不同的操作。
+
+时序图：
+
+![startForActivity时序图](activity_for_result.jfif)
