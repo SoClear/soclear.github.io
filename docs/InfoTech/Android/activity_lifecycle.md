@@ -22,3 +22,17 @@
 - 运行（Resumed）表示某个activity实例在内存里，用户完全可见，且处于前台。用户当前正与之交互。设备上有很多应用，但是，任何时候只能有一个activity处于能与用户交互的运行状态。这也意味着，如果某个activity进入继续运行状态，那么其他activity可能正在退出运行状态。
 
 切记，千万不要自己去调用onCreate(Bundle?)函数或任何其他activity生命周期函数。为通知activity状态变化，你只需在Activity子类里覆盖这些函数，Android会适时调用它们（看当前用户状态以及系统运行情况）。
+
+activity一直在运行、暂停、停止和不存在这四种状态间转换。  
+activity何时被销毁有两种情况：
+
+- 用户结束使用activity
+- 因设备配置改变，被系统销毁。
+
+一般来讲，当用户结束使用activity时，都希望重置应用的UI状态。而当用户旋转activity时，他们又希望旋转前后UI状态保持一致。
+
+通过检查activity的isFinishing属性可以知道哪一场景正在上演。  
+如果isFinishing属性值是true，那么activity正在被用户销毁，因为用户结束使用当前activity了（比如按了回退键，或者从概览屏消除了应用卡片）。  
+如果isFinishing属性值是false，activity则正在被系统销毁，因为设备配置改变了。
+
+如果 `Activity.isFinishing` 是 `true` ，即用户主动销毁Activity，那么与该Activity关联的ViewModel对象也会被销毁。
