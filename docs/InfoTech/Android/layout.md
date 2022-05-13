@@ -9,4 +9,3 @@ FrameLayout是最简单的ViewGroup部件，它不负责安排其子视图的位
 
 竖屏：res/layout  
 横屏：res/layout-land
-
