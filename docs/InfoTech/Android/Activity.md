@@ -1,4 +1,4 @@
-# activity
+# Activity
 
 ## 生命周期状态与生命周期回调
 
@@ -70,6 +70,8 @@ onCreate接受传入可空值bundle。这是因为用户首次启动的activity�
 - 覆盖onSaveInstanceState(Bundle)函数，在Bundle对象中，保存当前activity小的或暂存状态的数据；
 - 覆盖onStop()函数，保存永久性数据，比如用户编辑的文字等。调用完onStop()函数后，activity随时会被系统销毁，所以用它保存永久性数据。
 
-### bundle会保存多久？
+### 注意事项
 
 那么暂存的activity记录到底可以保留多久呢？前面说过，用户按了回退键后，系统会彻底销毁当前的activity。此时，暂存的activity记录会同时被清除。此外，如果系统重启，那么暂存的activity记录也会被清除。
+
+因为保留实例状态数据是要序列化到磁盘的，所以应避免用它保存任何大而复杂的对象。

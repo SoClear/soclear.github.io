@@ -12,7 +12,7 @@
   * Android
     * [Android和 MVC 架构模式](InfoTech/Android/Android-MVC.md)
     * [屏幕像素密度](InfoTech/Android/screen_pixel_density.md)
-    * [activity状态与生命周期回调](InfoTech/Android/activity_lifecycle.md)
+    * [Activity](InfoTech/Android/Activity.md)
     * [布局](InfoTech/Android/layout.md)
     * [日志](InfoTech/Android/log.md)
     * 阿里Android开发规范
