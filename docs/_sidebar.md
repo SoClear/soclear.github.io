@@ -10,6 +10,7 @@
       * [删除有序数组中的重复项](InfoTech/AlgorithmProblems/easy/remove-duplicates-from-sorted-array.md)
       * [移除元素](InfoTech/AlgorithmProblems/easy/remove-element.md)
       * [实现 strStr()](InfoTech/AlgorithmProblems/implement-strstr.md)
+      * [搜索插入位置](InfoTech/AlgorithmProblems/search-insert-position.md)
   * Android
     * [Android和 MVC 架构模式](InfoTech/Android/Android-MVC.md)
     * [屏幕像素密度](InfoTech/Android/screen_pixel_density.md)
