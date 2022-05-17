@@ -20,6 +20,7 @@
     * [ViewModel](InfoTech/Android/ViewModel.md)
     * [布局](InfoTech/Android/layout.md)
     * [日志](InfoTech/Android/log.md)
+    * [Fragment](InfoTech/Android/Fragment.md)
     * 阿里Android开发规范
       * [一、Android 资源文件命名与使用](InfoTech/Android/AliAndroidDevelopmentStandard/asset.md)
       * [二、Android 基本组件](InfoTech/Android/AliAndroidDevelopmentStandard/component.md)
