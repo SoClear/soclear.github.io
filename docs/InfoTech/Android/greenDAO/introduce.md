@@ -72,6 +72,3 @@ greenDAO的源代码完全可以在G[itHub](https://github.com/greenrobot/greenD
 ### 支持
 
 greenDAO是开源[的，并得到](http://greenrobot.org/contact-support/ "Contact/Support")其开发人员和社区的支持。
-
-## Gradle 插件和 DAO 代码生成
-
