@@ -103,3 +103,4 @@ HTML 标签对大小写不敏感：`<P>` 等同于 `<p>`。许多网站都使用
   - path - 定义服务器上的路径（如果省略，则文档必须位于网站的根目录中）。
   - filename - 定义文档/资源的名称
 - href: hypertext reference ，超文本链接
+- 请始终将正斜杠添加到子文件夹。假如这样书写链接：href="https://www.runoob.com/html"，就会向服务器产生两次 HTTP 请求。这是因为服务器会添加正斜杠到这个地址，然后创建一个新的请求，就像这样：href="https://www.runoob.com/html/"。
