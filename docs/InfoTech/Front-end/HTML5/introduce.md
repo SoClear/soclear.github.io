@@ -86,3 +86,20 @@ HTML 标签对大小写不敏感：`<P>` 等同于 `<p>`。许多网站都使用
 - 属性可以在元素中添加**附加信息**
 - 属性一般描述于**开始标签**
 - 属性总是以名称/值对的形式出现，**比如：name="value"**。
+
+## 注意
+
+- 一个或多个空白字符会被映射为单个空格
+- <和&会被认为是标记的开始，如果想使用这两个字符，请使用转义写法  
+  `&lt;`代表< `&gt;`代表> `&amp;`代表&
+- URL 是统一资源定位器(Uniform Resource Locators)  
+  例子：  
+  scheme://host.domain:port/path/filename  
+  说明：  
+  - scheme - 定义因特网服务的类型。最常见的类型是 http
+  - host - 定义域主机（http 的默认主机是 www）
+  - domain - 定义因特网域名，比如 runoob.com
+  - :port - 定义主机上的端口号（http 的默认端口号是 80）
+  - path - 定义服务器上的路径（如果省略，则文档必须位于网站的根目录中）。
+  - filename - 定义文档/资源的名称
+- href: hypertext reference ，超文本链接
