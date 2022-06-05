@@ -44,6 +44,9 @@
   * 前端
     * HTML
       * [简介](InfoTech/Front-end/HTML5/introduce.md)
+      * [标签列表（功能排序）](InfoTech/Front-end/HTML5/byfunc.md)
+      * [全局属性](InfoTech/Front-end/HTML5/standard_attributes.md)
+      * [事件属性](InfoTech/Front-end/HTML5/event_attributes.md)
     * CSS
     * JavaScript
     * Vue
