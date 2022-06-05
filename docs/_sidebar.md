@@ -43,10 +43,10 @@
       * [引入到你的项目](InfoTech/Android/greenDAO/add_to_your_project.md)
   * 前端
     * HTML
-      * [简介](InfoTech/Front-end/HTML5/introduce.md)
-      * [标签列表（功能排序）](InfoTech/Front-end/HTML5/byfunc.md)
-      * [全局属性](InfoTech/Front-end/HTML5/standard_attributes.md)
-      * [事件属性](InfoTech/Front-end/HTML5/event_attributes.md)
+      * [简介](InfoTech/Front-end/HTML/introduce.md)
+      * [标签列表（功能排序）](InfoTech/Front-end/HTML/byfunc.md)
+      * [全局属性](InfoTech/Front-end/HTML/standard_attributes.md)
+      * [事件属性](InfoTech/Front-end/HTML/event_attributes.md)
     * CSS
     * JavaScript
     * Vue
