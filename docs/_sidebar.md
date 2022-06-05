@@ -48,6 +48,8 @@
       * [全局属性](InfoTech/Front-end/HTML/standard_attributes.md)
       * [事件属性](InfoTech/Front-end/HTML/event_attributes.md)
     * CSS
+      * [简介](InfoTech/Front-end/CSS/introduce.md)
+      * [语法](InfoTech/Front-end/CSS/syntax.md)
     * JavaScript
     * Vue
   * Git
