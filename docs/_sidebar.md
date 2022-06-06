@@ -50,6 +50,7 @@
     * CSS
       * [简介](InfoTech/Front-end/CSS/introduce.md)
       * [语法](InfoTech/Front-end/CSS/syntax.md)
+      * [创建](InfoTech/Front-end/CSS/howto.md)
     * JavaScript
     * Vue
   * Git
