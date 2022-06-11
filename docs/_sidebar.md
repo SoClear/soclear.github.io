@@ -51,6 +51,7 @@
       * [简介](InfoTech/Front-end/CSS/introduce.md)
       * [语法](InfoTech/Front-end/CSS/syntax.md)
       * [创建](InfoTech/Front-end/CSS/howto.md)
+      * [选择器](InfoTech/Front-end/CSS/selectors.md)
     * JavaScript
     * Vue
   * Git
