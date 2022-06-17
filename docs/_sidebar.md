@@ -53,6 +53,7 @@
       * [创建](InfoTech/Front-end/CSS/howto.md)
       * [选择器](InfoTech/Front-end/CSS/selectors.md)
     * JavaScript
+      * [yarn](InfoTech/Front-end/JavaScript/yarn.md)
     * Vue
   * Git
     * [什么是版本控制](InfoTech/Git/what_is_version_control.md)
