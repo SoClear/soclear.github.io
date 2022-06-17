@@ -1,1 +1,1 @@
-[点击直达](https://soclear.github.io)
+[点击直达docs](https://soclear.github.io/docs)
