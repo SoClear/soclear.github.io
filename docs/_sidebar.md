@@ -58,6 +58,7 @@
       * [简介](InfoTech/Front-end/TypeScript/introduce.md)
       * [安装](InfoTech/Front-end/TypeScript/install.md)
       * [类型](InfoTech/Front-end/TypeScript/type.md)
+      * [编译选项](InfoTech/Front-end/TypeScript/compile_options.md)
     * Vue
   * Git
     * [什么是版本控制](InfoTech/Git/what_is_version_control.md)
