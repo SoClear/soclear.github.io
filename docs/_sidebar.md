@@ -60,6 +60,7 @@
       * [类型](InfoTech/Front-end/TypeScript/type.md)
       * [编译选项](InfoTech/Front-end/TypeScript/compile_options.md)
       * [用webpack打包ts代码](InfoTech/Front-end/TypeScript/webpack.md)
+      * [类、属性和方法](InfoTech/Front-end/TypeScript/class_property_function.md)
     * Vue
   * Git
     * [什么是版本控制](InfoTech/Git/what_is_version_control.md)
