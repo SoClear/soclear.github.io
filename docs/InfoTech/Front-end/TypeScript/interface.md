@@ -1,7 +1,7 @@
 # 接口
 
 ```typescript
-interface myInterface {
+interface MyInterface {
     name: string
 
     // 不用写abstract
@@ -9,11 +9,11 @@ interface myInterface {
 }
 
 // 接口可以重名
-interface myInterface {
+interface MyInterface {
     age: number
 }
 
-class Dog implements myInterface {
+class Dog implements MyInterface {
     age: number
     name: string
 
