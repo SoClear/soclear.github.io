@@ -7,9 +7,9 @@
 
 ## 2. 安装依赖
 
-使用npm安装依赖：`npm i -D webpack webpack-cli typescript ts-loader html-webpack-plugin webpack-dev-server clean-webpack-plugin`
+使用npm安装依赖：`npm i -D webpack webpack-cli typescript ts-loader html-webpack-plugin webpack-dev-server clean-webpack-plugin @babel/core @babel/preset-env babel-loader core-js`
 
-使用yarn安装依赖：`yarn add --dev webpack webpack-cli typescript ts-loader html-webpack-plugin webpack-dev-server clean-webpack-plugin`
+使用yarn安装依赖：`yarn add --dev webpack webpack-cli typescript ts-loader html-webpack-plugin webpack-dev-server clean-webpack-plugin @babel/core @babel/preset-env babel-loader core-js`
 
 ## 3. 新建 webpack.config.js
 
@@ -36,6 +36,10 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         //  打包后的文件
         filename: "bundle.js",
+        // 告诉webpack不要使用箭头函数
+        environment: {
+            arrowFunction: false
+        }
     },
     // 指定webpack打包要使用的模块
     module: {
@@ -44,8 +48,39 @@ module.exports = {
             {
                 // 指定规则生效的文件
                 test: /\.ts$/,
-                // 要使用的loader
-                use: 'ts-loader',
+                // 要使用的loader，从后往前执行
+                use: [
+                    // babel 新版js转旧版js
+                    {
+                        // 指定加载器
+                        loader: "babel-loader",
+                        // 设置babel
+                        options: {
+                            // 设置预定义的环境
+                            presets: [
+                                [
+                                    // 指定环境的插件
+                                    "@babel/preset-env",
+                                    // 配置信息
+                                    {
+                                        //要兼容的浏览器
+                                        targets: {
+                                            "chrome": "88",
+                                            "ie": "11"
+                                        },
+                                        // 指定corejs的版本
+                                        "corejs": "3",
+                                        // 使用corejs的方式"useage"表示按需加载
+                                        "useBuiltIns": "usage"
+                                    }
+                                ]
+                            ]
+                        }
+
+                    },
+                    // ts转js
+                    'ts-loader'
+                ],
                 // 要排除的文件
                 exclude: /node-modules/
             }
