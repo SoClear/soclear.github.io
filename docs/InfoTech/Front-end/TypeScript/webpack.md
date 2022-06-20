@@ -7,9 +7,9 @@
 
 ## 2. 安装依赖
 
-使用npm安装依赖：`npm i -D webpack webpack-cli typescript ts-loader`
+使用npm安装依赖：`npm i -D webpack webpack-cli typescript ts-loader html-webpack-plugin webpack-dev-server clean-webpack-plugin`
 
-使用yarn安装依赖：`yarn add --dev webpack webpack-cli typescript ts-loader`
+使用yarn安装依赖：`yarn add --dev webpack webpack-cli typescript ts-loader html-webpack-plugin webpack-dev-server clean-webpack-plugin`
 
 ## 3. 新建 webpack.config.js
 
@@ -18,10 +18,16 @@
 ```javascript
 // 引入一个包
 const path = require('path')
+// 引入html插件，自动生成HTML
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+// 引入clean插件，自动清空dist内文件
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 
 // webpack中的所有配置信息都应该写在moudule.exports中
 module.exports = {
+    // 开发模式
+    mode: "development",
     // 指定入口文件
     entry: "./src/index.ts",
     // 指定打包文件所在目录
@@ -44,13 +50,30 @@ module.exports = {
                 exclude: /node-modules/
             }
         ]
+    },
+    // 配置Webpack插件
+    plugins: [
+        // 引入clean插件，自动清空dist内文件
+        new CleanWebpackPlugin(),
+        // 引入html插件，自动生成HTML
+        new HtmlWebpackPlugin({
+            // 标题
+            title: "这是一个自定义的title",
+            // 网页模板
+            template: "./src/index.html"
+        })
+    ],
+
+    //用来设置引用模块
+    resolve: {
+        extensions: ['.ts', '.js']
     }
 }
 ```
 
 ## 4. 在 package.json 里添加 webpack
 
-在 `"script"` 里添加`"build": "webpack"`：
+在 `"script"` 里添加`"build": "webpack", "start": "webpack serve --open msedge.exe"`
 
 ```json
 {
@@ -58,15 +81,18 @@ module.exports = {
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    //  webpack
-    "build": "webpack"
+    "build": "webpack",
+    "start": "webpack serve --open"
   },
   "license": "MIT",
   "devDependencies": {
+    "clean-webpack-plugin": "^4.0.0",
+    "html-webpack-plugin": "^5.5.0",
     "ts-loader": "^9.3.0",
     "typescript": "^4.7.4",
     "webpack": "^5.73.0",
-    "webpack-cli": "^4.10.0"
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.9.2"
   }
 }
 ```
@@ -89,3 +115,8 @@ module.exports = {
 通过yarn构建：`yarn build`
 
 在`dist`目录下查看输出。
+
+## 7. 修改文件后自动编译
+
+通过npm自动编译：`npm run start`  
+通过yarn自动编译：`yarn start`
