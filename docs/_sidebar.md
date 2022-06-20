@@ -63,6 +63,7 @@
       * [类、属性和方法](InfoTech/Front-end/TypeScript/class_property_function.md)
       * [构造函数和this](InfoTech/Front-end/TypeScript/constructor_this.md)
       * [继承和super关键字](InfoTech/Front-end/TypeScript/extends.md)
+      * [抽象类](InfoTech/Front-end/TypeScript/abstract_class.md)
     * Vue
   * Git
     * [什么是版本控制](InfoTech/Git/what_is_version_control.md)
