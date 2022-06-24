@@ -67,6 +67,7 @@
       * [接口](InfoTech/Front-end/TypeScript/interface.md)
       * [get和set](InfoTech/Front-end/TypeScript/get_set.md)
       * [泛型](InfoTech/Front-end/TypeScript/generic.md)
+      * [可选参数](InfoTech/Front-end/TypeScript/optional_parameters.md)
     * Vue
   * Git
     * [什么是版本控制](InfoTech/Git/what_is_version_control.md)
