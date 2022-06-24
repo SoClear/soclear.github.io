@@ -68,6 +68,7 @@
       * [get和set](InfoTech/Front-end/TypeScript/get_set.md)
       * [泛型](InfoTech/Front-end/TypeScript/generic.md)
       * [可选参数、可选属性](InfoTech/Front-end/TypeScript/optional_parameters_properties.md)
+      * [typeof](InfoTech/Front-end/TypeScript/typeof.md)
     * Vue
   * Git
     * [什么是版本控制](InfoTech/Git/what_is_version_control.md)
