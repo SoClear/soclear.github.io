@@ -107,7 +107,7 @@ console</span><span class="pun">.</span><span class="pln">log</span><span class=
 
 ## 代码示例一
 
-```TypeScript
+```typescript
 let a = false
 
 a = true
@@ -124,7 +124,7 @@ console.log(sum(2,3))
 
 ## 代码示例二
 
-```TypeScript
+```typescript
 // 可以使用字面量来声明类型
 let a: 10
 a = 10
