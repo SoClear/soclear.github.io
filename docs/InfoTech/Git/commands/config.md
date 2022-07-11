@@ -141,25 +141,36 @@ useHttpPath
 
 1. 先查看先查看我们系统支持哪种helper  
     `git help -a | grep credential`  
-    ![这里写图片描述](https://img-blog.csdn.net/20160904171914279)  
+
+    ```sh
+    $ git help -a | grep credential
+    credential           Retrieve and store user credentials
+    credential-cache     Helper to temporarily store passwords in memory
+    credential-store     Helper to store credentials on disk
+    ```
+
     cache是存储在内存中，可以设定有效时间但是时间过去后，将会失效；store是存储在磁盘上，不过用户名和密码是明文存储的，对于一般使用来说没太大差别，要是想加密存储，可是使用gnome-keyring来存储。这里我们选择使用store的方式。
 
 2. 设置credential helper  
     凭据可以设置为全局，也可以设置为仅仅在当前的项目下起作用。  
     如果想使用全局，则设置为：  
-    `git config –-global credential.helper store --file=git_credentails`.  
+    `git config --global credential.helper store --file=git-credentails`.  
     如果仅仅设置当前项目有效，则进入项目代码目录下，运行：  
-    `git config credential.helper store --file=.git_credentails`.  
+    `git config credential.helper store --file=.git-credentails`.  
     上面的`--file=.git-credentials`表示你的用户名密码存储的文件目录结构，即存放在哪里由你指定。
 
 3. 查看配置  
-    如果你的凭证位置没有指定，则去用户目录下查看，发现多了一个.git\_credentials文件，打开文件可以看到里面以明文存放你的用户名和密码（进行第四部分后才会有）。  
-    ![这里写图片描述](https://img-blog.csdn.net/20160904174026693)  
+    如果你的凭证位置没有指定，则去用户目录下查看，发现多了一个 `.git-credentials` 文件，打开文件可以看到里面以明文存放你的用户名和密码（进行第四部分后才会有）。  
     然后在你的项目目录下运行指令  
     `git config –list`  
-    发现配置文件多了一项  
-    ![这里写图片描述](https://img-blog.csdn.net/20160904174305987)  
-    我这里因为做测试重复了几次，所以有三个store，有一个就是正确的。
+    发现配置文件多了一项 `credential.helper=store`  
+
+    ```text
+    user.name=[your name]
+    user.email=[your email]
+    credential.helper=store
+    core.autocrlf=true
+    ```
 
 4. 同步一下  
     尝试在项目文件下输入  
