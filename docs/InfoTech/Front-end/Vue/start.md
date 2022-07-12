@@ -257,7 +257,9 @@
                     this.firstName = arr[0]
                     this.lastName = arr[1]
                 }
-            }
+            },
+            // 只需要getter方法则简写如下：
+            // fullName(){ ... }
         }
     })
     // 另一种指定容器的方式
