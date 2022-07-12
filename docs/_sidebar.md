@@ -71,7 +71,8 @@
       * [可选参数、可选属性](InfoTech/Front-end/TypeScript/optional_parameters_properties.md)
       * [typeof](InfoTech/Front-end/TypeScript/typeof.md)
     * Vue
-      * [初始Vue](./InfoTech/Front-end/Vue/start.md)
+      * [初识](InfoTech/Front-end/Vue/start.md)
+      * [数据代理](InfoTech/Front-end/Vue/delegate.md)
   * Git
     * [什么是版本控制](InfoTech/Git/what_is_version_control.md)
     * [常见的版本控制系统](InfoTech/Git/tools.md)
