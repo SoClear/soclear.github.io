@@ -53,6 +53,7 @@
       * [创建](InfoTech/Front-end/CSS/howto.md)
       * [选择器](InfoTech/Front-end/CSS/selectors.md)
     * JavaScript
+      * [Object.defineProperty](InfoTech/Front-end/JavaScript/defineProperty.md)
       * [yarn](InfoTech/Front-end/JavaScript/yarn.md)
     * TypeScript
       * [简介](InfoTech/Front-end/TypeScript/introduce.md)
