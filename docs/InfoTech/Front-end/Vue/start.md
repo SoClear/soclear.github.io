@@ -161,6 +161,29 @@
         名：<input type="text" v-model="person.lastName"><br/>
         全名：<span v-text="fullName"></span>
     </div>
+
+    <!--监视属性-->
+    <div>
+        <h2>今天天气很{{ weather }}</h2>
+        <button @click="changeWeather">点击改变天气</button>
+    </div>
+
+    <!--深度监视-->
+    <div>
+        <h2>numbers.a的值是{{ numbers.a }}</h2>
+        <button @click="numbers.a++">点我让numbers.a++</button>
+        <h2>numbers.b的值是{{ numbers.b }}</h2>
+        <button @click="numbers.b++">点我让numbers.b++</button>
+    </div>
+    <!--
+    computed和watch之间的区别:
+    1.computed能完成的功能,watch都可以完成。
+    2.watch能完成的功能，computed不一定能完成，例如: watch可以进行异步操作。
+
+    两个重要的小原则:
+    1.所被Vue管理的函数，最好写成普通函数，这样this的指向才是vm或组件实例对象
+    2.所有不被Vue所管理的函数（定时器的回调函数、ajax的回调函数等、Promise的回调函数)，最好写成箭头函数，这样this的指向才是vm或组件实例对象。
+    -->
 </div>
 <script>
     // 关闭生产提示
@@ -208,6 +231,11 @@
             person: {
                 firstName: "张",
                 lastName: "三"
+            },
+            isHot: true,
+            numbers: {
+                a: 1,
+                b: 1
             }
         },
         // 另一种data写法
@@ -239,6 +267,9 @@
             },
             showInput(event) {
                 console.log(event.target.value)
+            },
+            changeWeather() {
+                this.isHot = !this.isHot
             }
         },
         computed: {
@@ -260,10 +291,73 @@
             },
             // 只需要getter方法则简写如下：
             // fullName(){ ... }
+
+            weather() {
+                return this.isHot ? "炎热" : "晴朗"
+            }
+        },
+        /*
+        监视属性watch:
+            1.当被监视的属性变化时,回调函数自动调用,进行相关操作
+            2.监视的属性必须存在,才能进行监视!!
+            3.监视的两种写法:
+                (1).new Vue时传入watch配置
+                (2).通过vm.$watch监视
+
+
+            深度监视:
+                (1).vue中的watch默认不监测对象内部值的改变(一层）。
+                (2).配置deep:true可以监测对象内部值改变（多层）。
+              备注:
+                (1).Vue自身可以监测对象内部值的改变，但Vue提供的watch默认不可以!
+                (2).使用watch时根据数据的具体结构,决定是否采用深度监视。
+
+         */
+        watch: {
+            isHot: {
+                // true为初始化时调用handler
+                immediate: true,
+                // 当isHot改变时调用handler
+                handler(newValue, oldValue) {
+                    console.log("被修改了")
+                }
+            },
+            'numbers.a': {
+                handler(newValue, oldValue) {
+                    console.log('a改变了')
+                }
+            },
+            numbers: {
+                // 深度监视
+                deep: true,
+                handler() {
+                    console.log("numbers改变了")
+                }
+            },
+            //当你的配置项只有handler时，可以简写
+            "numbers.b"() {
+                console.log("b被改了")
+            }
         }
     })
     // 另一种指定容器的方式
     // vm.$mount("#app")
+
+    // 另一种监视方式
+    /*
+    vm.$watch("isHot",{
+        // true为初始化时调用handler
+        immediate:true,
+        // 当isHot改变时调用handler
+        handler(newValue, oldValue) {
+            console.log("被修改了")
+        }
+    })
+    // 简写方式
+    vm.$watch("isHot",function (newValue,oldValue) {
+        console.log("被修改了")
+    })
+    */
 </script>
 </body>
 </html>
