@@ -96,9 +96,9 @@ username = me
   `$ git help credential-foo`
 
 - 通知Git使用某个helper  
-  `$ git config –global credential.helper foo`  
+  `$ git config --global credential.helper foo`  
   例如：  
-  `git config –global credential.helper store`  
+  `git config --global credential.helper store`  
   会使你省去你每次使用 http url clone/push/pull 时输入账号密码的麻烦。
 
 如果在credential.helper的配置变量中有多个实例，Git会轮流尝试他们，这个过程中，可能会提供用户名，用户密码，或者什么都没有。  
