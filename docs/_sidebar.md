@@ -74,6 +74,7 @@
       * [初识](InfoTech/Front-end/Vue/start.md)
       * [数据代理](InfoTech/Front-end/Vue/delegate.md)
       * [绑定样式](InfoTech/Front-end/Vue/bind_class_style.md)
+      * [条件渲染](InfoTech/Front-end/Vue/conditional_rendering.md)
   * Git
     * [什么是版本控制](InfoTech/Git/what_is_version_control.md)
     * [常见的版本控制系统](InfoTech/Git/tools.md)
