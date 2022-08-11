@@ -1,5 +1,9 @@
 # key的作用与原理
 
+![index作为key](key_1.png)
+
+![id作为key](key_2.png)
+
 面试题: react、 vue中的key有什么作用?(key的内部原理)
 
 ## 1. 虚拟DOM中key的作用
