@@ -117,6 +117,8 @@
     * [介绍和安装](InfoTech/Gradle/intro-install.md)
     * [构建 Kotlin 应用程序示例](InfoTech/Gradle/sample_building_kotlin_applications.md)
     * [临时笔记](InfoTech/Gradle/tmp.md)
+  * Java
+    * [ByteBuffer](InfoTech/Java/ByteBuffer.md)
   * Linux
     * 基础
       * [Linux 系统目录结构](InfoTech/Linux/bases/dirs.md)
