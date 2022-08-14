@@ -22,7 +22,7 @@
 - `array` ：保存了当前写入的数据。
 
 它们总是满足
-0 <= mark <= position <= limit <= capacity
+mark <= position <= limit <= capacity
 
 初始状态为position=0，limit=capacity=分配的大小
 
