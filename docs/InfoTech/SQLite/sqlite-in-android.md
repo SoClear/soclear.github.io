@@ -122,7 +122,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
     }
 
     // 改
-    fun updateTAsk(task: TaskListModel):Boolean {
+    fun updateTask(task: TaskListModel):Boolean {
         val db=writableDatabase
         val values=ContentValues().apply {
             put(TASK_NAME, task.name)
