@@ -164,6 +164,7 @@
     * [Group By](InfoTech/SQLite/group-by.md)
     * [Having 子句](InfoTech/SQLite/having.md)
     * [Distinct 关键字](InfoTech/SQLite/distinct.md)
+    * [PRAGMA](InfoTech/SQLite/pragma.md)
     * [在安卓中使用 SQLite](InfoTech/SQLite/sqlite-in-android.md)
   * 其他
     * [最佳编码实践](InfoTech/Others/best_coding_practice.md)
