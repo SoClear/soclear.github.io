@@ -10,7 +10,8 @@ SQL 定义了三种主要类型的连接：
 
 - 外连接 - OUTER JOIN
 
-在我们继续之前，让我们假设有两个表 COMPANY 和 DEPARTMENT。我们已经看到了用来填充 COMPANY 表的 INSERT 语句。现在让我们假设 COMPANY 表的记录列表如下：
+在我们继续之前，让我们假设有两个表 COMPANY 和 DEPARTMENT。我们已经看到了用来填充 COMPANY 表的 INSERT 语句。
+现在让我们假设 COMPANY 表的记录列表如下：
 
 ```sql
 ID          NAME        AGE         ADDRESS     SALARY
@@ -59,7 +60,8 @@ ID          DEPT        EMP_ID
 
 ## 交叉连接 - CROSS JOIN
 
-交叉连接（CROSS JOIN）把第一个表的每一行与第二个表的每一行进行匹配。如果两个输入表分别有 x 和 y 行，则结果表有 x\*y 行。由于交叉连接（CROSS JOIN）有可能产生非常大的表，使用时必须谨慎，只在适当的时候使用它们。
+交叉连接（CROSS JOIN）把第一个表的每一行与第二个表的每一行进行匹配。如果两个输入表分别有 x 和 y 行，则结果表有 x\*y 行。
+由于交叉连接（CROSS JOIN）有可能产生非常大的表，使用时必须谨慎，只在适当的时候使用它们。
 
 > 交叉连接的操作，它们都返回被连接的两个表所有数据行的笛卡尔积，返回到的数据行数等于第一个表中符合查询条件的数据行数乘以第二个表中符合查询条件的数据行数。
 
@@ -105,7 +107,9 @@ EMP_ID      NAME        DEPT
 
 ## 内连接 - INNER JOIN
 
-内连接（INNER JOIN）根据连接谓词结合两个表（table1 和 table2）的列值来创建一个新的结果表。查询会把 table1 中的每一行与 table2 中的每一行进行比较，找到所有满足连接谓词的行的匹配对。当满足连接谓词时，A 和 B 行的每个匹配对的列值会合并成一个结果行。
+内连接（INNER JOIN）根据连接谓词结合两个表（table1 和 table2）的列值来创建一个新的结果表。
+查询会把 table1 中的每一行与 table2 中的每一行进行比较，找到所有满足连接谓词的行的匹配对。
+当满足连接谓词时，A 和 B 行的每个匹配对的列值会合并成一个结果行。
 
 内连接（INNER JOIN）是最常见的连接类型，是默认的连接类型。INNER 关键字是可选的。
 
@@ -146,9 +150,11 @@ EMP_ID      NAME        DEPT
 
 ## 外连接 - OUTER JOIN
 
-外连接（OUTER JOIN）是内连接（INNER JOIN）的扩展。虽然 SQL 标准定义了三种类型的外连接：LEFT、RIGHT、FULL，但 SQLite 只支持 **左外连接（LEFT OUTER JOIN）**。
+外连接（OUTER JOIN）是内连接（INNER JOIN）的扩展。
+虽然 SQL 标准定义了三种类型的外连接：LEFT、RIGHT、FULL，但 SQLite 只支持 **左外连接（LEFT OUTER JOIN）**。
 
-外连接（OUTER JOIN）声明条件的方法与内连接（INNER JOIN）是相同的，使用 ON、USING 或 NATURAL 关键字来表达。最初的结果表以相同的方式进行计算。一旦主连接计算完成，外连接（OUTER JOIN）将从一个或两个表中任何未连接的行合并进来，外连接的列使用 NULL 值，将它们附加到结果表中。
+外连接（OUTER JOIN）声明条件的方法与内连接（INNER JOIN）是相同的，使用 ON、USING 或 NATURAL 关键字来表达。
+最初的结果表以相同的方式进行计算。一旦主连接计算完成，外连接（OUTER JOIN）将从一个或两个表中任何未连接的行合并进来，外连接的列使用 NULL 值，将它们附加到结果表中。
 
 下面是左外连接（LEFT OUTER JOIN）的语法：
 
@@ -181,4 +187,4 @@ EMP_ID      NAME        DEPT
             David
             Kim
 7           James       Finance
-```sql
+```
