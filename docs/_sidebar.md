@@ -167,6 +167,7 @@
     * [PRAGMA](InfoTech/SQLite/pragma.md)
     * [约束](InfoTech/SQLite/constraints.md)
     * [Join](InfoTech/SQLite/joins.md)
+    * [UNION](InfoTech/SQLite/union.md)
     * [在安卓中使用 SQLite](InfoTech/SQLite/sqlite-in-android.md)
   * 其他
     * [最佳编码实践](InfoTech/Others/best_coding_practice.md)
