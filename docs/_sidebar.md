@@ -75,6 +75,7 @@
       * [typeof](InfoTech/Front-end/TypeScript/typeof.md)
       * [类型兼容性](InfoTech/Front-end/TypeScript/compatible.md)
       * [交叉类型](InfoTech/Front-end/TypeScript/intersection_types.md)
+      * [泛型](InfoTech/Front-end/TypeScript/generics.md)
     * Vue
       * [初识](InfoTech/Front-end/Vue/start.md)
       * [数据代理](InfoTech/Front-end/Vue/delegate.md)
