@@ -202,6 +202,29 @@ let myIdentity: GenericIdentityFn<number> = identity;
 除了泛型接口，我们还可以创建泛型类。  
 注意，无法创建泛型枚举和泛型命名空间。
 
+泛型接口:接口也可以配合泛型来使用，以增加其灵活性，增强其复用性。
+
+```typescript
+interface IdFunc<Type> {
+    id: (value: Type) => Type
+    ids: Array<Type>
+}
+
+const obj:IdFunc<number> ={
+    id(value: number): number {
+        return value;
+    },
+    ids: [1,3,5]
+}
+```
+
+解释:
+
+* 在接口名称的后面添加 `<类型变量>` ，那么，这个接口就变成了泛型接口。
+* 接口的类型变量，对接口中所有其他成员可见，也就是接口中所有成员都可以使用类型变量。
+* 使用泛型接口时，需要显式指定具体的类型（比如，此处的 `IdFunc<nunber>` )
+* 此时， id方法的参数和返回值类型都是 `number` ; `ids` 方法的返回值类型是 `number[]` 。
+
 ## 泛型类
 
 泛型类看上去与泛型接口差不多。 泛型类使用（ `<>` ）括起泛型类型，跟在类名后面。
