@@ -294,6 +294,24 @@ getProperty(x, "a");
 getProperty(x, "m");
 ```
 
+泛型的类型变量可以有多个，并且类型变量之间还可以约束（比如，第二个类型变量受第一个类型变量约束)。  
+比如，创建一个函数来获取对象中属性的值:
+
+```typescript
+function getProp<Type, Key extends keyof Type>(obj: Type, key: Key) {
+    return obj[key]
+}
+let person = { name: 'jack ', age:18 }
+getProp(person,'name')
+```
+
+解释:
+
+* 添加了第二个类型变量Key，两个类型变量之间使用（,）逗号分隔。
+* `keyof` 关键字接收一个对象类型，生成其键名称（可能是字符串或数字）的联合类型。
+* 示例中 `keyof Type` 实际上获取的是 `person` 对象所有键的联合类型，也就是: `'name' | 'age'` 。
+* 类型变量 `Key` 受 `Type` 约束，可以理解为: `Key` 只能是 `Type` 所有键中的任意一个，或者说只能访问对象中存在的属性。
+
 ## 在泛型里使用类类型
 
 在TypeScript使用泛型创建工厂函数时，需要引用构造函数的类类型。比如，
