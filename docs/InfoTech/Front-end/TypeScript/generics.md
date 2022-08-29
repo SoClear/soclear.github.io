@@ -411,3 +411,107 @@ createInstance(Lion).keeper.nametag;
 // typechecks!
 createInstance(Bee).keeper.hasMask;
 ```
+
+## 泛型工具类
+
+### Partial
+
+`Partial<Type>` 用来构造（创建)一个类型，将 `Type` 的所有属性设置为可选。
+
+```typescript
+interface Props {
+    id: number
+    children: number[]
+}
+
+type PartialProps = Partial<Props>
+
+const p1: Props = {
+    children: [], id: 0
+}
+
+const p2: PartialProps = {}
+
+// undefined
+console.log(p2.children)
+```
+
+解释: 构造出来的新类型 `Partialprops` 结构和` Props` 相同，但所有属性都变为可选的。
+
+### Readonly
+
+`Readonly<Type>` 用来构造一个类型，将 `Type` 的所有属性都设置为 `readonly` (只读)。
+
+```typescript
+interface Props {
+    id: number
+    children: number[]
+}
+
+type ReadonlyProps = Readonly<Props>
+
+const p1: Props = {
+    children: [], id: 0
+}
+
+p1.id = 1
+
+const p2: ReadonlyProps = {
+    children: [], id: 0
+}
+
+// 下行报错 
+// p2.id = 1
+```
+
+解释: 构造出来的新类型 `ReadonlyProps` 结构和 `Props` 相同，但所有属性都变为只读的。
+
+当我们想重新给id属性赋值时，就会报错:无法分配到"id"，因为它是只读属性。
+
+### Pick
+
+`Pick<Type, Keys>` 从 `Type` 中选择一组属性来构造新类型。
+
+```typescript
+interface Props {
+    id: number
+    children: number[]
+    title: string
+}
+
+type PickProps = Pick<Props, 'id' | 'children'>
+
+const p1: Props = {
+    children: [], id: 0, title: ""
+}
+
+const p2: PickProps = {
+    children: [], id: 0
+}
+```
+
+解释：
+
+* Pick 工具类型有两个类型变量：第一个类型变量表示选择谁的属性，第二个类型变量表示选择哪几个属性。
+* 其中第二个类型变量，如果只选择一个则只传入该属性名即可。
+* 第二个类型变量传入的属性只能是第一个类型变量中存在的属性。
+* 构造出来的新类型 `PickProps` ，只有 `id` 和 `title` 两个属性类型。
+
+### Record
+
+`Record<Keys,Type>` 构造一个对象类型，属性键为 `Keys` ，属性类型为 `Type` 。
+
+```typescript
+type RecordObj = Record<'a' | 'b' | 'c', Array<string>>
+
+let obj: RecordObj = {
+    a: ['a'],
+    b: ['a', 'b'],
+    c: ['a', 'b', 'c']
+}
+```
+
+解释：
+
+* Record工具类型有两个类型变量:第一个表示对象有哪些属性，第二个表示对象属性的类型。
+* 构建的新对象类型 `RecordObj` 表示:这个对象有三个属性分别为 `a/b/c` ，属性值的类型都是 `string[]` 。
