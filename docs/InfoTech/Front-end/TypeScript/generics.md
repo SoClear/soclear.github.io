@@ -71,6 +71,41 @@ let output = identity("myString");
 类型推论帮助我们保持代码精简和高可读性。  
 如果编译器不能够自动地推断出类型的话，只能像上面那样明确的传入T的类型，在一些复杂的情况下，这是可能出现的。
 
+```typescript
+// 单个泛型
+function f1<T>(a: T): T {
+    return a
+}
+
+// 多个泛型
+function f2<T, K>(a: T, b: K): T {
+    console.log(b)
+    return a
+}
+
+// 自动推断泛型
+f1(10)
+// 指定泛型
+f1<number>(9)
+
+interface MyInterFace {
+    length: number
+}
+
+// T extends MyInterFace 表示泛型T必须实现MyInterFace
+function f3<T extends MyInterFace>(a: T): number {
+    return a.length
+}
+
+// 类也可有泛型
+class MyClass<T> {
+    constructor(public name: T) {
+    }
+}
+
+const mc = new MyClass<string>("孙悟空")
+```
+
 ## 使用泛型变量
 
 使用泛型创建像 `identity` 这样的泛型函数时，编译器要求你在函数体必须正确的使用这个通用的类型。  

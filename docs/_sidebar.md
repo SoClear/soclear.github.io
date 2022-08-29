@@ -70,7 +70,6 @@
       * [抽象类](InfoTech/Front-end/TypeScript/abstract_class.md)
       * [接口](InfoTech/Front-end/TypeScript/interface.md)
       * [get和set](InfoTech/Front-end/TypeScript/get_set.md)
-      * [泛型](InfoTech/Front-end/TypeScript/generic.md)
       * [可选参数、可选属性](InfoTech/Front-end/TypeScript/optional_parameters_properties.md)
       * [typeof](InfoTech/Front-end/TypeScript/typeof.md)
       * [类型兼容性](InfoTech/Front-end/TypeScript/compatible.md)
