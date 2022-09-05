@@ -12,6 +12,7 @@
 | 查看端口映射           | `docker port 容器名或容器ID`                                                                  |
 | 查看日志               | `docker logs [-f] 容器名或容器ID`                                                             |
 | 进入容器终端           | `docker exec -it 容器名或容器ID /bin/bash`                                                    |
+| 以 root 用户进入容器终端 | `docker exec -it -u root 容器名或容器ID /bin/bash`                                             |
 | 查看指定容器信息       | `docker inspect 容器名或容器ID`                                                               |
 | 查看容器IP             | `docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' 容器名或容器ID` |
 | 搜索镜像               | `docker search 名字`                                                                          |
