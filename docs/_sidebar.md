@@ -25,7 +25,7 @@
       * [布局](InfoTech/Android/Basics/layout.md)
       * [日志](InfoTech/Android/Basics/log.md)
       * [Fragment](InfoTech/Android/Basics/Fragment.md)
-    * [Jetpack](InfoTech/Android/Basics/Jetpack.md)
+    * [Jetpack](InfoTech/Android/Jetpack/Jetpack.md)
       * Jetpack Compose
         * [官网教程代码](InfoTech/Android/Jetpack/Compose/official_tutorial.md)
         * [编程思想](InfoTech/Android/Jetpack/Compose/mental_model.md)
