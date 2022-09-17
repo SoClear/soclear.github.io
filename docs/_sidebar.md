@@ -35,6 +35,7 @@
         * [临时](InfoTech/Android/Jetpack/Compose/temp.md)
       * Dagger-Hilt
         * [控制反转和依赖注入](InfoTech/Android/Jetpack/Dagger-Hilt/ioc_di.md)
+        * [使用Dagger依赖注入简单示例](InfoTech/Android/Jetpack/Dagger-Hilt/dagger_sample.md)
     * 阿里Android开发规范
       * [一、Android 资源文件命名与使用](InfoTech/Android/AliAndroidDevelopmentStandard/asset.md)
       * [二、Android 基本组件](InfoTech/Android/AliAndroidDevelopmentStandard/component.md)
