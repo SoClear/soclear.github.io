@@ -436,7 +436,7 @@ const p2: PartialProps = {}
 console.log(p2.children)
 ```
 
-解释: 构造出来的新类型 `Partialprops` 结构和` Props` 相同，但所有属性都变为可选的。
+解释: 构造出来的新类型 `Partialprops` 结构和 `Props` 相同，但所有属性都变为可选的。
 
 ### Readonly
 
