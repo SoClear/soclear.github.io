@@ -27,6 +27,8 @@
         * [基础](InfoTech/Android/Jetpack/Compose/basic.md)
         * [基本布局](InfoTech/Android/Jetpack/Compose/basic_layout.md)
         * [临时](InfoTech/Android/Jetpack/Compose/temp.md)
+      * Dagger-Hilt
+        * [控制反转和依赖注入](InfoTech/Android/Dagger-Hilt/ioc_di.md)
     * [ViewModel](InfoTech/Android/ViewModel.md)
     * [布局](InfoTech/Android/layout.md)
     * [日志](InfoTech/Android/log.md)
