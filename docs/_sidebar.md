@@ -17,10 +17,15 @@
       * [搜索插入位置](InfoTech/AlgorithmProblems/search-insert-position.md)
       * [最大子数组和](InfoTech/AlgorithmProblems/maximum-subarray.md)
   * Android
-    * [Android和 MVC 架构模式](InfoTech/Android/Android-MVC.md)
-    * [屏幕像素密度](InfoTech/Android/screen_pixel_density.md)
-    * [Activity](InfoTech/Android/Activity.md)
-    * [Jetpack](InfoTech/Android/Jetpack.md)
+    * 基础
+      * [Android和 MVC 架构模式](InfoTech/Android/Basics/Android-MVC.md)
+      * [屏幕像素密度](InfoTech/Android/Basics/screen_pixel_density.md)
+      * [Activity](InfoTech/Android/Basics/Activity.md)
+      * [ViewModel](InfoTech/Android/Basics/ViewModel.md)
+      * [布局](InfoTech/Android/Basics/layout.md)
+      * [日志](InfoTech/Android/Basics/log.md)
+      * [Fragment](InfoTech/Android/Basics/Fragment.md)
+    * [Jetpack](InfoTech/Android/Basics/Jetpack.md)
       * Jetpack Compose
         * [官网教程代码](InfoTech/Android/Jetpack/Compose/official_tutorial.md)
         * [编程思想](InfoTech/Android/Jetpack/Compose/mental_model.md)
@@ -29,10 +34,6 @@
         * [临时](InfoTech/Android/Jetpack/Compose/temp.md)
       * Dagger-Hilt
         * [控制反转和依赖注入](InfoTech/Android/Jetpack/Dagger-Hilt/ioc_di.md)
-    * [ViewModel](InfoTech/Android/ViewModel.md)
-    * [布局](InfoTech/Android/layout.md)
-    * [日志](InfoTech/Android/log.md)
-    * [Fragment](InfoTech/Android/Fragment.md)
     * 阿里Android开发规范
       * [一、Android 资源文件命名与使用](InfoTech/Android/AliAndroidDevelopmentStandard/asset.md)
       * [二、Android 基本组件](InfoTech/Android/AliAndroidDevelopmentStandard/component.md)
