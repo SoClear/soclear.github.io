@@ -38,6 +38,8 @@
         * [使用Dagger依赖注入简单示例](InfoTech/Android/Jetpack/Dagger-Hilt/dagger_sample.md)
         * [使用Module提供对象实例](InfoTech/Android/Jetpack/Dagger-Hilt/dagger_module_sample.md)
         * [Dagger作用域](InfoTech/Android/Jetpack/Dagger-Hilt/scope.md)
+        * [Dagger组件依赖](InfoTech/Android/Jetpack/Dagger-Hilt/component_dependcies.md)
+        * [Dagger子组件](InfoTech/Android/Jetpack/Dagger-Hilt/subcomponents.md)
     * 阿里Android开发规范
       * [一、Android 资源文件命名与使用](InfoTech/Android/AliAndroidDevelopmentStandard/asset.md)
       * [二、Android 基本组件](InfoTech/Android/AliAndroidDevelopmentStandard/component.md)
