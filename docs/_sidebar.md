@@ -153,6 +153,7 @@
   * Rust
     * [介绍](InfoTech/Rust/introduce.md)
     * [入门](InfoTech/Rust/get-started.md)
+    * [猜数游戏](InfoTech/Rust/guessing-game.md)
   * SQLite
     * [安装](InfoTech/SQLite/intall.md)
     * [命令](InfoTech/SQLite/commands.md)
