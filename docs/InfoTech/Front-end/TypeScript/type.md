@@ -175,7 +175,7 @@ function f1():never {
 
 ## 代码示例三
 
-```TypeScript
+```typescript
 // object表示js对象
 
 let a: object
