@@ -2,7 +2,7 @@
 
 在项目根文件夹下新建 `tsconfig.json`
 
-```json
+```javascript
 //  tsconfig.json是ts编译器的配置文件，ts编译器可以根据它的信息来对代码进行编译
 {
   // compilerOptions编译器选项
