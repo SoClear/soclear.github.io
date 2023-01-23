@@ -46,7 +46,8 @@ interface Point { x: number; y: number }
 interface Point2D { x: number; y: number }
 let p1: Point
 let p2: Point2D = p1
-interface Point3D { x: number; y: number; z: number }let p3: Point3D
+interface Point3D { x: number; y: number; z: number }
+let p3: Point3D
 p2 = p3
 class Point3D { x: number; y: number; z: number }
 let p3: Point2D = new Point3D()

@@ -110,7 +110,7 @@ module.exports = {
 
 在 `"script"` 里添加`"build": "webpack", "start": "webpack serve --open msedge.exe"`
 
-```json
+```javascript
 {
   "name": "bb",
   "version": "1.0.0",
@@ -134,7 +134,7 @@ module.exports = {
 
 ## 5. 创建 `tsconfig.json`
 
-```json
+```javascript
 {
     "compilerOptions": {
         "module": "ES2015",
