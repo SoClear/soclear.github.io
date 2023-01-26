@@ -97,6 +97,7 @@
       * [列表排序](InfoTech/Front-end/Vue/list_sort.md)
       * [监视数据](InfoTech/Front-end/Vue/watch_data.md)
       * [收集表单数据](InfoTech/Front-end/Vue/collect_form_data.md)
+      * [过滤器](InfoTech/Front-end/Vue/filters.md)
   * Git
     * [什么是版本控制](InfoTech/Git/what_is_version_control.md)
     * [常见的版本控制系统](InfoTech/Git/tools.md)
