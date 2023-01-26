@@ -95,6 +95,7 @@
       * [key的作用与原理](InfoTech/Front-end/Vue/key.md)
       * [列表过滤](InfoTech/Front-end/Vue/list_filter.md)
       * [列表排序](InfoTech/Front-end/Vue/list_sort.md)
+      * [监视数据](InfoTech/Front-end/Vue/watch_data.md)
   * Git
     * [什么是版本控制](InfoTech/Git/what_is_version_control.md)
     * [常见的版本控制系统](InfoTech/Git/tools.md)
