@@ -97,7 +97,7 @@ let f2: F2 =f1
 #### 对象类型
 
 ```typescript
-interface Point2D i x: number; y: number }
+interface Point2D { x: number; y: number }
 interface Point3D { x: number; y: number; z: number }
 type F2 =(p: Point2D) =>void
 type F3 =(p: Point3D) =>void
