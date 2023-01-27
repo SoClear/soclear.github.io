@@ -1,0 +1,142 @@
+# 自定义指令
+
+```html
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="UTF-8" />
+  <title>自定义指令</title>
+  <script type="text/javascript" src="../js/vue.js"></script>
+ </head>
+ <body>
+<!-- 
+需求1：定义一个v-big指令，和v-text功能类似，但会把绑定的数值放大10倍。
+需求2：定义一个v-fbind指令，和v-bind功能类似，但可以让其所绑定的input元素默认获取焦点。
+自定义指令总结：
+一、定义语法：
+    (1).局部指令：
+        new Vue({
+            directives:{指令名:配置对象}
+        })
+
+        或者
+        
+        new Vue({
+            directives{指令名:回调函数}
+        })
+    (2).全局指令：
+        Vue.directive(指令名,配置对象) 或   Vue.directive(指令名,回调函数)
+
+二、配置对象中常用的3个回调：
+    (1).bind：指令与元素成功绑定时调用。
+    (2).inserted：指令所在元素被插入页面时调用。
+    (3).update：指令所在模板结构被重新解析时调用。
+
+三、备注：
+    1.指令定义时不加v-，但使用时要加v-；
+    2.指令名如果是多个单词，要使用kebab-case命名方式，不要用camelCase命名。
+-->
+  <!-- 准备好一个容器-->
+  <div id="root">
+   <h2>{{name}}</h2>
+   <h2>当前的n值是：<span v-text="n"></span> </h2>
+   <!-- <h2>放大10倍后的n值是：<span v-big-number="n"></span> </h2> -->
+   <h2>放大10倍后的n值是：<span v-big="n"></span> </h2>
+   <button @click="n++">点我n+1</button>
+   <hr/>
+   <input type="text" v-fbind:value="n">
+  </div>
+ </body>
+ 
+ <script type="text/javascript">
+  Vue.config.productionTip = false
+
+  //定义全局指令
+  /* Vue.directive('fbind',{
+   //指令与元素成功绑定时（一上来）
+   bind(element,binding){
+    element.value = binding.value
+   },
+   //指令所在元素被插入页面时
+   inserted(element,binding){
+    element.focus()
+   },
+   //指令所在的模板被重新解析时
+   update(element,binding){
+    element.value = binding.value
+   }
+  }) */
+
+  new Vue({
+   el:'#root',
+   data:{
+    name:'尚硅谷',
+    n:1
+   },
+   directives:{
+    //big函数何时会被调用？1.指令与元素成功绑定时（一上来）。2.指令所在的模板被重新解析时。
+    /* 'big-number'(element,binding){
+     // console.log('big')
+     element.innerText = binding.value * 10
+    }, */
+    big(element,binding){
+     console.log('big',this) //注意此处的this是window
+     // console.log('big')
+     element.innerText = binding.value * 10
+    },
+    fbind:{
+     //指令与元素成功绑定时（一上来）
+     bind(element,binding){
+      element.value = binding.value
+     },
+     //指令所在元素被插入页面时
+     inserted(element,binding){
+      element.focus()
+     },
+     //指令所在的模板被重新解析时
+     update(element,binding){
+      element.value = binding.value
+     }
+    }
+   }
+  })
+  
+ </script>
+</html>
+```
+
+```html
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="UTF-8" />
+  <title>Document</title>
+  <style>
+   .demo{
+    background-color: orange;
+   }
+  </style>
+ </head>
+ <body>
+  <button id="btn">点我创建一个输入框</button>
+  
+  <script type="text/javascript" >
+   const btn = document.getElementById('btn')
+   btn.onclick = ()=>{
+    const input = document.createElement('input')
+
+    input.className = 'demo'
+    input.value = 99
+    input.onclick = ()=>{alert(1)}
+    
+    document.body.appendChild(input)
+
+    input.focus()
+    // input.parentElement.style.backgroundColor = 'skyblue'
+    console.log(input.parentElement)
+    
+   }
+  </script>
+ </body>
+</html>
+```
