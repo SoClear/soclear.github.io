@@ -1,6 +1,7 @@
 # ByteBuffer
 
-这里指 `java.nio.ByteBuffer`。Buffer提供了一个字节缓冲区，其可以不断的从Channel中读取接收到的数据。Buffer的优点主要在于其提供了一系列的Api，能够让用户更方便的对数据进行读取和写入。  
+这里指 `java.nio.ByteBuffer`。Buffer提供了一个字节缓冲区，其可以不断的从Channel中读取接收到的数据。
+Buffer的优点主要在于其提供了一系列的Api，能够让用户更方便的对数据进行读取和写入。  
 
 ## 子类
 
@@ -56,7 +57,8 @@ Buffer clear()
 Buffer flip()
 // 把position设为0，limit不变，一般在把数据重写入Buffer前调用。
 Buffer rewind()
-// 将 position 与 limit之间的数据复制到buffer的开始位置，复制后 position = limit -position,limit = capacity, 但如果position 与limit 之间没有数据的话发，就不会进行复制。
+// 将 position 与 limit之间的数据复制到buffer的开始位置，复制后 position = limit -position,limit = capacity,
+// 但如果position 与limit 之间没有数据的话发，就不会进行复制。
 compact()
 // 通过调用Buffer.mark()方法，可以标记Buffer中的一个特定position。之后可以通过调用Buffer.reset()方法恢复到这个position。
 mark() & reset()     

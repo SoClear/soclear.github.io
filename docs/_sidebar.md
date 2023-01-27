@@ -1,4 +1,35 @@
 * IT
+  * 编程语言
+    * Java
+      * [ByteBuffer](InfoTech/ProgramingLanguages/Java/ByteBuffer.md)
+      * [JDK8的时间类](InfoTech/ProgramingLanguages/Java/JDK8Time.md)
+    * JavaScript
+      * [Object.defineProperty](InfoTech/ProgramingLanguages/JavaScript/defineProperty.md)
+      * [yarn](InfoTech/ProgramingLanguages/JavaScript/yarn.md)
+    * Rust
+      * [介绍](InfoTech/ProgramingLanguages/Rust/introduce.md)
+      * [入门](InfoTech/ProgramingLanguages/Rust/get-started.md)
+      * [猜数游戏](InfoTech/ProgramingLanguages/Rust/guessing-game.md)
+      * [常见编程概念](InfoTech/ProgramingLanguages/Rust/common-programming-concepts.md)
+    * TypeScript
+      * [简介](InfoTech/ProgramingLanguages/TypeScript/introduce.md)
+      * [安装](InfoTech/ProgramingLanguages/TypeScript/install.md)
+      * [类型](InfoTech/ProgramingLanguages/TypeScript/type.md)
+      * [编译选项](InfoTech/ProgramingLanguages/TypeScript/compile_options.md)
+      * [用webpack打包ts代码](InfoTech/ProgramingLanguages/TypeScript/webpack.md)
+      * [类、属性和方法](InfoTech/ProgramingLanguages/TypeScript/class_property_function.md)
+      * [构造函数和this](InfoTech/ProgramingLanguages/TypeScript/constructor_this.md)
+      * [继承和super关键字](InfoTech/ProgramingLanguages/TypeScript/extends.md)
+      * [抽象类](InfoTech/ProgramingLanguages/TypeScript/abstract_class.md)
+      * [接口](InfoTech/ProgramingLanguages/TypeScript/interface.md)
+      * [get和set](InfoTech/ProgramingLanguages/TypeScript/get_set.md)
+      * [可选参数、可选属性](InfoTech/ProgramingLanguages/TypeScript/optional_parameters_properties.md)
+      * [typeof](InfoTech/ProgramingLanguages/TypeScript/typeof.md)
+      * [类型兼容性](InfoTech/ProgramingLanguages/TypeScript/compatible.md)
+      * [交叉类型](InfoTech/ProgramingLanguages/TypeScript/intersection_types.md)
+      * [泛型](InfoTech/ProgramingLanguages/TypeScript/generics.md)
+      * [索引签名类型](InfoTech/ProgramingLanguages/TypeScript/index_types.md)
+      * [映射类型](InfoTech/ProgramingLanguages/TypeScript/mapping_types.md)
   * 概念
     * [阻塞非阻塞 同步异步](InfoTech/Concepts/blocking_non-blocking_sync_async.md)
     * [并发并行](InfoTech/Concepts/concurrency_parallelism.md)
@@ -64,28 +95,6 @@
       * [语法](InfoTech/Front-end/CSS/syntax.md)
       * [创建](InfoTech/Front-end/CSS/howto.md)
       * [选择器](InfoTech/Front-end/CSS/selectors.md)
-    * JavaScript
-      * [Object.defineProperty](InfoTech/Front-end/JavaScript/defineProperty.md)
-      * [yarn](InfoTech/Front-end/JavaScript/yarn.md)
-    * TypeScript
-      * [简介](InfoTech/Front-end/TypeScript/introduce.md)
-      * [安装](InfoTech/Front-end/TypeScript/install.md)
-      * [类型](InfoTech/Front-end/TypeScript/type.md)
-      * [编译选项](InfoTech/Front-end/TypeScript/compile_options.md)
-      * [用webpack打包ts代码](InfoTech/Front-end/TypeScript/webpack.md)
-      * [类、属性和方法](InfoTech/Front-end/TypeScript/class_property_function.md)
-      * [构造函数和this](InfoTech/Front-end/TypeScript/constructor_this.md)
-      * [继承和super关键字](InfoTech/Front-end/TypeScript/extends.md)
-      * [抽象类](InfoTech/Front-end/TypeScript/abstract_class.md)
-      * [接口](InfoTech/Front-end/TypeScript/interface.md)
-      * [get和set](InfoTech/Front-end/TypeScript/get_set.md)
-      * [可选参数、可选属性](InfoTech/Front-end/TypeScript/optional_parameters_properties.md)
-      * [typeof](InfoTech/Front-end/TypeScript/typeof.md)
-      * [类型兼容性](InfoTech/Front-end/TypeScript/compatible.md)
-      * [交叉类型](InfoTech/Front-end/TypeScript/intersection_types.md)
-      * [泛型](InfoTech/Front-end/TypeScript/generics.md)
-      * [索引签名类型](InfoTech/Front-end/TypeScript/index_types.md)
-      * [映射类型](InfoTech/Front-end/TypeScript/mapping_types.md)
     * Vue
       * [初识](InfoTech/Front-end/Vue/start.md)
       * [数据代理](InfoTech/Front-end/Vue/delegate.md)
@@ -136,9 +145,6 @@
     * [介绍和安装](InfoTech/Gradle/intro-install.md)
     * [构建 Kotlin 应用程序示例](InfoTech/Gradle/sample_building_kotlin_applications.md)
     * [临时笔记](InfoTech/Gradle/tmp.md)
-  * Java
-    * [ByteBuffer](InfoTech/Java/ByteBuffer.md)
-    * [JDK8的时间类](InfoTech/Java/JDK8Time.md)
   * Linux
     * 基础
       * [Linux 系统目录结构](InfoTech/Linux/bases/dirs.md)
@@ -153,11 +159,6 @@
     * [ufw防火墙](InfoTech/Linux/ufw.md)
     * [Nginx Proxy Manager](InfoTech/Linux/nginx-proxy-manager.md)
     * [tmux终端复用](InfoTech/Linux/tmux.md)
-  * Rust
-    * [介绍](InfoTech/Rust/introduce.md)
-    * [入门](InfoTech/Rust/get-started.md)
-    * [猜数游戏](InfoTech/Rust/guessing-game.md)
-    * [常见编程概念](InfoTech/Rust/common-programming-concepts.md)
   * SQLite
     * [安装](InfoTech/SQLite/intall.md)
     * [命令](InfoTech/SQLite/commands.md)
