@@ -12,6 +12,7 @@
       * [判断](InfoTech/ProgramingLanguages/C/decision.md)
       * [循环](InfoTech/ProgramingLanguages/C/loops.md)
       * [函数](InfoTech/ProgramingLanguages/C/functions.md)
+      * [作用域规则](InfoTech/ProgramingLanguages/C/scope-rules.md)
     * Java
       * [ByteBuffer](InfoTech/ProgramingLanguages/Java/ByteBuffer.md)
       * [JDK8的时间类](InfoTech/ProgramingLanguages/Java/JDK8Time.md)
