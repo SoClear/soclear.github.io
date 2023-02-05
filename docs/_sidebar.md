@@ -23,6 +23,7 @@
       * [位域](InfoTech/ProgramingLanguages/C/bit-fields.md)
       * [typedef](InfoTech/ProgramingLanguages/C/typedef.md)
       * [输入输出](InfoTech/ProgramingLanguages/C/input-output.md)
+      * [文件读写](InfoTech/ProgramingLanguages/C/file-io.md)
     * Java
       * [ByteBuffer](InfoTech/ProgramingLanguages/Java/ByteBuffer.md)
       * [JDK8的时间类](InfoTech/ProgramingLanguages/Java/JDK8Time.md)
