@@ -21,6 +21,7 @@
       * [结构体](InfoTech/ProgramingLanguages/C/structures.md)
       * [共用体](InfoTech/ProgramingLanguages/C/unions.md)
       * [位域](InfoTech/ProgramingLanguages/C/bit-fields.md)
+      * [typedef](InfoTech/ProgramingLanguages/C/typedef.md)
     * Java
       * [ByteBuffer](InfoTech/ProgramingLanguages/Java/ByteBuffer.md)
       * [JDK8的时间类](InfoTech/ProgramingLanguages/Java/JDK8Time.md)
