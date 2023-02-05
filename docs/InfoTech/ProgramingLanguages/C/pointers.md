@@ -23,7 +23,7 @@ int main()
 
 当上面的代码被编译和执行时，它会产生下列结果：
 
-```txt
+```text
 var_runoob 变量的地址： 0x7ffeeaae08d8
 ```
 
@@ -87,7 +87,7 @@ int main()
 
 当上面的代码被编译和执行时，它会产生下列结果：
 
-```txt
+```text
 var 变量的地址: 0x7ffeeef168d8
 ip 变量存储的地址: 0x7ffeeef168d8
 *ip 变量的值: 20
@@ -115,13 +115,13 @@ int main()
 
 当上面的代码被编译和执行时，它会产生下列结果：
 
-```txt
+```text
 ptr 的地址是 0x0
 ```
 
 或者
 
-```txt
+```text
 ptr 的地址是 (nil)
 ```
 
@@ -188,7 +188,7 @@ int main ()
 ```
 当上面的代码被编译和执行时，它会产生下列结果：
 
-```txt
+```text
 存储地址：var[0] = e4a298cc
 存储值：var[0] = 10
 存储地址：var[1] = e4a298d0
@@ -228,7 +228,7 @@ int main()
 
 当上面的代码被编译和执行时，它会产生下列结果：
 
-```txt
+```text
 存储地址：var[2] = 518a0ae4
 存储值：var[2] = 200
 存储地址：var[1] = 518a0ae0
@@ -272,7 +272,7 @@ int main()
 ```
 当上面的代码被编译和执行时，它会产生下列结果：
 
-```txt
+```text
 存储地址：var[0] = 0x7ffeee2368cc
 存储值：var[0] = 10
 存储地址：var[1] = 0x7ffeee2368d0
@@ -305,7 +305,7 @@ int main()
 
 当上面的代码被编译和执行时，它会产生下列结果：
 
-```txt
+```text
 Value of var[0] = 10
 Value of var[1] = 100
 Value of var[2] = 200
@@ -345,7 +345,7 @@ int main()
 
 当上面的代码被编译和执行时，它会产生下列结果：
 
-```txt
+```text
 Value of var[0] = 10
 Value of var[1] = 100
 Value of var[2] = 200
@@ -378,7 +378,7 @@ int main()
 
 当上面的代码被编译和执行时，它会产生下列结果：
 
-```txt
+```text
 Value of names[0] = Zara Ali
 Value of names[1] = Hina Ali
 Value of names[2] = Nuha Ali
@@ -434,7 +434,7 @@ int main()
 
 当上面的代码被编译和执行时，它会产生下列结果：
 
-```txt
+```text
 var = 100
 Pt1 = 0x7ffee2d5e8d8
 *Pt1 = 100
@@ -476,7 +476,7 @@ void getSeconds(unsigned long *par)
 
 当上面的代码被编译和执行时，它会产生下列结果：
 
-```txt
+```text
 Number of seconds :1294450468
 ```
 
@@ -521,7 +521,7 @@ double getAverage(int *arr, int size)
 
 当上面的代码被编译和执行时，它会产生下列结果：
 
-```txt
+```text
 Average value is: 214.40000
 ```
 
@@ -584,7 +584,7 @@ int main()
 
 当上面的代码被编译和执行时，它会产生下列结果：
 
-```txt
+```text
 1523198053
 1187214107
 1108300978

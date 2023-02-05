@@ -89,7 +89,7 @@ int main ()
 
 当上面的代码被编译和执行时，它会产生下列结果：
 
-```txt
+```text
 value of g = 10
 ```
 
@@ -129,7 +129,7 @@ int sum(int a, int b)
 ```
 当上面的代码被编译和执行时，它会产生下列结果：
 
-```txt
+```text
 value of a in main() = 10
 value of a in sum() = 10
 value of b in sum() = 20

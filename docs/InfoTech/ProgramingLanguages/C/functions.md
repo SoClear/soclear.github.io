@@ -116,7 +116,7 @@ int max(int num1, int num2)
 
 把 max() 函数和 main() 函数放一块，编译源代码。当运行最后的可执行文件时，会产生下列结果：
 
-```txt
+```text
 Max value is : 200
 ```
 

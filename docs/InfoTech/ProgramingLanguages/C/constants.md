@@ -148,7 +148,7 @@ int main()
 
 当上面的代码被编译和执行时，它会产生下列结果：
 
-```txt
+```text
 value of area : 50
 ```
 
@@ -197,7 +197,7 @@ int main()
 
 当上面的代码被编译和执行时，它会产生下列结果：
 
-```txt
+```text
 value of area : 50
 ```
 

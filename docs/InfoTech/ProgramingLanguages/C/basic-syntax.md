@@ -52,7 +52,7 @@ C 标识符是用来标识变量、函数，或任何其他用户自定义项目
 
 C 标识符内不允许出现标点字符，比如 @、$ 和 %。C 是**区分大小写**的编程语言。因此，在 C 中，_Manpower_ 和 _manpower_ 是两个不同的标识符。下面列出几个有效的标识符：
 
-```txt
+```text
 mohd       zara    abc   move_name  a_123
 myname50   _temp   j     a23b9      retVal
 ```

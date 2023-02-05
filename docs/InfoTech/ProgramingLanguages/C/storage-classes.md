@@ -73,7 +73,7 @@ void func1(void)
 
 可能您现在还无法理解这个实例，因为我已经使用了函数和全局变量，这两个概念目前为止还没进行讲解。即使您现在不能完全理解，也没有关系，后续的章节我们会详细讲解。当上面的代码被编译和执行时，它会产生下列结果：
 
-```txt
+```text
  thingy 为 6 ， count 为 9
  thingy 为 7 ， count 为 8
  thingy 为 8 ， count 为 7
@@ -132,6 +132,6 @@ void write_extern(void)
 
 这会产生 **a.out** 可执行程序，当程序被执行时，它会产生下列结果：
 
-```txt
+```text
 count is 5
 ```
