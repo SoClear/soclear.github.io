@@ -18,6 +18,7 @@
       * [指针](InfoTech/ProgramingLanguages/C/pointers.md)
       * [函数指针与回调函数](InfoTech/ProgramingLanguages/C/fun-pointer-callback.md)
       * [字符串](InfoTech/ProgramingLanguages/C/strings.md)
+      * [结构体](InfoTech/ProgramingLanguages/C/structures.md)
     * Java
       * [ByteBuffer](InfoTech/ProgramingLanguages/Java/ByteBuffer.md)
       * [JDK8的时间类](InfoTech/ProgramingLanguages/Java/JDK8Time.md)
