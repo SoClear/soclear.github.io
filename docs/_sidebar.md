@@ -29,6 +29,7 @@
       * [强制类型转换](InfoTech/ProgramingLanguages/C/type-casting.md)
       * [错误处理](InfoTech/ProgramingLanguages/C/error-handling.md)
       * [递归](InfoTech/ProgramingLanguages/C/recursion.md)
+      * [可变参数](InfoTech/ProgramingLanguages/C/variable-arguments.md)
     * Java
       * [ByteBuffer](InfoTech/ProgramingLanguages/Java/ByteBuffer.md)
       * [JDK8的时间类](InfoTech/ProgramingLanguages/Java/JDK8Time.md)
