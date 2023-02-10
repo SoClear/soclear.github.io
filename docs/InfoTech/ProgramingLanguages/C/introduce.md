@@ -37,7 +37,8 @@ C 语言最初是用于系统开发工作，特别是组成操作系统的程序
 - 语言解释器
 - 实体工具
 
-一个 C 语言程序，可以是 3 行，也可以是数百万行，它可以写在一个或多个扩展名为 **".c"** 的文本文件中，例如，_hello.c_。您可以使用 **"vi"**、**"vim"** 或任何其他文本编辑器来编写您的 C 语言程序。
+一个 C 语言程序，可以是 3 行，也可以是数百万行，它可以写在一个或多个扩展名为 **".c"** 的文本文件中，例如，_hello.c_ 。
+您可以使用 **"vi"** 、 **"vim"** 或任何其他文本编辑器来编写您的 C 语言程序。
 
 本教程假定您已经知道如何编辑一个文本文件，以及如何在程序文件中编写源代码。
 
@@ -47,28 +48,29 @@ C11（也被称为C1X）指ISO标准ISO/IEC 9899:2011。在它之前的C语言�
 
 ### 新特性
 
-- 对齐处理（Alignment）的标准化（包括\_Alignas标志符，alignof运算符，aligned\_alloc函数以及<stdalign.h>头文件）。
+- 对齐处理（Alignment）的标准化（包括 `_Alignas` 标志符，`alignof` 运算符，`aligned_alloc` 函数以及 `<stdalign.h>` 头文件）。
 
-- \_Noreturn 函数标记，类似于 gcc 的 \_\_attribute\_\_((noreturn))。
+- `_Noreturn` 函数标记，类似于 gcc 的 `__attribute__((noreturn))` 。
 
-- \_Generic 关键字。
+- `_Generic` 关键字。
 
 - 多线程（Multithreading）支持，包括：  
-    \_Thread\_local存储类型标识符，<threads.h>头文件，里面包含了线程的创建和管理函数。  
-    \_Atomic类型修饰符和<stdatomic.h>头文件。
+    `_Thread_local` 存储类型标识符，`<threads.h>` 头文件，里面包含了线程的创建和管理函数。  
+    `_Atomic` 类型修饰符和 `<stdatomic.h>` 头文件。
 
-- 增强的Unicode的支持。基于C Unicode技术报告ISO/IEC TR 19769:2004，增强了对Unicode的支持。包括为UTF-16/UTF-32编码增加了char16\_t和char32\_t数据类型，提供了包含unicode字符串转换函数的头文件<uchar.h>。
+- 增强的Unicode的支持。基于C Unicode技术报告ISO/IEC TR 19769:2004，增强了对Unicode的支持。
+  包括为UTF-16/UTF-32编码增加了 `char16_t` 和 `char32_t` 数据类型，提供了包含unicode字符串转换函数的头文件 `<uchar.h>` 。
 
-- 删除了 gets() 函数，使用一个新的更安全的函数gets\_s()替代。
+- 删除了 `gets()` 函数，使用一个新的更安全的函数 `gets_s()` 替代。
 
-- 增加了边界检查函数接口，定义了新的安全的函数，例如 fopen\_s()，strcat\_s() 等等。
+- 增加了边界检查函数接口，定义了新的安全的函数，例如 `fopen_s()`，`strcat_s()` 等等。
 
 - 增加了更多浮点处理宏(宏)。
 
 - 匿名结构体/联合体支持。这个在gcc早已存在，C11将其引入标准。
 
-- 静态断言（Static assertions），\_Static\_assert()，在解释 #if 和 #error 之后被处理。
+- 静态断言（Static assertions），`_Static_assert()` ，在解释 `#if` 和 `#error`之后被处理。
 
-- 新的 fopen() 模式，("…x")。类似 POSIX 中的 O\_CREAT|O\_EXCL，在文件锁中比较常用。
+- 新的 `fopen()` 模式，`("…x")` 。类似 POSIX 中的 `O_CREAT|O_EXCL` ，在文件锁中比较常用。
 
-- 新增 quick\_exit() 函数作为第三种终止程序的方式。当 exit()失败时可以做最少的清理工作。
+- 新增 `quick_exit()` 函数作为第三种终止程序的方式。当 `exit()` 失败时可以做最少的清理工作。
