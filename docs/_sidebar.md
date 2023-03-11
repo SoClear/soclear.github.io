@@ -225,8 +225,8 @@
     * [Join](InfoTech/SQLite/join.md)
     * [UNION](InfoTech/SQLite/union.md)
     * [在安卓中使用 SQLite](InfoTech/SQLite/sqlite-in-android.md)
-  * 其他
-    * [最佳编码实践](InfoTech/Others/best_coding_practice.md)
+  * 杂项
+    * [最佳编码实践](InfoTech/Misc/best_coding_practice.md)
 * 书
   * [断舍离](Books/duansheli.md)
 * 其他
