@@ -38,6 +38,8 @@
     * JavaScript
       * [Object.defineProperty](InfoTech/ProgramingLanguages/JavaScript/defineProperty.md)
       * [yarn](InfoTech/ProgramingLanguages/JavaScript/yarn.md)
+    * Kotlin
+      * [杂记](InfoTech/ProgramingLanguages/Kotlin/misc.md)
     * Rust
       * [介绍](InfoTech/ProgramingLanguages/Rust/introduce.md)
       * [入门](InfoTech/ProgramingLanguages/Rust/get-started.md)
