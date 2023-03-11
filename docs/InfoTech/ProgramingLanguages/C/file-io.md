@@ -60,7 +60,7 @@ int fputc( int c, FILE *fp );
 如果写入成功，它会返回写入的字符，如果发生错误，则会返回 `EOF`。  
 您可以使用下面的函数来把一个以 null 结尾的字符串写入到流中：
 
-```
+```c
 int fputs( const char *s, FILE *fp );
 ```
 
@@ -69,7 +69,7 @@ int fputs( const char *s, FILE *fp );
 您也可以使用 `int fprintf(FILE *fp,const char *format, ...)` 函数把一个字符串写入到文件中。  
 尝试下面的实例：
 
-> **注意：**请确保您有可用的 **tmp** 目录，如果不存在该目录，则需要在您的计算机上先创建该目录。
+> **注意：** 请确保您有可用的 **tmp** 目录，如果不存在该目录，则需要在您的计算机上先创建该目录。
 >
 > /tmp 一般是 Linux 系统上的临时目录，如果你在 Windows 系统上运行，则需要修改为本地环境中已存在的目录，
 > 例如: C:\\tmp、D:\\tmp等。
