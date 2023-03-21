@@ -55,44 +55,59 @@ Windows 虚拟网卡：
 
 ### 一. 开放防火墙端口
 
-1. 找到Windows 防火墙的设置页面, 点击高级设置
-  ![高级设置](LAN_WSL2_6.webp)
-2. 入栈规则 -> 新建规则 -> 端口 -> 下一页
-  ![下一页](LAN_WSL2_7.webp)
-3. TCP 特定本地端口, 输入22, 即想要开放的端口
-  ![想要开放的端口](LAN_WSL2_8.webp)
-4. 允许连接
-  ![允许连接](LAN_WSL2_9.webp)
-5. 指定可用域
-  ![指定可用域](LAN_WSL2_10.webp)
-6. 添加描述(自己定义)
-  ![添加描述](LAN_WSL2_11.webp)
-7. 查看验证
-  ![查看验证](./LAN_WSL2_12.webp)
+#### 1. 找到Windows 防火墙的设置页面, 点击高级设置
+
+![高级设置](LAN_WSL2_6.webp)
+
+#### 2. 入栈规则 -> 新建规则 -> 端口 -> 下一页
+
+![下一页](LAN_WSL2_7.webp)
+
+#### 3. TCP 特定本地端口, 输入22, 即想要开放的端口
+
+![想要开放的端口](LAN_WSL2_8.webp)
+
+#### 4. 允许连接
+
+![允许连接](LAN_WSL2_9.webp)
+
+#### 5. 指定可用域
+
+![指定可用域](LAN_WSL2_10.webp)
+
+#### 6. 添加描述(自己定义)
+
+![添加描述](LAN_WSL2_11.webp)
+
+#### 7. 查看验证
+
+![查看验证](./LAN_WSL2_12.webp)
 
 ### 二. 配置端口转发
 
-1. 用管理员方式打开PowerShell
-  ![用管理员方式打开PowerShell](LAN_WSL2_13.webp)
-2. 键入指令:
+#### 1. 用管理员方式打开PowerShell
 
-  ```powershell
-  netsh interface portproxy add v4tov4     \
-      listenport=22 listenaddress=0.0.0.0  \ 
-      connectport=22 connectaddress=localhost
-  ```
+![用管理员方式打开PowerShell](LAN_WSL2_13.webp)
 
-  >(注意, win底下是不支持上述的Linux命令行的多行输入格式的,需要手动调整)
+#### 2. 键入指令
 
-  其中:
+```powershell
+netsh interface portproxy add v4tov4     \
+    listenport=22 listenaddress=0.0.0.0  \ 
+    connectport=22 connectaddress=localhost
+```
 
-  listenport, 表示要监听的 Windows 端口
+>(注意, win底下是不支持上述的Linux命令行的多行输入格式的,需要手动调整)
 
-  listenaddress, 表示监听地址, 0.0.0.0 表示匹配所有地址, 比如Windows 既有Wifi网卡, 又有有线网卡, 那么访问任意两个网卡, 都会被监听到,当然也可以指定其中之一的IP的地址
+其中:
 
-  connectaddress ,要转发的地址, 这里设置为localhost, 是因为,我们可以通过localhost来访问WSL2, 如果暂不支持, 这里需要指定为 WSL2的IP地址
+listenport, 表示要监听的 Windows 端口
 
-  connectport, 要转发到的端口
+listenaddress, 表示监听地址, 0.0.0.0 表示匹配所有地址, 比如Windows 既有Wifi网卡, 又有有线网卡, 那么访问任意两个网卡, 都会被监听到,当然也可以指定其中之一的IP的地址
+
+connectaddress ,要转发的地址, 这里设置为localhost, 是因为,我们可以通过localhost来访问WSL2, 如果暂不支持, 这里需要指定为 WSL2的IP地址
+
+connectport, 要转发到的端口
 
 ## 后记
 
