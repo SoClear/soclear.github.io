@@ -39,6 +39,7 @@
       * [Object.defineProperty](InfoTech/ProgramingLanguages/JavaScript/defineProperty.md)
       * [yarn](InfoTech/ProgramingLanguages/JavaScript/yarn.md)
     * Kotlin
+      * [lambda](InfoTech/ProgramingLanguages/Kotlin/lambda.md)
       * [杂记](InfoTech/ProgramingLanguages/Kotlin/misc.md)
     * Rust
       * [介绍](InfoTech/ProgramingLanguages/Rust/introduce.md)
@@ -228,6 +229,7 @@
   * 杂项
     * [最佳编码实践](InfoTech/Misc/best_coding_practice.md)
     * [Markdown](InfoTech/Misc/marrkdown.md)
+    * [LaTeX](InfoTech/Misc/latex.md)
 * 书
   * [断舍离](Books/duansheli.md)
 * 其他
