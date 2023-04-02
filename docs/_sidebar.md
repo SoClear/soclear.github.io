@@ -69,6 +69,7 @@
     * [阻塞非阻塞 同步异步](InfoTech/Concepts/blocking_non-blocking_sync_async.md)
     * [并发并行](InfoTech/Concepts/concurrency_parallelism.md)
     * [进程 线程 协程](InfoTech/Concepts/process_thread_coroutine.md)
+    * [软件设计原则](InfoTech/Concepts/software_design_principles.md)
   * 力扣算法题
     * 简单
       * [两数之和](InfoTech/AlgorithmProblems/easy/two-sum.md)
