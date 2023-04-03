@@ -80,9 +80,9 @@
       * [合并两个有序链表](InfoTech/AlgorithmProblems/easy/merge-two-sorted-lists.md)
       * [删除有序数组中的重复项](InfoTech/AlgorithmProblems/easy/remove-duplicates-from-sorted-array.md)
       * [移除元素](InfoTech/AlgorithmProblems/easy/remove-element.md)
-      * [实现 strStr()](InfoTech/AlgorithmProblems/implement-strstr.md)
-      * [搜索插入位置](InfoTech/AlgorithmProblems/search-insert-position.md)
-      * [最大子数组和](InfoTech/AlgorithmProblems/maximum-subarray.md)
+      * [实现 strStr()](InfoTech/AlgorithmProblems/easy/implement-strstr.md)
+      * [搜索插入位置](InfoTech/AlgorithmProblems/easy/search-insert-position.md)
+      * [最大子数组和](InfoTech/AlgorithmProblems/easy/maximum-subarray.md)
   * Android
     * 基础
       * [Android和 MVC 架构模式](InfoTech/Android/Basics/Android-MVC.md)
