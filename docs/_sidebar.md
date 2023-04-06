@@ -85,6 +85,7 @@
       * [最大子数组和](InfoTech/AlgorithmProblems/easy/maximum-subarray.md)
       * [重复字符串n次](InfoTech/AlgorithmProblems/easy/string_n_times.md)
       * [最后一个单词的长度](InfoTech/AlgorithmProblems/easy/length-of-last-word.md)
+      * [加一](InfoTech/AlgorithmProblems/easy/plus-one.md)
   * Android
     * 基础
       * [Android和 MVC 架构模式](InfoTech/Android/Basics/Android-MVC.md)
