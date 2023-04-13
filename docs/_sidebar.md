@@ -95,6 +95,7 @@
       * [布局](InfoTech/Android/Basics/layout.md)
       * [日志](InfoTech/Android/Basics/log.md)
       * [Fragment](InfoTech/Android/Basics/Fragment.md)
+      * [BuildConfig](InfoTech/Android/Basics/build_config.md)
     * Jetpack
       * [Jetpack 简介](InfoTech/Android/Jetpack/Jetpack.md)
       * Jetpack Compose
