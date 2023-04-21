@@ -12,8 +12,8 @@ fun <T> operate(
     launchOptions: LaunchOptions = LaunchOptions(),
     browserContextOptions: BrowserContext.() -> Unit = {
         route("**/*") { route: Route ->
-            // 不获取图片 和 外部的css
-            if (route.request().resourceType() in listOf("image", "stylesheet")) {
+            // 不获取图片、外部的字体和css
+            if (route.request().resourceType() in listOf("image", "font", "stylesheet")) {
                 route.abort()
             } else {
                 route.resume()
