@@ -40,6 +40,7 @@
       * [yarn](InfoTech/ProgramingLanguages/JavaScript/yarn.md)
     * Kotlin
       * [lambda](InfoTech/ProgramingLanguages/Kotlin/lambda.md)
+      * [协变逆变](InfoTech/ProgramingLanguages/Kotlin/covariance_contravariance.md)
       * [杂记](InfoTech/ProgramingLanguages/Kotlin/misc.md)
     * Rust
       * [介绍](InfoTech/ProgramingLanguages/Rust/introduce.md)
