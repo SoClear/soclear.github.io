@@ -150,6 +150,7 @@
       * [过滤器](InfoTech/Front-end/Vue/filters.md)
       * [内置指令](InfoTech/Front-end/Vue/Built-in_instructions.md)
       * [自定义指令](InfoTech/Front-end/Vue/custom_instructions.md)
+      * [生命周期](InfoTech/Front-end/Vue/lifecycle.md)
   * Git
     * [什么是版本控制](InfoTech/Git/what_is_version_control.md)
     * [常见的版本控制系统](InfoTech/Git/tools.md)
