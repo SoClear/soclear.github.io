@@ -33,21 +33,26 @@
 
 ```yaml
 version: "3.9"
+
 services:
   app:
     image: "filebrowser/filebrowser:latest"
     container_name: filebrowser
     restart: unless-stopped
     volumes:
-      - data:/srv
+      - srv:/srv
+      - db:/database.db
+
 volumes:
-  data:
+  srv:
+  db:
+
 networks:
   default:
     external: true
     name: scoobydoo
 ```
 
-这样就创建了一个名为 `filebrowser` ，在`scoobydoo` 网络下，卷 `filebrowser_data` 映射到容器内目录 `/srv` 的容器。
+这样就创建了一个名为 `filebrowser` ，在`scoobydoo` 网络下，卷 `filebrowser_srv` 映射到容器内目录 `/srv` 的容器。
 
 接下来，在当前目录下执行 `docker compose up -d` ，便会拉取镜像，并运行容器。

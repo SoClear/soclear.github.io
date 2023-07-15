@@ -200,6 +200,7 @@
       * [管理用户和用户组](InfoTech/Linux/bases/manage-users.md)
       * [管理磁盘](InfoTech/Linux/bases/manage-disks.md)
       * [apt命令](InfoTech/Linux/bases/apt.md)
+      * [其他](InfoTech/Linux/bases/others.md)
     * [Docker](InfoTech/Linux/docker.md)
     * [ufw防火墙](InfoTech/Linux/ufw.md)
     * [Nginx Proxy Manager](InfoTech/Linux/nginx-proxy-manager.md)
