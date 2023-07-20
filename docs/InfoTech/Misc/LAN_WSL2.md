@@ -7,7 +7,7 @@ PS，更新采用追加式，不会修改原文，补充内容按时间放在文
 | 更新日期 | 概述 |
 | --- | --- |
 | 2019年10月25日 | 发布原文 |
-| 2021年10月28日 | ssh 连接失败: \`ssh\_exchange\_identification\` |
+| 2021年10月28日 | ssh 连接失败: ssh_exchange_identification |
 | 2021年10月28日 | 使用wslpp工具 |
 
 ## 原文
@@ -91,13 +91,9 @@ Windows 虚拟网卡：
 
 #### 2. 键入指令
 
-```powershell
-netsh interface portproxy add v4tov4     \
-    listenport=22 listenaddress=0.0.0.0  \ 
-    connectport=22 connectaddress=localhost
+```shell
+netsh interface portproxy add v4tov4 listenport=22 listenaddress=0.0.0.0 connectport=22 connectaddress=localhost
 ```
-
->(注意, win底下是不支持上述的Linux命令行的多行输入格式的,需要手动调整)
 
 其中:
 
@@ -115,7 +111,7 @@ connectport, 要转发到的端口
 
 **show:**
 
-```powershell
+```shell
 netsh interface portproxy show all
 ```
 
@@ -123,7 +119,7 @@ netsh interface portproxy show all
 
 **delete:**
 
-```powershell
+```shell
 netsh interface portproxy delete v4tov4 listenport=22 listenaddress=0.0.0.0
 ```
 
@@ -158,26 +154,22 @@ ___
 
 连接出现了如下的这样的连接错误.:
 
-```powershell
+```shell
 ssh_exchange_identification: read: Connection reset by peer
 ```
 
 我研究了很久, 但是, 并没有最终确定导致的原因
 
-这里建议将\`connectaddress\`指定为WSL2的IP地址,即:
+这里建议将 `connectaddress` 指定为WSL2的IP地址,即:
 
-```powershell
-netsh interface portproxy add v4tov4     \
-    listenport=22 listenaddress=0.0.0.0  \
-    connectport=22 connectaddress=`WSL2 IP Address`
+```shell
+netsh interface portproxy add v4tov4 listenport=22 listenaddress=0.0.0.0 connectport=22 connectaddress=[WSL2 IP Address]
 ```
 
 或者是使用ipv6的回环地址,即:
 
-```powershell
- netsh interface portproxy add v4tov6 \
-    listenport=22 listenaddress=0.0.0.0 \
-    connectport=22 connectaddress=::1
+```shell
+netsh interface portproxy add v4tov6 listenport=22 listenaddress=0.0.0.0 connectport=22 connectaddress=::1
 ```
 
 一个是**v4tov4**, 另一个是**v4tov6**
@@ -190,7 +182,7 @@ netsh interface portproxy add v4tov4     \
 
 一、在Windows PowerShell中, 将其clone到本地:
 
-```powershell
+```shell
 git clone https://github.com/HobaiRiku/wsl2-auto-portproxy.git
 ```
 
@@ -198,7 +190,7 @@ git clone https://github.com/HobaiRiku/wsl2-auto-portproxy.git
 
 二、在WSL2中, 编译此项目,注意,是需要Go的环境的, 而且这一步骤需要在Windows的管理员模式进行
 
-```powershell
+```shell
  sudo apt install golang-go
  cd /mnt/c/Users/`windows-user-name`/wsl2-auto-portproxy/
  make build
@@ -208,7 +200,7 @@ git clone https://github.com/HobaiRiku/wsl2-auto-portproxy.git
 
 三、配置wslpp的配置文件, 在WSL中执行:
 
-```powershell
+```shell
 mkdir /mnt/c/Users/14408/.wslpp
 vim  /mnt/c/Users/14408/.wslpp/config.json
 
@@ -230,7 +222,7 @@ vim  /mnt/c/Users/14408/.wslpp/config.json
 
 四、回到Windows PowerShell中, 执行:
 
-```powershell
+```shell
  cd .\wsl2-auto-portproxy\dist\
  .\wslpp.exe
 ```
