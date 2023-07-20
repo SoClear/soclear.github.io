@@ -4,25 +4,42 @@
 
 ```kotlin
 fun Page.queryAll(selector: String): List<ElementHandle> {
-    waitForSelector(selector)
-    return querySelectorAll(selector)
+    return try {
+        waitForSelector(selector)
+        querySelectorAll(selector)
+    } catch (e: PlaywrightException) {
+        emptyList()
+    }
+}
+
+private val defaultBrowserContextOptions: BrowserContext.() -> Unit = {
+    route("**/*") { route: Route ->
+        // 不获取图片、外部的字体和css
+        if (route.request().resourceType() in listOf("image", "font", "stylesheet")) {
+            route.abort()
+        } else {
+            route.resume()
+        }
+    }
 }
 
 fun <T> operate(
-    launchOptions: LaunchOptions = LaunchOptions(),
-    browserContextOptions: BrowserContext.() -> Unit = {
-        route("**/*") { route: Route ->
-            // 不获取图片、外部的字体和css
-            if (route.request().resourceType() in listOf("image", "font", "stylesheet")) {
-                route.abort()
-            } else {
-                route.resume()
-            }
-        }
-    },
+    launchOptions: BrowserType.LaunchOptions = BrowserType.LaunchOptions(),
+    browserContextOptions: BrowserContext.() -> Unit = defaultBrowserContextOptions,
     instructions: Page.() -> T
 ): T = Playwright.create().use {
     it.chromium().launch(launchOptions).newContext().apply { browserContextOptions() }.newPage().run(instructions)
+}
+
+fun <T> operate(
+    userDataDir: Path,
+    launchPersistentContextOptions: BrowserType.LaunchPersistentContextOptions = BrowserType.LaunchPersistentContextOptions(),
+    browserContextOptions: BrowserContext.() -> Unit = defaultBrowserContextOptions,
+    instructions: Page.() -> T
+): T = Playwright.create().use {
+    it.chromium().launchPersistentContext(userDataDir, launchPersistentContextOptions).apply {
+        browserContextOptions()
+    }.newPage().run(instructions)
 }
 ```
 
