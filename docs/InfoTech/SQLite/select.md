@@ -74,6 +74,36 @@ ID          NAME        SALARY
 7           James       10000.0
 ```
 
+## 别名
+
+`字段名 as 别名` 或者 `字段名 别名`
+
+注意不能用关键字作为别名，如果别名里包含空格或者其他特殊字符，则需要用单引号或者双引号包裹别名。
+
+```sql
+SELECT column1 as alias1, column2 alias2, columnN FROM table_name;
+```
+
+示例
+
+```sql
+sqlite> SELECT ID as personId, NAME personName, SALARY 'his money' FROM COMPANY;
+```
+
+上面的查询会产生以下结果：
+
+```sql
+personId    personName  "his money"
+----------  ----------  ----------
+1           Paul        20000.0
+2           Allen       15000.0
+3           Teddy       20000.0
+4           Mark        65000.0
+5           David       85000.0
+6           Kim         45000.0
+7           James       10000.0
+```
+
 ## 设置输出列的宽度
 
 有时，由于要显示的列的默认宽度导致 **.mode column**，这种情况下，输出被截断。此时，您可以使用 **.width num, num....** 命令设置显示列的宽度，如下所示：

@@ -68,6 +68,8 @@ FROM   table_name
 WHERE  column_name BETWEEN val-1 AND val-2;
 ```
 
+表示大于等于 val-1 小于等于 val-2
+
 ## SQLite COMMIT 语句
 
 ```sql

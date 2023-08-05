@@ -163,6 +163,8 @@ ID          NAME        AGE         ADDRESS     SALARY
 | \|\|    | 连接两个不同的字符串，得到一个新的字符串。                                                               |
 | UNIQUE  | UNIQUE 运算符搜索指定表中的每一行，确保唯一性（无重复）。                                                |
 
+注意判断一个值是否为 null 只能使用 `is null` 或者 `is not null`
+
 实例：
 
 假设 COMPANY 表有以下记录：
