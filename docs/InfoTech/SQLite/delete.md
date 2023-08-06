@@ -55,3 +55,7 @@ sqlite> DELETE FROM COMPANY;
 ```
 
 现在，COMPANY 表中没有任何的记录，因为所有的记录已经通过 DELETE 语句删除。
+
+## truncate
+
+`truncate table` 相当 `delete from table` ，但是前者效率更高。
