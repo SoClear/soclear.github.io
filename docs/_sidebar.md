@@ -219,6 +219,7 @@
     * [Select 语句](InfoTech/SQLite/select.md)
     * [运算符](InfoTech/SQLite/operators.md)
     * [表达式](InfoTech/SQLite/expressions.md)
+    * [别名](InfoTech/SQLite/alias.md)
     * [Where 子句](InfoTech/SQLite/where-clause.md)
     * [AND/OR 运算符](InfoTech/SQLite/and-or-clauses.md)
     * [Update 语句](InfoTech/SQLite/update.md)
