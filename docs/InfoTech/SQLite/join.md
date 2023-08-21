@@ -68,7 +68,7 @@ ID          DEPT        EMP_ID
 下面是交叉连接（CROSS JOIN）的语法：
 
 ```sql
-SELECT ... FROM table1 CROSS JOIN table2 ...
+SELECT ... FROM table1 CROSS JOIN table2 ON conditional_expression ...
 ```
 
 基于上面的表，我们可以写一个交叉连接（CROSS JOIN），如下所示：
@@ -103,6 +103,12 @@ EMP_ID      NAME        DEPT
 1           James       IT Billing
 2           James       Engineerin
 7           James       Finance
+```
+
+另外还有一种形式相当于 cross join ，使用where来拼接后面的条件：
+
+```sql
+SELECT EMP_ID, NAME, DEPT FROM COMPANY, DEPARTMENT where conditional_expression ...
 ```
 
 ## 内连接 - INNER JOIN
