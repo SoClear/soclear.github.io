@@ -19,3 +19,8 @@
 ![键位](xiaohe_2.png)
 
 ![零声母](xiaohe_3.png)
+
+`uɑn üan R`  
+`üe T`  
+`un ün Y`  
+`ü ui V`

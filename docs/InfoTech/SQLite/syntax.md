@@ -190,6 +190,9 @@ DROP TRIGGER trigger_name
 
 ## SQLite EXISTS 子句
 
+如果主查询的记录数大于子查询的记录数，用 in 效率高。  
+如果主查询的记录数小于子查询的记录数，用 exists 效率高。  
+
 ```sql
 SELECT column1, column2....columnN
 FROM   table_name
@@ -338,4 +341,8 @@ VACUUM;
 SELECT column1, column2....columnN
 FROM   table_name
 WHERE  CONDITION;
-```sql
+```
+
+## SQLite 没有 ANY 和 ALL
+
+ANY：任一，ALL：所有

@@ -79,11 +79,11 @@ EMP_ID      NAME                  DEPT
 7           James                 Finance
 ```
 
+## UNION ALL
+
 UNION ALL 运算符用于结合两个 SELECT 语句的结果，包括重复行。
 
 适用于 UNION 的规则同样适用于 UNION ALL 运算符。
-
-## UNION ALL
 
 ### 语法
 

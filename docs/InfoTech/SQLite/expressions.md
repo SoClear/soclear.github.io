@@ -65,7 +65,7 @@ sqlite> SELECT (15 + 6) AS ADDITION
 ADDITION = 21
 ```
 
-有几个内置的函数，比如 avg()、sum()、count()，等等，执行被称为对一个表或一个特定的表列的汇总数据计算。
+有几个内置的函数，比如 max()、min()、avg()、sum()、count()，等等，执行被称为对一个表或一个特定的表列的汇总数据计算。
 
 ```sql
 sqlite> SELECT COUNT(*) AS "RECORDS" FROM COMPANY; 
