@@ -42,6 +42,7 @@
       * [lambda](InfoTech/ProgramingLanguages/Kotlin/lambda.md)
       * [协变逆变](InfoTech/ProgramingLanguages/Kotlin/covariance_contravariance.md)
       * [杂记](InfoTech/ProgramingLanguages/Kotlin/misc.md)
+      * [引用](InfoTech/ProgramingLanguages/Kotlin/references.md)
     * Rust
       * [介绍](InfoTech/ProgramingLanguages/Rust/introduce.md)
       * [入门](InfoTech/ProgramingLanguages/Rust/get-started.md)
