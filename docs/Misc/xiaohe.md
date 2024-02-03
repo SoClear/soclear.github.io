@@ -20,7 +20,7 @@
 
 ![零声母](xiaohe_3.png)
 
-`uɑn üan R`  
+`uan üan R`  
 `üe T`  
 `un ün Y`  
 `ü ui V`

@@ -242,6 +242,7 @@
     * [Markdown](InfoTech/Misc/marrkdown.md)
     * [LaTeX](InfoTech/Misc/latex.md)
     * [如何在局域网的其他主机上中访问本机的WSL2](InfoTech/Misc/LAN_WSL2.md)
+    * [新版 WSL2 2.0 设置 Windows 和 WSL 镜像网络教程](InfoTech/Misc/WSL2_net.md)
     * [Playwright](InfoTech/Misc/playwright.md)
 * 书
   * [断舍离](Books/duansheli.md)
