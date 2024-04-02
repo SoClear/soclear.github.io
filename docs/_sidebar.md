@@ -137,7 +137,7 @@
       * [语法](InfoTech/Front-end/CSS/syntax.md)
       * [创建](InfoTech/Front-end/CSS/howto.md)
       * [选择器](InfoTech/Front-end/CSS/selectors.md)
-    * Vue
+    * Vue2
       * [初识](InfoTech/Front-end/Vue/start.md)
       * [数据代理](InfoTech/Front-end/Vue/delegate.md)
       * [绑定样式](InfoTech/Front-end/Vue/bind_class_style.md)
@@ -153,6 +153,10 @@
       * [自定义指令](InfoTech/Front-end/Vue/custom_instructions.md)
       * [生命周期](InfoTech/Front-end/Vue/lifecycle.md)
       * [非单文件组件](InfoTech/Front-end/Vue/non_sfc.md)
+    * Vue3
+      * [简介](InfoTech/Front-end/Vue3/introduce.md)
+      * [一、创建Vue3.0工程](InfoTech/Front-end/Vue3/create.md)
+      * [二、常用 Composition API](InfoTech/Front-end/Vue3/composition_api.md)
   * Git
     * [什么是版本控制](InfoTech/Git/what_is_version_control.md)
     * [常见的版本控制系统](InfoTech/Git/tools.md)
