@@ -31,21 +31,24 @@
 
 在当前文件夹新建 `docker-compose.yml` 文件，以 `file browser` 为例：
 
-```yaml
-version: "3.9"
-
+```yml
 services:
   app:
-    image: "filebrowser/filebrowser:latest"
+    image: "filebrowser/filebrowser:s6"
     container_name: filebrowser
     restart: unless-stopped
+     environment:
+      - PGID=0
+      - PUID=0
     volumes:
-      - srv:/srv
-      - db:/database.db
+      - root:/srv
+      - db:/database
+      - settings:/config
 
 volumes:
-  srv:
+  root:
   db:
+  settings:
 
 networks:
   default:
