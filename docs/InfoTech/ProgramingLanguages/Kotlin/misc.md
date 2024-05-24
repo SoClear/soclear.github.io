@@ -110,6 +110,8 @@ class A : IB by BImpl(), IC by CImpl(), ID by DImpl
 
 class B : IBC by BCImpl
 
+class C(ic: IC): IC by ic
+
 interface IB {
     fun sayHello()
 }

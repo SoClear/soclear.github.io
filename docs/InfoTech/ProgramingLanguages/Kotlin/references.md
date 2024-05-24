@@ -16,7 +16,7 @@ fun main(args: Array<String>) {
     // kFunction1 的类型是 KFunction1<A, Unit>
     // 也就是说 kFunction1 是 KFunction1<A, Unit> 类型的一个值
     // 也就是说 kFunction1 是 (A) -> Unit 类型的一个值
-    // A是它的参数，Unit是它的返回值
+    // A是它的参数类型，Unit是它的返回值类型
     val kFunction1 = A::fn
     // 传入A类的对象，并调用
     kFunction1(A())
