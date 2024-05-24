@@ -21,6 +21,7 @@
     <style>
         :root {
             --codeFontFamily: '';
+            --background: black
         }
 
         div.medium-zoom-overlay {
@@ -29,6 +30,14 @@
 
         .markdown-section pre>code {
             font-family: var(--codeFontFamily);
+        }
+
+        :has(#app) {
+            background-color: black;
+        }
+
+        #app {
+            color: gray;
         }
     </style>
 </head>
