@@ -52,6 +52,8 @@ fun main() {
 对于OpenCV来说，一张彩色图等于三张灰度图。颜色顺序为BGR  
 灰度图：明暗程度（可以说是相机CMOS上光子数量的分布图）
 
+### 蓝绿红通道和灰度图
+
 ```kotlin
 import org.opencv.core.Core
 import org.opencv.core.Mat
@@ -106,7 +108,30 @@ fun Mat.gray(): Mat {
 fun gray(path: String): Mat = imread(path, Imgcodecs.IMREAD_GRAYSCALE)
 ```
 
+### 纯色图
+
+方式一：`Mat(int rows, int cols, int type, Scalar s)`，它的参数是行数,列数,通道值,颜色值  
+方式二：`Mat(Size(double width , double height,) int type, Scalar s)`，它的参数是Size(宽, 高)，通道值，颜色值
+方式三：将已有Mat对象设置为纯色图 `Mat对象.setTo(Scalar s)`
+
+```kotlin
+// 单通道纯白图
+val white1D1 = Mat(1920, 1080, CvType.CV_8UC1, Scalar(255.0))
+val white1D2 = Mat(Size(1080.0, 1920.0), CvType.CV_8UC1, Scalar(255.0))
+// 单通道纯黑图
+val black1D = Mat(1920, 1080, CvType.CV_8UC1, Scalar(0.0))
+// 三通道纯粉色图
+val pink3D = Mat(Size(1080.0, 1920.0), CvType.CV_8UC3, Scalar(104.0,122.0,191.0))
+
+// 创建新Mat并设置为淡蓝色
+val lightblue = Mat(Size(1080.0, 1920.0), CvType.CV_8UC3).setTo(Scalar(191.0, 122.0, 104.0))
+// 将已有图像设置为淡蓝色
+val logo = imread("./src/main/kotlin/OpenCV/opencv_logo.jpg").setTo(Scalar(191.0, 122.0, 104.0))
+```
+
 ## 切割 crop
+
+请注意 `submat()` 和 `setTo()`都是直接在原图上操作。要想不改变原图，请使用 `clone()`
 
 ```kotlin
 import org.opencv.highgui.HighGui.imshow
@@ -119,6 +144,19 @@ fun main() {
     // 切割图片 public Mat submat(int rowStart, int rowEnd, int colStart, int colEnd)
     val cropped = image.submat(10, 170, 40, 200)
     imshow("cropped", cropped)
+
+    // 切割图片，并将切割的部分设置为绿色，原图操作
+    val poker = imread("./src/main/kotlin/OpenCV/poker.jpg")
+    poker.submat(70, 200, 20, 200).setTo(Scalar(0.0, 255.0, 0.0))
+    imshow("poker", poker)
+
+    // 切割图片，并将切割的部分设置为绿色，克隆原图再操作
+    val plane = imread("./src/main/kotlin/OpenCV/plane.jpg")
+    val clonedPlane = plane.clone()
+    clonedPlane.submat(70, 200, 20, 200).setTo(Scalar(0.0, 255.0, 0.0))
+    imshow("plane", plane)
+    imshow("clonedPlane", clonedPlane)
+
     waitKey()
 }
 ```
@@ -221,62 +259,167 @@ fun main() {
 
 ## 匹配模板 match
 
-TM_CCOEFF_NORMED是标准相关匹配算法：把待检测图像和模板都标准化，再计算匹配度，保证匹配结果不收光照强度的影响，匹配越接近1，说明匹配越准确
+### matchTemplate 匹配模板
+
+`Imgproc.matchTemplate` 是 OpenCV Java 接口中的一个方法，属于 Imgproc 类的一部分。它用于图像模板匹配，即在图像中寻找与模板匹配的部分。该方法通常用于图像识别、图像定位等任务。
+
+```java
+public static void matchTemplate(Mat image, Mat templ, Mat result, int method)
+```
+
+- **Mat image**：源图像（待搜索的图像, 必须是灰度图）。
+- **Mat templ**：模板图像（用于匹配的图像, 必须是灰度图）。
+- **Mat result**：结果存储的目标图像（匹配结果的图像）。
+- **int method**：匹配方法
+  - **TM_SQDIFF**：平方差匹配法。计算平方差，值越小匹配度越高。
+  - **TM_SQDIFF_NORMED**：归一化平方差匹配法。
+  - **TM_CCORR**：相关匹配法。计算相关性，值越大匹配度越高。
+  - **TM_CCORR_NORMED**：归一化相关匹配法。
+  - **TM_CCOEFF**：相关系数匹配法。计算相关系数，值越大匹配度越高。
+  - **TM_CCOEFF_NORMED**：归一化相关系数匹配法。把待检测图像和模板都标准化，再计算匹配度，保证匹配结果不收光照强度的影响，匹配越接近1，说明匹配越准确。
 
 ```kotlin
-import org.opencv.core.Mat
-import org.opencv.core.Point
-import org.opencv.core.Scalar
-import org.opencv.highgui.HighGui.imshow
-import org.opencv.highgui.HighGui.waitKey
-import org.opencv.imgcodecs.Imgcodecs.imread
-import org.opencv.imgproc.Imgproc
+/**
+ * 扩展函数，匹配模板
+ * @param [this] 原图（必须是灰度图）
+ * @param [template] 模板（必须是灰度图），用于在原图中匹配模板
+ * @param [method] 匹配方法, 默认为Imgproc.TM_CCOEFF_NORMED
+ * @return 返回匹配结果的Mat图像
+ */
+fun Mat.match(template: Mat, method: Int = Imgproc.TM_CCOEFF_NORMED): Mat =
+    Mat().also { Imgproc.matchTemplate(this, template, it, method) }
+```
 
-fun main() {
-    System.load("""E:\softwares\opencv\build\java\x64\opencv_java490.dll""")
-    val image = imread("./src/main/kotlin/OpenCV/poker.jpg")
-    val gray = image.gray()
-    val template = gray.submat(75, 105, 235, 265)
+### minMaxLoc 查找矩阵中的最小值和最大值以及它们的位置
 
-    // 设置阈值
-    val threshold = 0.9
+`Core.minMaxLoc` 是 OpenCV 库中的一个函数，用于查找矩阵或图像中元素的最小值和最大值及其位置。这个函数对分析图像数据非常有用，例如在图像处理和计算机视觉任务中，可以帮助找到特定特征的位置和数值范围。
 
-    // 模板宽高
-    val templateWidth = template.cols()
-    val templateHeight = template.rows()
+```java
+public static MinMaxLocResult minMaxLoc(Mat src, Mat mask)
+```
 
-    // 匹配模板
-    val points = gray.match(template, threshold)
+- `src`：输入矩阵（`Mat`），即要在其中查找最小值和最大值的图像或数据矩阵。
+- `mask`（可选）：操作掩码。它必须是与输入图像尺寸相同的 8 位单通道数组。它指定哪些元素将被包含在计算中。如果没有指定，则对所有元素进行计算。
 
-    // 绘制矩形
-    for (p in points) {
-        Imgproc.rectangle(image, p, Point(p.x + templateWidth, p.y + templateHeight), Scalar(0.0, 255.0, 0.0), 2)
-    }
+该函数返回一个 MinMaxLocResult 对象，包含以下信息：
 
-    // 显示
-    imshow("image", image)
-    waitKey()
+- minVal：输入矩阵中找到的最小值。
+- maxVal：输入矩阵中找到的最大值。
+- minLoc：最小值的位置（Point 类型）。
+- maxLoc：最大值的位置（Point 类型）。
+
+```kotlin
+/**
+ * 查找矩阵中的最小值和最大值以及它们的位置。
+ *
+ * @param [this] Mat对象（必须是灰度图）
+ * @return Core.MinMaxLocResult对象
+ */
+fun Mat.minMaxLoc(): Core.MinMaxLocResult = Core.minMaxLoc(this)
+```
+
+### threshold 阈值
+
+`Imgproc.threshold` 是 OpenCV Java 接口中的一个方法，属于 Imgproc 类的一部分。它用于图像阈值处理，这是图像处理中用来将灰度图像转换为二值图像的一种技术。
+
+```java
+public static double threshold(Mat src, Mat dst, double thresh, double maxval, int type)
+```
+
+- src：输入图像（单通道灰度图像）。
+- dst：结果存储的目标图像（二值图像）。
+- thresh：阈值。
+- maxval：与 THRESH_BINARY 和 THRESH_BINARY_INV 阈值类型一起使用的最大值。
+- type：阈值类型，有以下几种选项：
+  - Imgproc.THRESH_BINARY：二进制阈值化。大于等于阈值的像素设为 maxval，小于阈值的设为 0。
+  - Imgproc.THRESH_BINARY_INV：反二进制阈值化。与二进制阈值化相反。
+  - Imgproc.THRESH_TRUNC：截断阈值化。大于阈值的像素设为阈值，小于阈值的保持不变。
+  - Imgproc.THRESH_TOZERO：阈值化为 0。大于阈值的像素保持不变，小于阈值的设为 0。
+  - Imgproc.THRESH_TOZERO_INV：反阈值化为 0。与阈值化为 0 相反。
+  - Imgproc.THRESH_OTSU：使用 Otsu 方法自动确定最佳阈值并应用阈值
+
+```kotlin
+/**
+ * 扩展函数，用于对 Mat 对象进行阈值处理。
+ *
+ * @param [this] 原图（必须是灰度图）
+ * @param threshold 阈值。
+ * @param maxVal 最大值，默认为 255.0。
+ * @param type 阈值处理类型，默认为 Imgproc.THRESH_TOZERO。
+ * @return 经过阈值处理后的 Mat 对象。
+ */
+fun Mat.threshold(threshold: Double, maxVal: Double = 255.0, type: Int = Imgproc.THRESH_TOZERO): Mat =
+    Mat().also { Imgproc.threshold(this, it, threshold, maxVal, type) }
+```
+
+### findNonZero 查找非零元素
+
+`Core.findNonZero` 是 OpenCV 库中的一个方法，用于查找非零像素的位置。此方法特别适用于二值图像（即包含黑白像素的图像），它可以返回所有非零像素的坐标列表。该方法通常用于图像处理和分析任务，例如对象检测、图像分割等。
+
+```java
+public static void findNonZero(Mat src, Mat dst)
+```
+
+- Mat src: 源图像，通常是一个单通道的二值图像。
+- Mat dst: 目标 Mat 对象，用于存储非零像素的位置。这是一个单列矩阵，每行代表一个非零像素的位置。
+
+```kotlin
+/**
+ * 扩展函数，查找非零像素的位置。
+ *
+ * @param [this] 原图（必须是灰度图）
+ * @return 存储非零像素的位置的 MatOfPoint 对象
+ */
+fun Mat.findNonZero(): MatOfPoint = MatOfPoint().also { Core.findNonZero(this, it) }
+```
+
+### groupRectangles 分组
+
+用于将候选的矩形对象进行分组
+
+```java
+public static void groupRectangles(MatOfRect rectList, MatOfInt weights, int groupThreshold, double eps)
+```
+
+- rectList 是一个包含候选矩形的列表。
+- weights 是一个整数列表，用于存储每个矩形的权重。函数执行后，这个列表将被更新为每个矩形所在组的矩形数量。
+- groupThreshold 是一个整数，表示一个组中需要的最小矩形数量1。只有当一个组中的矩形数量大于或等于groupThreshold时，该组才会被保留1。
+- eps 是一个浮点数，用于控制矩形的相似度1。当eps为0时，不进行任何分组。默认值为 0.2
+
+```kotlin
+// 矩形分组，不改变原始MatOfRect
+fun MatOfRect.grouped(threshold: Int = 1, eps: Double = 0.2): Pair<MatOfRect, MatOfInt> {
+    val rectList = MatOfRect(clone())
+    val weights = MatOfInt()
+    Objdetect.groupRectangles(rectList, weights, threshold, eps)
+    return rectList to weights
 }
 
-// 匹配模板，返回匹配的点坐标（左上角）
-fun Mat.match(template: Mat, threshold: Double, method: Int = Imgproc.TM_CCOEFF_NORMED): List<Point> {
-    val result = Mat()
-    // 匹配模板。参数：原图，模板图，目标图，匹配模式
-    // TM_CCOEFF_NORMED是标准相关匹配算法：把待检测图像和模板都标准化，再计算匹配度，保证匹配结果不收光照强度的影响，匹配越接近1，说明匹配越准确
-    Imgproc.matchTemplate(this, template, result, method)
-    return buildList {
-        for (y in 0..<result.rows()) {
-            for (x in 0..<result.cols()) {
-                // 在 matchTemplate 函数中，result 矩阵包含模板匹配的结果。每个位置的值表示模板在该位置的匹配度。值越高，匹配度越高。
-                //由于 result.get(y, x) 返回一个数组（包含匹配度值），所以我们需要使用 [0] 来访问数组中的第一个元素，该元素即为匹配度值。
-                if (result.get(y, x)[0] >= threshold) {
-                    add(Point(x.toDouble(), y.toDouble()))
-                }
-            }
-        }
-    }
+// 矩形分组，改变原始MatOfRect
+fun MatOfRect.group(threshold: Int = 1, eps: Double = 0.2): Pair<MatOfRect, MatOfInt> {
+    val weights = MatOfInt()
+    Objdetect.groupRectangles(this, weights, threshold, eps)
+    return this to weights
 }
 ```
+
+### 实战
+
+1. 查找最佳匹配的坐标
+
+    ```kotlin
+    fun Mat.bestMatchPoint(template: Mat): Point = match(template).minMaxLoc().maxLoc
+    ```
+
+2. 返回所有大于阈值的点
+
+    先匹配模板，再二值化，最后找出非零点
+
+    ```kotlin
+    fun Mat.matchedPoints(template: Mat, threshold: Double, method: Int = Imgproc.TM_CCOEFF_NORMED): List<Point> {
+        return match(template, method).threshold(threshold).findNonZero().toList()
+    }
+    ```
 
 ## 梯度 gradient
 
@@ -378,4 +521,95 @@ fun main() {
     imshow("dilation", dilation)
     waitKey()
 }
+```
+
+## 扩展函数
+
+```kotlin
+// 获取灰度图
+fun Mat.gray(): Mat = if (channels() == 1) {
+    clone()
+} else {
+    Mat().also { Imgproc.cvtColor(this, it, Imgproc.COLOR_BGR2GRAY) }
+}
+
+
+// 画矩形，改变原始Mat
+fun Mat.rectangle(
+    rect: Rect, scalar: Scalar = Scalar(0.0, 255.0, 0.0), thickness: Int = 2, lineType: Int = Imgproc.LINE_8
+): Mat = apply { Imgproc.rectangle(this, rect, scalar, thickness, lineType) }
+
+
+// 画矩形，返回自身。会改变mat
+fun Rect.draw(
+    mat: Mat, scalar: Scalar = Scalar(0.0, 255.0, 0.0), thickness: Int = 2, lineType: Int = Imgproc.LINE_8
+): Rect = apply { mat.rectangle(this, scalar, thickness, lineType) }
+
+
+// 匹配模板
+fun Mat.match(template: Mat, method: Int = Imgproc.TM_CCOEFF_NORMED): Mat =
+    Mat().also { Imgproc.matchTemplate(this, template, it, method) }
+
+
+// 最大最小值
+fun Mat.minMaxLoc(): Core.MinMaxLocResult = Core.minMaxLoc(this)
+
+
+// 阈值
+fun Mat.threshold(threshold: Double, maxVal: Double = 255.0, type: Int = Imgproc.THRESH_TOZERO): Mat =
+    Mat().also { Imgproc.threshold(this, it, threshold, maxVal, type) }
+
+
+// 非零点
+fun Mat.findNonZero(): MatOfPoint = MatOfPoint().also { Core.findNonZero(this, it) }
+
+
+// MatOfPoint 转 MatOfRect
+fun MatOfPoint.toMatOfRect(width: Int, height: Int): MatOfRect =
+    toArray().map { point -> Rect(point.x.toInt(), point.y.toInt(), width, height) }
+        .let { rects -> MatOfRect().apply { fromList(rects) } }
+
+
+// Point 转 Rect
+fun Point.toRect(width: Int, height: Int): Rect = Rect(x.toInt(), y.toInt(), width, height)
+
+
+// Point 转 Rect的中心坐标
+fun Point.toRectCenter(width: Int, height: Int): Point = Point(x + width / 2.0, y + height / 2.0)
+
+
+// Rect的中心坐标
+fun Rect.center(): Point = Point(x + width / 2.0, y + height / 2.0)
+
+
+// 矩形分组，不改变原始MatOfRect
+fun MatOfRect.grouped(threshold: Int = 1, eps: Double = 0.2): Pair<MatOfRect, MatOfInt> {
+    val rectList = MatOfRect(clone())
+    val weights = MatOfInt()
+    Objdetect.groupRectangles(rectList, weights, threshold, eps)
+    return rectList to weights
+}
+
+
+// 矩形分组，改变原始MatOfRect
+fun MatOfRect.group(threshold: Int = 1, eps: Double = 0.2): Pair<MatOfRect, MatOfInt> {
+    val weights = MatOfInt()
+    Objdetect.groupRectangles(this, weights, threshold, eps)
+    return this to weights
+}
+
+// 缩放
+fun Mat.resize(size: Size, fx: Double = 0.0, fy: Double = 0.0, interpolation: Int = Imgproc.INTER_LINEAR): Mat =
+    Mat().also { Imgproc.resize(this, it, size, fx, fy, interpolation) }
+
+
+// 缩放到指定宽度
+fun Mat.resizeWidth(width: Double, interpolation: Int = Imgproc.INTER_LINEAR) =
+    resize(Size(width, width * height() / width()), interpolation = interpolation)
+
+
+// 缩放到指定高度
+fun Mat.resizeHeight(height: Double, interpolation: Int = Imgproc.INTER_LINEAR) =
+    resize(Size(height * width() / height(), height), interpolation = interpolation)
+
 ```
