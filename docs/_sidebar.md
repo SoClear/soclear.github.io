@@ -122,6 +122,8 @@
       * [六、Bitmap、Drawable 与动画](InfoTech/Android/AliAndroidDevelopmentStandard/bitmap-drawable-animation.md)
       * [七、安全](InfoTech/Android/AliAndroidDevelopmentStandard/safety.md)
       * [八、其他](InfoTech/Android/AliAndroidDevelopmentStandard/others.md)
+    * 其他
+      * [执行root命令](InfoTech/Android/others/root.md)
   * 前端
     * HTML
       * [简介](InfoTech/Front-end/HTML/introduce.md)
