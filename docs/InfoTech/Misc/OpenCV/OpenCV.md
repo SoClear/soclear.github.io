@@ -283,11 +283,18 @@ public static void matchTemplate(Mat image, Mat templ, Mat result, int method)
  * 扩展函数，匹配模板
  * @param [this] 原图（必须是灰度图）
  * @param [template] 模板（必须是灰度图），用于在原图中匹配模板
+ * @param [mask] 可选参数，用于定义模板图像的掩码。如果提供了掩码，那么只有模板图像中的非零像素才会被用于匹配
  * @param [method] 匹配方法, 默认为Imgproc.TM_CCOEFF_NORMED
  * @return 返回匹配结果的Mat图像
  */
-fun Mat.match(template: Mat, method: Int = Imgproc.TM_CCOEFF_NORMED): Mat =
-    Mat().also { Imgproc.matchTemplate(this, template, it, method) }
+fun Mat.match(template: Mat, mask: Mat? = null, method: Int = Imgproc.TM_CCOEFF_NORMED): Mat =
+    Mat().also {
+        if (mask == null) {
+            Imgproc.matchTemplate(this, template, it, method)
+        } else {
+            Imgproc.matchTemplate(this, template, it, method, mask)
+        }
+    }
 ```
 
 ### minMaxLoc 查找矩阵中的最小值和最大值以及它们的位置
@@ -348,7 +355,7 @@ public static double threshold(Mat src, Mat dst, double thresh, double maxval, i
  * @param type 阈值处理类型，默认为 Imgproc.THRESH_TOZERO。
  * @return 经过阈值处理后的 Mat 对象。
  */
-fun Mat.threshold(threshold: Double, maxVal: Double = 255.0, type: Int = Imgproc.THRESH_TOZERO): Mat =
+fun Mat.threshold(threshold: Double, maxVal: Double = 255.0, type: Int = Imgproc.THRESH_BINARY): Mat =
     Mat().also { Imgproc.threshold(this, it, threshold, maxVal, type) }
 ```
 
@@ -420,6 +427,71 @@ fun MatOfRect.group(threshold: Int = 1, eps: Double = 0.2): Pair<MatOfRect, MatO
         return match(template, method).threshold(threshold).findNonZero().toList()
     }
     ```
+
+## 查找轮廓 findContours
+
+`Imgproc.findContours` 是 OpenCV 库中的一个函数，用于检测图像中的轮廓。轮廓可以看作是连接具有相同颜色或强度的所有连续点的曲线。它在图像处理和计算机视觉中有着广泛的应用，比如物体检测、形状分析和图像分割。
+
+参数说明
+
+- image: 输入图像。必须是单通道的二值图像（例如，通过阈值化或边缘检测得到）。该图像在函数执行后会被修改，通常作为标记图像使用。
+- contours: 用于存储检测到的轮廓的列表。每个轮廓都表示为一个 MatOfPoint，即点的集合。
+- hierarchy: 用于存储轮廓的拓扑信息。它是一个 Mat 类型的矩阵。可以为空，但如果不为空，则其大小应该是 (n, 4)，其中 n 是检测到的轮廓数量。
+- mode: 轮廓检索模式。可以是以下值之一：
+  - RETR_EXTERNAL: 只检索最外层的轮廓。
+  - RETR_LIST: 检索所有的轮廓，但不建立任何层次关系。
+  - RETR_CCOMP: 检索所有的轮廓，并将它们组织成两层：顶层是外部边界，次层是空洞的边界。
+  - RETR_TREE: 检索所有的轮廓，并重建完整的层次结构。
+  - method: 轮廓近似方法。可以是以下值之一：
+  - CHAIN_APPROX_NONE: 存储所有的轮廓点。
+  - CHAIN_APPROX_SIMPLE: 仅存储轮廓的端点部分，从而可以大大减少需要存储的点数。
+
+使用步骤
+
+1. 读取图像：使用 Imgcodecs.imread 读取输入图像。
+2. 转换为灰度图像：使用 Imgproc.cvtColor 将彩色图像转换为灰度图像。
+3. 应用阈值化：使用 Imgproc.threshold 将灰度图像转换为二值图像。
+4. 检测轮廓：使用 Imgproc.findContours 检测二值图像中的轮廓。
+5. 绘制轮廓：使用 Imgproc.drawContours 在原始图像上绘制检测到的轮廓。
+6. 显示结果：使用 HighGui.imshow 显示结果图像。
+
+```kotlin
+fun Mat.findContours(
+    mode: Int = Imgproc.RETR_LIST,
+    method: Int = Imgproc.CHAIN_APPROX_SIMPLE,
+    offset: Point? = null
+): Pair<List<MatOfPoint>, Mat> {
+    val contours = mutableListOf<MatOfPoint>()
+    val hierarchy = Mat()
+    if (offset == null) {
+        Imgproc.findContours(this, contours, hierarchy, mode, method)
+    } else {
+        Imgproc.findContours(this, contours, hierarchy, mode, method, offset)
+    }
+    return contours.toList() to hierarchy
+}
+```
+
+## 泛洪填充 floodFill
+
+`Imgproc.floodFill` 是 OpenCV 中用于填充连接区域的函数，它可以用于图像分割、区域标记等应用。该函数类似于画图软件中的油漆桶工具，可以填充从某个种子点开始的所有相连区域。
+
+参数说明
+
+- image: 输入/输出图像。填充操作将在此图像上进行。该图像会被修改。
+- mask: 掩码图像，用于控制填充操作的区域。可以为空。如果提供掩码图像，它的大小应比输入图像大两个像素（宽和高都要加2），并且应初始化为0。填充操作只在掩码图像中值为0的区域进行。
+- seedPoint: 种子点，从此点开始进行填充。
+- newVal: 填充颜色，用于填充区域。
+- rect: 返回填充区域的最小边界矩形（可以为空）。
+- loDiff: 当前像素与种子点或连接像素之间的亮度或颜色之差的下界。
+- upDiff: 当前像素与种子点或连接像素之间的亮度或颜色之差的上界。
+- flags: 用于指定填充模式的标志。可能的值包括：
+  - FLOODFILL_FIXED_RANGE：当前像素与种子像素比较，否则与邻域像素比较。
+  - FLOODFILL_MASK_ONLY：仅填充掩码图像，不修改输入图像。
+
+```java
+public static int floodFill(Mat image, Mat mask, Point seedPoint, Scalar newVal, Rect rect, Scalar loDiff, Scalar upDiff, int flags)
+ ```
 
 ## 梯度 gradient
 
@@ -547,16 +619,47 @@ fun Rect.draw(
 
 
 // 匹配模板
-fun Mat.match(template: Mat, method: Int = Imgproc.TM_CCOEFF_NORMED): Mat =
-    Mat().also { Imgproc.matchTemplate(this, template, it, method) }
+fun Mat.match(template: Mat, mask: Mat? = null, method: Int = Imgproc.TM_CCOEFF_NORMED): Mat =
+    Mat().also {
+        if (mask == null) {
+            Imgproc.matchTemplate(this, template, it, method)
+        } else {
+            Imgproc.matchTemplate(this, template, it, method, mask)
+        }
+    }
 
+// 查找轮廓
+fun Mat.findContours(
+    mode: Int = Imgproc.RETR_LIST,
+    method: Int = Imgproc.CHAIN_APPROX_SIMPLE,
+    offset: Point? = null
+): Pair<List<MatOfPoint>, Mat> {
+    val contours = mutableListOf<MatOfPoint>()
+    val hierarchy = Mat()
+    if (offset == null) {
+        Imgproc.findContours(this, contours, hierarchy, mode, method)
+    } else {
+        Imgproc.findContours(this, contours, hierarchy, mode, method, offset)
+    }
+    return contours.toList() to hierarchy
+}
+
+// 泛洪填充
+fun Mat.floodFill1(startingPoint: Point, maxDiff: Double, newValue: Double) {
+    Imgproc.floodFill(
+        this, Mat(), startingPoint, Scalar(newValue),
+        Rect(),
+        Scalar(maxDiff), Scalar(maxDiff),
+        Imgproc.FLOODFILL_FIXED_RANGE
+    )
+}
 
 // 最大最小值
 fun Mat.minMaxLoc(): Core.MinMaxLocResult = Core.minMaxLoc(this)
 
 
 // 阈值
-fun Mat.threshold(threshold: Double, maxVal: Double = 255.0, type: Int = Imgproc.THRESH_TOZERO): Mat =
+fun Mat.threshold(threshold: Double, maxVal: Double = 255.0, type: Int = Imgproc.THRESH_BINARY): Mat =
     Mat().also { Imgproc.threshold(this, it, threshold, maxVal, type) }
 
 
@@ -612,4 +715,48 @@ fun Mat.resizeWidth(width: Double, interpolation: Int = Imgproc.INTER_LINEAR) =
 fun Mat.resizeHeight(height: Double, interpolation: Int = Imgproc.INTER_LINEAR) =
     resize(Size(height * width() / height(), height), interpolation = interpolation)
 
+```
+
+### 使用
+
+```kotlin
+// 找到单个最佳匹配，并画矩形
+image
+    // 转为灰度图
+    .gray()
+    // 匹配
+    .match(template.gray())
+    // 最小最大值位置
+    .minMaxLoc()
+    // 最大值位置
+    .maxLoc
+    // 转为矩形
+    .toRect(template.width(), template.height())
+    // 画矩形
+    .draw(image)
+
+
+// 找到多个匹配，并画出矩形
+resizedImage
+    // 转为灰度图
+    .gray()
+    // 匹配
+    .match(template.gray())
+    // 二值化
+    .threshold(0.8)
+    // 非零点
+    .findNonZero()
+    // 转为矩形
+    .toMatOfRect(template.width(), template.height())
+    // 分组去重
+    .grouped()
+    // 获得去重后的MatOfRect
+    .first
+    // 转为Array<Rect>
+    .toArray()
+    // 遍历
+    .forEach {
+        // 画矩形
+        it.draw(resizedImage)
+    }
 ```
