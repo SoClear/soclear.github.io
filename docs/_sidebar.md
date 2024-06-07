@@ -122,10 +122,6 @@
       * [六、Bitmap、Drawable 与动画](InfoTech/Android/AliAndroidDevelopmentStandard/bitmap-drawable-animation.md)
       * [七、安全](InfoTech/Android/AliAndroidDevelopmentStandard/safety.md)
       * [八、其他](InfoTech/Android/AliAndroidDevelopmentStandard/others.md)
-    * greenDAO
-      * [介绍](InfoTech/Android/greenDAO/introduce.md)
-      * [概念](InfoTech/Android/greenDAO/concept.md)
-      * [引入到你的项目](InfoTech/Android/greenDAO/add_to_your_project.md)
   * 前端
     * HTML
       * [简介](InfoTech/Front-end/HTML/introduce.md)
