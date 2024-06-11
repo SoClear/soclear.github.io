@@ -159,3 +159,70 @@ object DImpl : ID {
         get() = "hello"
 }
 ```
+
+## kotlinx-io
+
+引入
+
+```toml
+kotlinx-io = { group = "org.jetbrains.kotlinx", name = "kotlinx-io-core", version.ref = "kotlinx-io" }
+```
+
+使用
+
+```kotlin
+val string = SystemFileSystem.source(Path("./h.html")).buffered().use { it.readString() }
+```
+
+## kotlinx-coroutines
+
+引入
+
+```toml
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
+```
+
+使用
+
+```kotlin
+coroutineScope {
+    launch {
+        // ...
+    }
+}
+```
+
+## ktor
+
+引入
+
+```toml
+ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
+ktor-client-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }
+ktor-client-serialization = { group = "io.ktor", name = "ktor-client-serialization", version.ref = "ktor" }
+ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
+```
+
+## kotlinx-serialization
+
+引入
+
+toml:
+
+```toml
+jetbrains-kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+```
+
+build.gradle.kts:
+
+```kotlin
+plugins {
+    // ...
+    alias(libs.plugins.jetbrains.kotlin.plugin.serialization)
+}
+// ...
+dependencies {
+    implementation(libs.jetbrains.kotlinx.serialization.json)
+}
+```

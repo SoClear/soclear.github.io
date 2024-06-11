@@ -93,6 +93,7 @@
       * [Android和 MVC 架构模式](InfoTech/Android/Basics/Android-MVC.md)
       * [屏幕像素密度](InfoTech/Android/Basics/screen_pixel_density.md)
       * [Activity](InfoTech/Android/Basics/Activity.md)
+      * [Service](./InfoTech/Android/Basics/Service.md)
       * [ViewModel](InfoTech/Android/Basics/ViewModel.md)
       * [布局](InfoTech/Android/Basics/layout.md)
       * [日志](InfoTech/Android/Basics/log.md)

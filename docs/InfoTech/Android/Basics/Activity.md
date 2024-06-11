@@ -2,10 +2,14 @@
 
 ## 生命周期状态与生命周期回调
 
-简化的生命周期
+Android 中的 `Activity` 是一个应用程序的组件，用于在屏幕上显示用户界面。每个 `Activity` 是一个单独的屏幕，通常包含用户界面元素（如按钮、文本框等）和逻辑，以处理用户交互。`Activity` 是 Android 应用程序的基本构建块之一，可以看作是应用程序的一个窗口或页面。  
+Activity 通常按照任务的顺序组织在一个称为“返回栈”的栈中。当用户按下设备的后退按钮时，当前 Activity 会被销毁，前一个 Activity 会恢复。  
+每个 Activity 都必须在应用的 AndroidManifest.xml 文件中声明
+
+简化的生命周期  
 ![简化的生命周期](activity_lifecycle.jfif)
 
-完整的生命周期
+完整的生命周期  
 ![完整的生命周期](activity_lifecycle_accurate.jfif)
 
 | 状态   | 是否有内存实例 | 用户是否可见 | 是否活跃在前台 |
