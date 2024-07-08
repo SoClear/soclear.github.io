@@ -62,6 +62,14 @@ Memory size occupied by status1 : 8
 Memory size occupied by status2 : 4
 ```
 
+位域的特点和使用方法如下：
+
+- 定义位域时，可以指定成员的位域宽度，即成员所占用的位数。
+- 位域的宽度不能超过其数据类型的大小，因为位域必须适应所使用的整数类型。
+- 位域的数据类型可以是 `int`、`unsigned int`、`signed int` 等整数类型，也可以是枚举类型。
+- 位域可以单独使用，也可以与其他成员一起组成结构体。
+- 位域的访问是通过点运算符（`.`）来实现的，与普通的结构体成员访问方式相同。
+
 ## 位域声明
 
 有些信息在存储时，并不需要占用一个完整的字节，而只需占几个或一个二进制位。  
@@ -124,7 +132,11 @@ struct bs{
 }data;
 ```
 
-data 为 bs 变量，共占两个字节。其中位域 a 占 8 位，位域 b 占 2 位，位域 c 占 6 位。
+以上代码定义了一个名为 **struct bs** 的结构体，data 为 bs 的结构体变量，共占四个字节：
+
+对于位域来说，它们的宽度不能超过其数据类型的大小，在这种情况下，int 类型的大小通常是 4 个字节（32位）。
+
+相邻位域字段的类型相同，且其位宽之和小于类型的 sizeo f大小，则后面的字段将紧邻前一个字段存储，直到不能容纳为止。
 
 让我们再来看一个实例：
 
@@ -139,75 +151,159 @@ struct packed_struct {
 } pack;
 ```
 
-在这里，`packed_struct` 包含了 6 个成员：四个 1 位的标识符 `f1`..`f4`、一个 4 位的 `type` 和一个 9 位的 `my_int`。
+以上代码定义了一个名为 packed_struct 的结构体，其中包含了六个成员变量，pack 为 packed_struct 的结构体变量。
+
+在这里，packed_struct 包含了 6 个成员：四个 1 位的标识符 f1..f4、一个 4 位的 type 和一个 9 位的 my_int。
 
 让我们来看下面的实例：
+
+实例1：
+
+```c
+#include <stdio.h>
+
+struct packed_struct {
+   unsigned int f1 : 1;   // 1位的位域
+   unsigned int f2 : 1;   // 1位的位域
+   unsigned int f3 : 1;   // 1位的位域
+   unsigned int f4 : 1;   // 1位的位域
+   unsigned int type : 4; // 4位的位域
+   unsigned int my_int : 9; // 9位的位域
+};
+
+int main() {
+   struct packed_struct pack;
+
+   pack.f1 = 1;
+   pack.f2 = 0;
+   pack.f3 = 1;
+   pack.f4 = 0;
+   pack.type = 7;
+   pack.my_int = 255;
+
+   printf("f1: %u\n", pack.f1);
+   printf("f2: %u\n", pack.f2);
+   printf("f3: %u\n", pack.f3);
+   printf("f4: %u\n", pack.f4);
+   printf("type: %u\n", pack.type);
+   printf("my_int: %u\n", pack.my_int);
+
+   return 0;
+}
+```
+
+以上实例定义了一个名为 `packed_struct` 的结构体，其中包含了多个位域成员。
+
+在 `main` 函数中，创建了一个 `packed_struct` 类型的结构体变量 pack，并分别给每个位域成员赋值。
+
+然后使用 `printf` 语句打印出每个位域成员的值。
+
+输出结果为：
+
+```txt
+f1: 1
+f2: 0
+f3: 1
+f4: 0
+type: 7
+my_int: 255
+```
+
+实例2：
 
 ```c
 #include <stdio.h>
 #include <string.h>
-
+ 
 struct
 {
-   unsigned int age : 3;
+  unsigned int age : 3;
 } Age;
-
+ 
 int main()
 {
    Age.age = 4;
-   printf("Sizeof( Age ) : %ld\n", sizeof(Age));
-   printf("Age.age : %d\n", Age.age);
-
+   printf( "Sizeof( Age ) : %d\n", sizeof(Age) );
+   printf( "Age.age : %d\n", Age.age );
+ 
    Age.age = 7;
-   printf("Age.age : %d\n", Age.age);
-
+   printf( "Age.age : %d\n", Age.age );
+ 
    Age.age = 8; // 二进制表示为 1000 有四位，超出
-   printf("Age.age : %d\n", Age.age);
-
+   printf( "Age.age : %d\n", Age.age );
+ 
    return 0;
 }
 ```
 
 当上面的代码被编译时，它会带有警告，当上面的代码被执行时，它会产生下列结果：
 
-```text
+```txt
 Sizeof( Age ) : 4
 Age.age : 4
 Age.age : 7
 Age.age : 0
 ```
 
+计算字节数：
+
+```c
+#include <stdio.h>
+
+struct example1 {
+   int a : 4;
+   int b : 5;
+   int c : 7;
+};
+
+int main() {
+   struct example1 ex1;
+
+   printf("Size of example1: %lu bytes\n", sizeof(ex1));
+
+   return 0;
+}
+```
+
+以上实例中，example1 结构体包含三个位域成员 a，b 和 c，它们分别占用 4 位、5 位和 7 位。
+
+通过 sizeof 运算符计算出 example1 结构体的字节数，并输出结果：
+
+```c
+Size of example1: 4 bytes
+```
+
 **对于位域的定义尚有以下几点说明：**
 
 - 一个位域存储在同一个字节中，如一个字节所剩空间不够存放另一位域时，则会从下一单元起存放该位域。也可以有意使某位域从下一单元开始。例如：
 
-  ```c
-  struct bs{
-  unsigned a:4;
-  unsigned  :4;    /* 空域 */
-  unsigned b:4;    /* 从下一单元开始存放 */
-  unsigned c:4
-  }
-  ```
+    ```c
+    struct bs{
+        unsigned a:4;
+        unsigned  :4;    /* 空域 */
+        unsigned b:4;    /* 从下一单元开始存放 */
+        unsigned c:4
+    }
+    ```
 
-  在这个位域定义中，a 占第一字节的 4 位，后 4 位填 0 表示不使用，b 从第二字节开始，占用 4 位，c 占用 4 位。
+    在这个位域定义中，a 占第一字节的 4 位，后 4 位填 0 表示不使用，b 从第二字节开始，占用 4 位，c 占用 4 位。
 
-- 位域的宽度不能超过它所依附的数据类型的长度，成员变量都是有类型的，这个类型限制了成员变量的最大长度，: 后面的数字不能超过这个长度。
+- 位域的宽度不能超过它所依附的数据类型的长度，成员变量都是有类型的，这个类型限制了成员变量的最大长度，`:` 后面的数字不能超过这个长度。
 
 - 位域可以是无名位域，这时它只用来作填充或调整位置。无名的位域是不能使用的。例如：
 
-  ```c
-  struct k{
-    int a:1;
-    int  :2;    /* 该 2 位不能使用 */
-    int b:3;
-    int c:2;
-  };
-  ```
+    ```c
+    struct k{
+        int a:1;
+        int  :2;    /* 该 2 位不能使用 */
+        int b:3;
+        int c:2;
+    };
+    ```
 
 从以上分析可以看出，位域在本质上就是一种结构类型，不过其成员是按二进位分配的。
 
-### 位域的使用
+## 位域的使用
 
 位域的使用和结构成员的使用相同，其一般形式为：
 
@@ -222,24 +318,22 @@ Age.age : 0
 
 ```c
 #include <stdio.h>
-
-int main()
-{
-   struct bs
-   {
-      unsigned a : 1;
-      unsigned b : 3;
-      unsigned c : 4;
-   } bit, *pbit;
-   bit.a = 1;                                       /* 给位域赋值（应注意赋值不能超过该位域的允许范围） */
-   bit.b = 7;                                       /* 给位域赋值（应注意赋值不能超过该位域的允许范围） */
-   bit.c = 15;                                      /* 给位域赋值（应注意赋值不能超过该位域的允许范围） */
-   printf("%d,%d,%d\n", bit.a, bit.b, bit.c);       /* 以整型量格式输出三个域的内容 */
-   pbit = &bit;                                     /* 把位域变量 bit 的地址送给指针变量 pbit */
-   pbit->a = 0;                                     /* 用指针方式给位域 a 重新赋值，赋为 0 */
-   pbit->b &= 3;                                    /* 使用了复合的位运算符 "&="，相当于：pbit->b=pbit->b&3，位域 b 中原有值为 7，与 3 作按位与运算的结果为 3（111&011=011，十进制值为 3） */
-   pbit->c |= 1;                                    /* 使用了复合位运算符"|="，相当于：pbit->c=pbit->c|1，其结果为 15 */
-   printf("%d,%d,%d\n", pbit->a, pbit->b, pbit->c); /* 用指针方式输出了这三个域的值 */
+ 
+int main(){
+    struct bs{
+        unsigned a:1;
+        unsigned b:3;
+        unsigned c:4;
+    } bit,*pbit;
+    bit.a=1;    /* 给位域赋值（应注意赋值不能超过该位域的允许范围） */
+    bit.b=7;    /* 给位域赋值（应注意赋值不能超过该位域的允许范围） */
+    bit.c=15;    /* 给位域赋值（应注意赋值不能超过该位域的允许范围） */
+    printf("%d,%d,%d\n",bit.a,bit.b,bit.c);    /* 以整型量格式输出三个域的内容 */
+    pbit=&bit;    /* 把位域变量 bit 的地址送给指针变量 pbit */
+    pbit->a=0;    /* 用指针方式给位域 a 重新赋值，赋为 0 */
+    pbit->b&=3;    /* 使用了复合的位运算符 "&="，相当于：pbit->b=pbit->b&3，位域 b 中原有值为 7，与 3 作按位与运算的结果为 3（111&011=011，十进制值为 3） */
+    pbit->c|=1;    /* 使用了复合位运算符"|="，相当于：pbit->c=pbit->c|1，其结果为 15 */
+    printf("%d,%d,%d\n",pbit->a,pbit->b,pbit->c);    /* 用指针方式输出了这三个域的值 */
 }
 ```
 
