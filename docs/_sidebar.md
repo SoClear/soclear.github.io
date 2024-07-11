@@ -249,6 +249,9 @@
     * [新版 WSL2 2.0 设置 Windows 和 WSL 镜像网络教程](InfoTech/Misc/WSL2_net.md)
     * [Playwright](InfoTech/Misc/playwright.md)
     * [OpenCV](InfoTech/Misc/OpenCV/OpenCV.md)
+* 数学
+  * 高等数学
+    * [预备知识](./Math/HigherMathematics/Basics/The%20Concept%20and%20Characteristics%20of%20Functions.md)
 * 书
   * [断舍离](Books/duansheli.md)
 * 其他

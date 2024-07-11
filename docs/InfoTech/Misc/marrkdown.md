@@ -388,7 +388,7 @@ Markdown 没有办法指定图片的高度与宽度，如果需要的话，可�
 
 **显示效果：**
 
-<img src="https://pic1.zhimg.com/v2-a47051e92cf74930bedd7469978e6c08_b.png" width=10%>
+<img src="https://pic1.zhimg.com/v2-a47051e92cf74930bedd7469978e6c08_b.png" width=10% alt="知乎">
 
 ## 表格
 
