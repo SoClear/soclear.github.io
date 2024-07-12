@@ -8,3 +8,5 @@ LaTeX（音译“拉泰赫”）是一种基于ΤΕΧ的排版系统，由美国
 
 - [Mathcha](https://www.mathcha.io/editor) ：通过提示快速输入LaTeX，所见即所得，还可以选中转换为LaTeX格式。
 - [SimpleTex](https://simpletex.cn/ai/latex_ocr) ：截图或手写转化为LaTeX公式
+- [Doc2X](https://doc2x.noedgeai.com/) ：解析JPEG/PNG/PDF 无损还原其中的文字,图像,表格,公式,排版，一键还原成Markdown, Latex, 微软Word。
+- [微软数学](https://math.microsoft.com/zh) ：在线数学求解器。移动端可以手写识别并复制LaTex。
