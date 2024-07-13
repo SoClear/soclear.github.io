@@ -251,7 +251,16 @@
     * [OpenCV](InfoTech/Misc/OpenCV/OpenCV.md)
 * 数学
   * 高等数学
-    * [预备知识](./Math/HigherMathematics/Basics/The%20Concept%20and%20Characteristics%20of%20Functions.md)
+    * 预备知识
+      * [一、函数的概念和特性](Math/HigherMathematics/Basics/1.%20函数的概念和特性.md)
+      * [二、函数的图像](Math/HigherMathematics/Basics/2.%20函数的图像.md)
+* 408
+  * 数据结构
+  * 计算机组成原理
+  * 操作系统
+    * [计算机系统概述](./408/操作系统/1.%20计算机系统概述/计算机系统概述.md)
+      * [1.1 操作系统的基本概念](./408/操作系统/1.%20计算机系统概述/1.1%20操作系统的基本概念.md)
+  * 计算机网络
 * 书
   * [断舍离](Books/duansheli.md)
 * 其他
