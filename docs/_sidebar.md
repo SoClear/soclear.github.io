@@ -280,3 +280,4 @@
 * 其他
   * [小鹤双拼](Misc/xiaohe.md)
   * [学习与认知](Misc/LearningAndCognition.md)
+  * [三星刷机必装](Misc/三星刷机必装.md)
