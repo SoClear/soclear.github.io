@@ -41,6 +41,7 @@
       * [yarn](InfoTech/ProgramingLanguages/JavaScript/yarn.md)
     * Kotlin
       * [lambda](InfoTech/ProgramingLanguages/Kotlin/lambda.md)
+      * [不使用泛型的型变](InfoTech/ProgramingLanguages/Kotlin/Variance%20without%20Generics.md)
       * [协变逆变](InfoTech/ProgramingLanguages/Kotlin/covariance_contravariance.md)
       * [5种有趣的扩展函数](InfoTech/ProgramingLanguages/Kotlin/5%20Fun%20Ways%20to%20Use%20Extension%20Functions.md)
       * [contact用于智能类型转换的例子](InfoTech/ProgramingLanguages/Kotlin/Smart%20Casts%20with%20Kotlin%20Contracts.md)
