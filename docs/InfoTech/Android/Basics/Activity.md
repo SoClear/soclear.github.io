@@ -149,7 +149,7 @@ Intent.getXXXExtra(String,XXX)
 
 ## 实现子activity发送返回信息给父activity，有以下两种函数可用
 
-```koltin
+```kotlin
 setResult(resultCode: Int)
 setResult(resultCode: Int, data: Intent)
 ```
