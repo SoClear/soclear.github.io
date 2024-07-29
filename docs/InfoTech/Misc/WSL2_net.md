@@ -47,7 +47,7 @@ WSL 将检测这些文件是否存在，读取内容，并在每次启动 WSL �
 
 _这一步不能少。_
 
-```conf
+```ini
 [experimental]
 autoMemoryReclaim=gradual # 开启自动回收内存，可在 gradual, dropcache, disabled 之间选择
 networkingMode=mirrored # 开启镜像网络
@@ -59,7 +59,7 @@ sparseVhd=true # 开启自动释放 WSL2 虚拟硬盘空间
 
 需要注意的是，`[experimental]` 不能加到 `[wsl2]` 的前面，一个正常的 `.wslconfig` 可能长成这个样子：
 
-```conf
+```ini
 # Settings apply across all Linux distros running on WSL 2
 [wsl2]
 
