@@ -46,9 +46,7 @@
 <td>无</td>
 <td><p>声明变量为数组。</p>
 <pre class="prettyprint prettyprinted" style=""><span class="com">// 在元素类型后面加上[]</span><span class="pln">
-</span><span class="kwd">let</span><span class="pln"> arr</span><span class="pun">:</span><span class="pln"> number</span><span class="pun">[]</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="pun">[</span><span class="lit">1</span><span class="pun">,</span><span class="pln"> </span><span class="lit">2</span><span class="pun">];</span><span class="pln">
-
-</span><span class="com">// 或者使用数组泛型</span><span class="pln">
+</span><span class="kwd">let</span><span class="pln"> arr</span><span class="pun">:</span><span class="pln"> number</span><span class="pun">[]</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="pun">[</span><span class="lit">1</span><span class="pun">,</span><span class="pln"> </span><span class="lit">2</span><span class="pun">];</span><span class="pln"></span><span class="com">// 或者使用数组泛型</span><span class="pln">
 </span><span class="kwd">let</span><span class="pln"> arr</span><span class="pun">:</span><span class="pln"> </span><span class="typ">Array</span><span class="str">&lt;number&gt;</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="pun">[</span><span class="lit">1</span><span class="pun">,</span><span class="pln"> </span><span class="lit">2</span><span class="pun">];</span></pre>
 
 </td>

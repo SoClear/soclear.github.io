@@ -147,7 +147,7 @@ public class  Stack<E>{
 }//加入Java开发交流君样：756584822一起吹水聊天
 ```
 
-要实现pushAll(Iterable<E> src)方法，将src的元素逐一入栈：
+要实现 `pushAll(Iterable<E> src)` 方法，将src的元素逐一入栈：
 
 ```java
 public void pushAll(Iterable<E> src){

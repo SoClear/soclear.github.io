@@ -21,6 +21,14 @@ export default defineConfig({
     lineNumbers: true,
     // npm add -D markdown-it-mathjax3 可以显示latex
     math: true,
+    // 禁止将 `{{text}}` 中的 text 解析为JS表达式，见 https://github.com/vuejs/vitepress/discussions/480
+    config(md) {
+      const defaultCodeInline = md.renderer.rules.code_inline!
+      md.renderer.rules.code_inline = (tokens, idx, options, env, self) => {
+        tokens[idx].attrSet('v-pre', '')
+        return defaultCodeInline(tokens, idx, options, env, self)
+      }
+    }
   },
   // 忽略死链（没有被引用的文件）
   ignoreDeadLinks: true,

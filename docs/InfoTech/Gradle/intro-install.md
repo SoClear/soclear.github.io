@@ -106,7 +106,7 @@ Gradle 提供了几种允许您扩展它的机制，例如：
 
 然而，将构建脚本视为可执行代码在一个方面很有用：了解构建脚本的语法如何映射到Gradle的API。API文档（由[Groovy DSL Reference](https://docs.gradle.org/current/userguide/what_is_gradle.html#five_things../dsl/)和[Javadocs](https://docs.gradle.org/current/userguide/what_is_gradle.html#five_things../javadoc/)组成）列出了方法和属性，并引用了闭包和操作。这些在构建脚本的上下文中意味着什么？查看 [Groovy 构建脚本入门](https://docs.gradle.org/current/userguide/what_is_gradle.html#five_thingsgroovy_build_script_primer.html#groovy_build_script_primer)以了解该问题的答案，以便您可以有效地使用 API 文档。
 
-> 由于 Gradle 在 JVM 上运行，因此构建脚本也可以使用标准的Java API。Groovy 构建脚本还可以使用 Groovy API，而 Kotlin 构建脚本可以使用 Kotlin 构建脚本。</td></tr></tbody></table>
+> 由于 Gradle 在 JVM 上运行，因此构建脚本也可以使用标准的Java API。Groovy 构建脚本还可以使用 Groovy API，而 Kotlin 构建脚本可以使用 Kotlin 构建脚本。
 
 ## [通俗理解和与类似工具对比](https://www.zhihu.com/question/30432152)
 

@@ -23,17 +23,17 @@
 
 | 功能                            | 命令                                                           |
 | ------------------------------- | -------------------------------------------------------------- |
-| 使用会话名称切换会话            | `tmux switch -t <session-name>`                                |
-| 使用会话名称接入会话            | `tmux attach -t <session-name>`<br/>`tmux a -t <session-name>` |
-| 使用会话名称杀死会话            | `tmux kill-session -t <session-name>`                          |
+| 使用会话名称切换会话            | `tmux switch -t [session-name]`                                |
+| 使用会话名称接入会话            | `tmux attach -t [session-name]`<br/>`tmux a -t [session-name]` |
+| 使用会话名称杀死会话            | `tmux kill-session -t [session-name]`                          |
 | 使用会话编号切换会话            | `tmux switch -t 0`                                             |
 | 使用会话编号接入会话            | `tmux attach -t 0`<br/>`tmux a -t 0`                           |
 | 使用会话编号杀死会话            | `tmux kill-session -t 0`                                       |
-| 创建以<session-name> 命名的会话 | `tmux new -s <session-name>`                                   |
+| 创建以[session-name] 命名的会话 | `tmux new -s [session-name]`                                   |
 | 创建以序号命名的会话            | `tmux`                                                         |
 | 查看所有会话 s                  | `tmux ls`<br/><kbd>Ctrl</kbd>+<kbd>B</kbd> <kbd>S</kbd>        |
 | 离开会话 d                      | `tmux detach`<br/><kbd>Ctrl</kbd>+<kbd>B</kbd> <kbd>D</kbd>    |
-| 重命名会话                      | `tmux rename-session -t <old-name> <new-name>`                 |
+| 重命名会话                      | `tmux rename-session -t [old-name] [new-name]`                 |
 | 重命名当前会话$                 | <kbd>Ctrl</kbd>+<kbd>B</kbd> <kbd>$</kbd>                      |
 
 ## 窗口 window
@@ -41,14 +41,14 @@
 | 功能                                                                              | 命令                                                                                 |
 | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
 | 关闭当前窗口&                                                                     | <kbd>Ctrl</kbd>+<kbd>B</kbd> <kbd>&</kbd>                                            |
-| 关闭窗口                                                                          | `tmux kill-window -t <window-name>`                                                  |
+| 关闭窗口                                                                          | `tmux kill-window -t [window-name]`                                                  |
 | 切换到指定序号的窗口[number]                                                      | <kbd>Ctrl</kbd>+<kbd>B</kbd> <kbd>[number]</kbd>                                     |
-| 创建窗口 n                                                                        | `tmux new-window -n <window-name>`<br/><kbd>Ctrl</kbd>+<kbd>B</kbd> <kbd>C</kbd>     |
+| 创建窗口 n                                                                        | `tmux new-window -n [window-name]`<br/><kbd>Ctrl</kbd>+<kbd>B</kbd> <kbd>C</kbd>     |
 | 快速切换到上一个窗口 p                                                            | <kbd>Ctrl</kbd>+<kbd>B</kbd> <kbd>P</kbd>                                            |
 | 快速切换到下一个窗口 n                                                            | <kbd>Ctrl</kbd>+<kbd>B</kbd> <kbd>N</kbd>                                            |
 | 显示窗口列表 ctrl + b w 可以通过 j , k 上下进行选择窗口，然后回车进入指定的窗口。 | <kbd>Ctrl</kbd>+<kbd>B</kbd> <kbd>W</kbd>                                            |
 | 相邻窗口切换 l                                                                    | <kbd>Ctrl</kbd>+<kbd>B</kbd> <kbd>L</kbd>                                            |
-| 重命名窗口,                                                                       | `tmux rename-window <new-window-name>`<br/><kbd>Ctrl</kbd>+<kbd>B</kbd> <kbd>,</kbd> |
+| 重命名窗口,                                                                       | `tmux rename-window [new-window-name]`<br/><kbd>Ctrl</kbd>+<kbd>B</kbd> <kbd>,</kbd> |
 
 ## 窗格 pane
 
