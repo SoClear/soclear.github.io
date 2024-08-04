@@ -30,7 +30,7 @@ export default defineConfig({
       }
     }
   },
-  // 忽略死链（没有被引用的文件）
+  // 忽略死链（已失效的链接，也即没有对应文件的链接）
   ignoreDeadLinks: true,
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
