@@ -35,4 +35,4 @@
 reg add HKCU\Software\Microsoft\InputMethod\Settings\CHS /v UserDefinedDoublePinyinScheme0 /t REG_SZ /d "小鹤双拼*2*^*iuvdjhcwfg^xmlnpbksqszxkrltvyovt"
 ```
 
-打开输入法的设置菜单，其中已经出现小鹤双拼方案了，将其设置为默认即可。 作者：大白兔-夏日限定版 https://www.bilibili.com/read/cv35435995/?jump_opus=1 出处：bilibili
+打开输入法的设置菜单，其中已经出现小鹤双拼方案了，将其设置为默认即可。 作者：大白兔-夏日限定版  出处：[bilibili](https://www.bilibili.com/read/cv35435995/?jump_opus=1)
