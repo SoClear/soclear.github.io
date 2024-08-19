@@ -11,9 +11,21 @@
     <!-- Theme: darklight -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/style.min.css" />
     <!-- arrow style sidebar collapse -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/sidebar.min.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <!--  Jetbrains Mono  -->
+    <style>
+        .sidebar-nav li {
+            margin: 0;
+        }
+        .sidebar-nav ul:not(.app-sub-sidebar)>li.folder::before {
+            content: '▶ ';
+        }
+        .sidebar-nav ul:not(.app-sub-sidebar)>li.folder.open::before {
+            content: '▼ ';
+        }
+    </style>
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/sidebar.min.css" /> -->
+    <!-- MiSans -->
+    <link rel="stylesheet" href="https://font.sec.miui.com/font/css?family=MiSans:400,700:MiSans" />
+    <!-- Jetbrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap">
@@ -71,6 +83,7 @@
             },
             darklightTheme: {
                 defaultTheme: 'dark',
+                siteFont: 'MiSans',
                 codeFontFamily: 'JetBrains Mono, Roboto Mono, Monaco, courier, monospace',
                 dark: {
                     accent: '#42b983',
