@@ -96,6 +96,7 @@
     * Android 逆向工程
       * [dalvik、ART、dex 和 smali 简介](InfoTech/Android/AndroidReverseEngineering/dalvik_ART_dex_and_smali_introduction.md)
       * [应用安装目录](InfoTech/Android/AndroidReverseEngineering/application_installation_directory.md)
+      * [apk 文件结构](InfoTech/Android/AndroidReverseEngineering/apk_file_structure.md)
     * 基础
       * [Android和 MVC 架构模式](InfoTech/Android/Basics/Android-MVC.md)
       * [屏幕像素密度](InfoTech/Android/Basics/screen_pixel_density.md)
