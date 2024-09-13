@@ -71,11 +71,14 @@
     <script>
         window.$docsify = {
             name: 'soclear',
-            nameLink: '/docs/#/',
-            loadSidebar: true,
+            nameLink: '/.docsify/index.html#/',
+            basePath: '/docs/',
+            homepage: '../.docsify/home.md',
+            loadSidebar: '/.docsify/_sidebar.md',
             alias: {
-                '/.*/_sidebar.md': '/_sidebar.md'
+                '/.*/_sidebar.md': '../.docsify/_sidebar.md'
             },
+            relativePath: true,
             subMaxLevel: 6,
             auto2top: true,
             pagination: {

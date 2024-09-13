@@ -1,0 +1,11 @@
+{
+  "config": {
+    "MD033": false,
+    "MD013": false,
+    "MD024": false
+  },
+  "ignores": [
+    ".docsify/_sidebar.md",
+    "docs/TOC.md"
+  ]
+}
