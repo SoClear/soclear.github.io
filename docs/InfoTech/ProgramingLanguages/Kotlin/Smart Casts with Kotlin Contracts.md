@@ -1,4 +1,4 @@
-# contact用于智能类型转换的例子
+# contract 用于智能类型转换的例子
 
 ```kotlin
 sealed class User() {

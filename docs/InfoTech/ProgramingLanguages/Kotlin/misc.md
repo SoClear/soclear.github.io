@@ -226,3 +226,44 @@ dependencies {
     implementation(libs.jetbrains.kotlinx.serialization.json)
 }
 ```
+
+## Kotlin-jvm 调用命令行
+
+```kotlin
+data class CommandResult(val output: String, val error: String)
+
+fun runCommand(
+    command: List<String>,
+    workingDir: File = File("."),
+    timeoutAmount: Long? = null,
+    timeoutUnit: TimeUnit = TimeUnit.SECONDS,
+    charset: Charset = Charsets.UTF_8
+): CommandResult = ProcessBuilder(command)
+    .directory(workingDir)
+    .redirectOutput(ProcessBuilder.Redirect.PIPE)
+    .redirectError(ProcessBuilder.Redirect.PIPE)
+    .start()
+    .run {
+        if (timeoutAmount != null) {
+            waitFor(timeoutAmount, timeoutUnit)
+        }
+        CommandResult(
+            inputStream.bufferedReader(charset).readText(),
+            errorStream.bufferedReader(charset).readText()
+        )
+    }
+
+fun runCommand(
+    vararg command: String,
+    workingDir: File = File("."),
+    timeoutAmount: Long? = null,
+    timeoutUnit: TimeUnit = TimeUnit.SECONDS,
+    charset: Charset = Charsets.UTF_8
+): CommandResult = runCommand(
+    command.toList(),
+    workingDir,
+    timeoutAmount,
+    timeoutUnit,
+    charset
+)
+```
