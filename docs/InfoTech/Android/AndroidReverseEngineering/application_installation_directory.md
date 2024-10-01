@@ -26,3 +26,10 @@
 在安装过程中，APK文件首先被复制到/data/app/目录下，然后解压并进行必要的处理，如将DEX文件保存到dalvik-cache目录（在旧版Android中），并在/data/data/目录下为应用程序创建相应的数据存储目录。此外，如果应用程序需要外部存储空间来存放额外的数据文件，也可能在外部存储上创建对应的目录。
 
 需要注意的是，随着Android版本的变化，存储机制也在不断改进和发展，例如从Dalvik虚拟机到ART的转变导致了一些存储目录的变化。因此，对于特定版本的Android系统，具体的存储位置可能会有所差异。
+
+## 三星系统软件安装位置
+
+`/system/app/` 、 `/system/priv-app/`  
+`/system_ext/app/` 、 `/system_ext/priv-app/`  
+`/product/app/` 、 `/product/priv-app/`  
+`/vendor/app/` 、 `/vendor/priv-app/`  
