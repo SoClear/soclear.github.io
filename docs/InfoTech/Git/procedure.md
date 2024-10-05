@@ -6,7 +6,9 @@
 2. 将需要进行版本管理的文件放入暂存区域；
 3. 将暂存区域的文件提交到git仓库。
 
-![procedure.jpg](procedure.jpg)
+![procedure-1.jpg](procedure-1.jpg)
+
+![procedure-2.jpg](procedure-2.jpg)
 
 ## Git管理的文件的三种状态
 

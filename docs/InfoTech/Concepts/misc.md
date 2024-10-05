@@ -1,4 +1,4 @@
-# 其他待整理
+# 杂记
 
 ## 软件工程步骤
 
@@ -10,12 +10,6 @@
 6. 编码与单元测试
 7. 综合测试
 8. 软件维护
-
-## kotlin
-
-Kotlin中  
-mapOf、mutableMapOf、toMap、toMutableMapOf、buildMap 的实现是 `LinkedHashMap<K,V>()`  
-hashMapOf 的实现是 `HashMap<K,V>()`
 
 ## 幂等
 

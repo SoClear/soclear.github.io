@@ -76,6 +76,7 @@
     * [并发并行](/InfoTech/Concepts/concurrency_parallelism.md)
     * [进程 线程 协程](/InfoTech/Concepts/process_thread_coroutine.md)
     * [软件设计原则](/InfoTech/Concepts/software_design_principles.md)
+    * [杂记](/InfoTech/Concepts/misc.md)
   * 力扣算法题
     * 简单
       * [两数之和](/InfoTech/AlgorithmProblems/easy/two-sum.md)
@@ -98,6 +99,7 @@
       * [应用安装目录](/InfoTech/Android/AndroidReverseEngineering/application_installation_directory.md)
       * [apk 文件结构](/InfoTech/Android/AndroidReverseEngineering/apk_file_structure.md)
     * 基础
+      * [Gradle](/InfoTech/Android/Basics/gradle.md)
       * [Android和 MVC 架构模式](/InfoTech/Android/Basics/Android-MVC.md)
       * [屏幕像素密度](/InfoTech/Android/Basics/screen_pixel_density.md)
       * [Activity](/InfoTech/Android/Basics/Activity.md)
@@ -326,6 +328,9 @@
         * [2.1 进程与线程](/考研/408/操作系统/2.%20进程与线程/2.1%20进程与线程.md)
         * [2.2 CPU调度](/考研/408/操作系统/2.%20进程与线程/2.2%20CPU调度.md)
         * [2.3 同步与互斥](/考研/408/操作系统/2.%20进程与线程/2.3%20同步与互斥.md)
+        * [2.4 死锁](/考研/408/操作系统/2.%20进程与线程/2.4%20死锁.md)
+      * 第3章 内存管理
+        * [3.1 内存管理概念](/考研/408/操作系统/3.%20内存管理/3.1%20内存管理概念.md)
     * 计算机网络
       * 第1章 计算机网络体系结构
         * [1.1 计算机网络体系结构与参考模型](/考研/408/计算机网络/第1章%20计算机网络体系结构/1.1%20计算机网络体系结构与参考模型.md)
