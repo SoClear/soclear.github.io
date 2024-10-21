@@ -10,3 +10,6 @@
 `git pull <远程主机名> <本地分支名>:<远程分支名>`
 如果本地分支名与远程分支名相同，则可以省略冒号：
 `git pull <远程主机名> <本地分支名>`
+
+`git pull = git fetch + git merge`  
+`git pull --rebase = git fetch + git rebase`
