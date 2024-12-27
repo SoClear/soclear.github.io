@@ -181,6 +181,7 @@
     * [查看提交历史](InfoTech/Git/log-blame.md)
     * [标签](InfoTech/Git/commands/tag.md)
     * [45个 GIT 经典操作场景，专治不会合代码](InfoTech/Git/45situations.md)
+    * [使用 GitHub Actions 创建 Android Releases](InfoTech/Git/GitHubActionsAndroidRelease.md)
     * 命令
       * [add](InfoTech/Git/commands/add.md)
       * [blame](InfoTech/Git/commands/blame.md)
