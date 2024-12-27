@@ -46,7 +46,7 @@ keystore.properties
 
 更新您的 `app/build.gradle` 文件以读取签名配置：
 
-```gradle
+```groovy
 def keystorePropertiesFile = rootProject.file("keystore.properties")
 def keystoreProperties = new Properties()
 if (keystorePropertiesFile.exists()) {
