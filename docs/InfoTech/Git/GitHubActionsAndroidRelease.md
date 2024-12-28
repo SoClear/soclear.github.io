@@ -73,6 +73,54 @@ android {
 }
 ```
 
+如果是 Xposed 模块，请将 `minifyEnabled` 设置为 `false` ；或者 `minifyEnabled true` ，并在 `proguard-rules.pro` 中添加规则
+`--keep class your.package.YourHookClass` 。
+
+为了确保 ProGuard 在代码混淆过程中保留 `your.package.YourHookClass` 类及其所有成员，你需要在你的 `proguard-rules.pro` 文件中添加特定的规则。以下是如何实现这一点的说明：
+
+1. 保留整个类：
+    如果你想要保留整个类不被混淆并且不被移除，可以使用 `-keep` 指令。
+
+    ```pro
+    -keep your.package.YourHookClass { *; }
+    ```
+
+    这条规则会告诉 ProGuard 保持 `your.package.YourHookClass` 类不变，并且保留该类的所有方法和字段。
+
+2. 如果你只希望保留类本身但允许其成员（方法和字段）被混淆，你可以这样做：
+
+    ```pro
+    -keep your.package.YourHookClass
+    ```
+
+3. 如果你有特定的方法或字段需要保留，你可以明确指出它们。例如：
+
+    ```pro
+    -keepclassmembers your.package.YourHookClass {
+        <fields>;
+        <methods>;
+    }
+    ```
+
+    这将保留 `your.package.YourHookClass` 类中的所有字段和方法，但仍然会对它们进行混淆，除非它们也被 `-keep` 或类似的指令保护。
+
+4. 如果这个类是用于反射或者动态加载，你应该确保它的构造函数、方法签名和字段名都被保留下来：
+
+    ```pro
+    -keep,allowobfuscation your.package.YourHookClass {
+        *;
+    }
+    ```
+
+5. 如果你还想保留注解信息，可以添加：
+
+    ```pro
+    -keepattributes *Annotation*
+    ```
+
+请根据你的具体需求选择适当的规则。通常情况下，第一条规则（保留整个类及其所有成员）对于大多数场景来说已经足够了。
+确保在添加这些规则后测试你的应用程序，以确认一切按预期工作。
+
 ## 3. 创建 GitHub Actions 工作流
 
 在您的 GitHub 仓库的 `.github/workflows` 目录下创建一个名为 `release.yml` 的文件，内容如下：
