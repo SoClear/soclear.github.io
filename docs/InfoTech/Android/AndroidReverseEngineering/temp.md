@@ -58,6 +58,17 @@ stop;start; #一定要通过该方式重启
 
 项目地址 [MagiskHide Props Config](https://github.com/cnrd/MagiskHide-Props-Config)
 
+## adb debug模式启动
+
+```sh
+adb shell am start -D -n com.zj.wuaipojie/.ui.MainActivity
+```
+
+adb shell am start -D -n  
+adb shell am start -D -n 包名/类名  
+am start -n 表示启动一个activity  
+am start -D 表示将应用设置为可调试模式
+
 ## Log插桩
 
 定义：Log插桩指的是反编译APK文件时，在对应的smali文件里，添加相应的smali代码，将程序中的关键信息，以log日志的形式进行输出。
@@ -81,3 +92,101 @@ v4 方案：APK 签名方案 v4（在 Android 11 中引入）
 见 [应用签名](https://source.android.com/docs/security/features/apksigning?hl=zh-cn)
 
 [《安卓逆向这档事》六、校验的N次方-签名校验对抗、PM代{过}{滤}理、IO重定向](https://www.52pojie.cn/thread-1731181-1-1.html)
+
+## 过签名（签名校验对抗）
+
+方法一:核心破解插件，不签名安装应用  
+方法二:一键过签名工具，例如MT、NP、ARMPro、CNFIX、Modex的去除签名校验功能  
+方法三:具体分析签名校验逻辑(手撕签名校验)  
+方法四:io重定向--VA&SVC：ptrace+seccomp  
+方法五:pm代理
+
+## 反root检测
+
+反制手段
+1.算法助手、对话框取消等插件一键hook
+2.分析具体的检测代码
+3.利用IO重定向使文件不可读
+4.修改Android源码，去除常见指纹
+
+## 反调试
+
+开发者防止自己的软件被调试，可以采用如下方式：
+
+### 安卓系统自带调试检测函数
+
+```kotlin
+fun checkForDebugger() {  
+    if (Debug.isDebuggerConnected()) {  
+        // 如果调试器已连接，则终止应用程序  
+        System.exit(0)  
+    }  
+}
+```
+
+### debuggable属性
+
+```java
+public boolean getAppCanDebug(Context context)//上下文对象为xxActivity.this
+{
+    boolean isDebug = context.getApplicationInfo() != null &&
+            (context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
+    return isDebug;
+}
+```
+
+### ptrace检测
+
+```java
+int ptrace_protect()//ptrace附加自身线程 会导致此进程TracerPid 变为父进程的TracerPid 即zygote
+{
+    return ptrace(PTRACE_TRACEME,0,0,0);;//返回-1即为已经被调试
+}
+```
+
+每个进程同时刻只能被1个调试进程ptrace  ，主动ptrace本进程可以使得其他调试器无法调试
+
+### 调试进程名检测
+
+```c
+int SearchObjProcess()
+{
+    FILE* pfile=NULL;
+    char buf[0x1000]={0};
+
+    pfile=popen("ps","r");
+    if(NULL==pfile)
+    {
+        //LOGA("SearchObjProcess popen打开命令失败!\n");
+        return -1;
+    }
+    // 获取结果
+    //LOGA("popen方案:\n");
+    while(fgets(buf,sizeof(buf),pfile))
+    {
+
+        char* strA=NULL;
+        char* strB=NULL;
+        char* strC=NULL;
+        char* strD=NULL;
+        strA=strstr(buf,"android_server");//通过查找匹配子串判断
+        strB=strstr(buf,"gdbserver");
+        strC=strstr(buf,"gdb");
+        strD=strstr(buf,"fuwu");
+        if(strA || strB ||strC || strD)
+        {
+            return 1;
+            // 执行到这里，判定为调试状态
+
+        }
+    }
+    pclose(pfile);
+    return 0;
+}
+```
+
+[对安卓反调试和校验检测的一些实践与结论](https://bbs.pediy.com/thread-268155.htm)
+
+### frida 检测
+
+[一些Frida检测手段](https://github.com/xxr0ss/AntiFrida)
