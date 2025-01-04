@@ -119,3 +119,68 @@ networks:
 ## 其他
 
 - 如果容器指定了网络，却没有被自动分配IP，请使用命令 `docker logs 【容器名】` 来查看日志，是否有出错
+
+## 推荐的 docker-compose.yml
+
+nginx-proxy-manager:
+
+```yml
+services:
+  app:
+    image: 'jc21/nginx-proxy-manager:latest'
+    container_name: 'nginx-proxy-manager'
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    volumes:
+      - data:/data
+      - letsencrypt:/etc/letsencrypt
+volumes:
+  data:
+  letsencrypt:
+networks:
+  default:
+    external: true
+    name: scoobydoo
+```
+
+filebrowser:
+
+```yml
+services:
+  filebrowser:
+    image: 'filebrowser/filebrowser:s6'
+    container_name: 'filebrowser'
+    restart: unless-stopped
+    environment:
+      - PGID=0
+      - PUID=0
+    volumes:
+      - settings:/config
+      - db:/database
+      - root:/srv
+volumes:
+  settings:
+  db:
+  root:
+networks:
+  default:
+    external: true
+    name: scoobydoo
+```
+
+subconverter:
+
+```yml
+services:
+  app:
+    image: 'tindy2013/subconverter:latest'
+    container_name: 'subconverter'
+    restart: unless-stopped
+networks:
+  default:
+    external: true
+    name: scoobydoo
+```
