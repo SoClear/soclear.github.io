@@ -267,3 +267,11 @@ fun runCommand(
     charset
 )
 ```
+
+## 静态代码检查
+
+[Konsist](https://github.com/LemonAppDev/konsist)
+
+[ktlint](https://github.com/pinterest/ktlint)
+
+[detekt](https://github.com/detekt/detekt)
