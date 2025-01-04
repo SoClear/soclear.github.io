@@ -260,6 +260,7 @@
     * [新版 WSL2 2.0 设置 Windows 和 WSL 镜像网络教程](InfoTech/Misc/WSL2_net.md)
     * [Playwright](InfoTech/Misc/playwright.md)
     * [OpenCV](InfoTech/Misc/OpenCV/OpenCV.md)
+    * [安卓应用推荐](InfoTech/Misc/安卓应用推荐.md)
 * 考研
   * 数学
     * 高等数学
@@ -367,4 +368,3 @@
 * 其他
   * [小鹤双拼](Misc/xiaohe.md)
   * [学习与认知](Misc/LearningAndCognition.md)
-  * [三星刷机必装](Misc/三星刷机必装.md)
