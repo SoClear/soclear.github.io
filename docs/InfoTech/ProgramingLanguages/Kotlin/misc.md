@@ -275,3 +275,17 @@ fun runCommand(
 [ktlint](https://github.com/pinterest/ktlint)
 
 [detekt](https://github.com/detekt/detekt)
+
+## runCatching
+
+```kotlin
+val result= runCatching {
+    File("a.txt")
+}
+
+result.isFailure
+result.isSuccess
+result.getOrNull()
+result.onSuccess { println(it.name) }
+result.onFailure { println(it.message) }
+```

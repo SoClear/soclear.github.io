@@ -45,6 +45,8 @@
       * [协变逆变](/InfoTech/ProgramingLanguages/Kotlin/covariance_contravariance.md)
       * [5种有趣的扩展函数](/InfoTech/ProgramingLanguages/Kotlin/5%20Fun%20Ways%20to%20Use%20Extension%20Functions.md)
       * [contract 用于智能类型转换的例子](/InfoTech/ProgramingLanguages/Kotlin/Smart%20Casts%20with%20Kotlin%20Contracts.md)
+      * [Timing API](/InfoTech/ProgramingLanguages/Kotlin/Timing%20API.md)
+      * [Intersection Types](/InfoTech/ProgramingLanguages/Kotlin/Intersection%20Types.md)
       * [杂记](/InfoTech/ProgramingLanguages/Kotlin/misc.md)
       * [引用](/InfoTech/ProgramingLanguages/Kotlin/references.md)
     * Rust
