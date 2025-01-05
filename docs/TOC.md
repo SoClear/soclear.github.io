@@ -47,6 +47,7 @@
       * [contract 用于智能类型转换的例子](InfoTech/ProgramingLanguages/Kotlin/Smart%20Casts%20with%20Kotlin%20Contracts.md)
       * [Timing API](InfoTech/ProgramingLanguages/Kotlin/Timing%20API.md)
       * [Intersection Types](InfoTech/ProgramingLanguages/Kotlin/Intersection%20Types.md)
+      * [HexFormat](InfoTech/ProgramingLanguages/Kotlin/HexFormat.md)
       * [杂记](InfoTech/ProgramingLanguages/Kotlin/misc.md)
       * [引用](InfoTech/ProgramingLanguages/Kotlin/references.md)
     * Rust
