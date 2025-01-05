@@ -55,51 +55,6 @@ _泛型_
 Number[] numbers = new Integer[3];
 ```
 
-_方法_  
-方法的形参是协变的、返回值是逆变的：
-
-通过与网友iamzhoug37的讨论，更新如下。
-
-调用方法 `result = method(n)` ；根据Liskov替换原则，传入形参n的类型应为method形参的子类型，即typeof(n)≤typeof(method's parameter)；result应为method返回值的基类型，即typeof(methods's return)≤typeof(result)：
-
-例如
-
-```java
-static Number method(Number num) {
-    return 1;
-}
-//加入Java开发交流君样：756584822一起吹水聊天
-Object result = method(new Integer(2)); //correct
-Number result = method(new Object()); //error
-Integer result = method(new Integer(2)); //error
-```
-
-在Java 1.4中，子类覆盖（override）父类方法时，形参与返回值的类型必须与父类保持一致：
-
-```java
-class Super {
-    Number method(Number n) { ... }
-}
-
-class Sub extends Super {
-    @Override 
-    Number method(Number n) { ... }
-}
-```
-
-从Java 1.5开始，子类覆盖父类方法时允许协变返回更为具体的类型：
-
-```java
-class Super {
-    Number method(Number n) { ... }
-}
-
-class Sub extends Super {
-    @Override 
-    Integer method(Number n) { ... }
-}//加入Java开发交流君样：756584822一起吹水聊天
-```
-
 **2. 泛型中的通配符**  
 实现泛型的协变与逆变  
 Java中泛型是不变的，可有时需要实现逆变与协变，怎么办呢？这时，通配符 `?` 派上了用场：
