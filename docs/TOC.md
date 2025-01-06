@@ -48,6 +48,7 @@
       * [Timing API](InfoTech/ProgramingLanguages/Kotlin/Timing%20API.md)
       * [Intersection Types](InfoTech/ProgramingLanguages/Kotlin/Intersection%20Types.md)
       * [HexFormat](InfoTech/ProgramingLanguages/Kotlin/HexFormat.md)
+      * [inline noinline crossinline](InfoTech/ProgramingLanguages/Kotlin/inline-noinline-crossinline.md)
       * [杂记](InfoTech/ProgramingLanguages/Kotlin/misc.md)
       * [引用](InfoTech/ProgramingLanguages/Kotlin/references.md)
     * Rust
