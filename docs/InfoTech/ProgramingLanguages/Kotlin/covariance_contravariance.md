@@ -381,3 +381,53 @@ fun main() {
     catShelter.getCat().makeSound() // 输出 Meow!
 }
 ```
+
+## 一个类是另一个类的子类的三个原则
+
+> 类（class）是特殊的类型（Type）
+
+- 子类包含父类所有的公开的成员变量和成员方法。
+- 子类成员方法的形参类型要比父类的更加广泛，即逆变
+- 子类成员方法的返回值类型要比父类的更加严格，即协变
+
+```kotlin
+open class Coin
+class Nickel : Coin()
+
+open class Product
+open class Snack : Product()
+class CandyBar : Snack()
+
+
+class VendingMachine<T>(private val product: T) {
+    fun purchase(money: Coin): T = product
+    fun refund(product: T): Coin = Nickel()
+}
+
+fun main() {
+    // VendingMachine<Product> 是 VendingMachine<in Snack> 的子类，逆变
+    val inSnackVendingMachine: VendingMachine<in Snack> = VendingMachine<Product>(Product())
+    // VendingMachine<in Snack> 的 purchase 方法签名为 purchase(money: Coin):Any?
+    val inAny: Any? = inSnackVendingMachine.purchase(Coin())
+    // VendingMachine<in Snack> 的 refund 方法签名为 purchase(product: Snack):Coin
+    val inCoin: Coin = inSnackVendingMachine.refund(Snack())
+
+    // VendingMachine<CandyBar> 是 VendingMachine<out Snack> 的子类，协变
+    val outSnackVendingMachine: VendingMachine<out Snack> = VendingMachine<CandyBar>(CandyBar())
+    // VendingMachine<out Snack> 的 purchase 方法签名为 purchase(money: Coin):Snack
+    val outSnack = outSnackVendingMachine.purchase(Coin())
+    // VendingMachine<in Snack> 的 refund 方法签名为 purchase(product: Nothing):Coin
+    // 无法创建Nothing类的实例对象
+    val outCoin = outSnackVendingMachine.refund()
+
+    // VendingMachine<Product>, VendingMachine<Snack>, VendingMachine<CandyBar> 都是 VendingMachine<*> 的子类
+    val starVendingMachine1: VendingMachine<*> = VendingMachine<Product>(Product())
+    val starVendingMachine2: VendingMachine<*> = VendingMachine<Snack>(Snack())
+    val starVendingMachine3: VendingMachine<*> = VendingMachine<CandyBar>(CandyBar())
+    // VendingMachine<*> 的 purchase 方法签名为 purchase(money: Coin):Any?
+    val starAny = starVendingMachine1.purchase(Coin())
+    // VendingMachine<*> 的 refund 方法签名为 purchase(product: Nothing):Coin
+    // 无法创建Nothing类的实例对象
+    val starCoin = starVendingMachine1.refund()
+}
+```
