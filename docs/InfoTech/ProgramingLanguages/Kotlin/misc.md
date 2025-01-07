@@ -289,3 +289,62 @@ result.getOrNull()
 result.onSuccess { println(it.name) }
 result.onFailure { println(it.message) }
 ```
+
+## 匿名函数不是 lambda 表达式
+
+有些语言的匿名函数是 lambda 表达式，但是 Kotlin 的匿名函数不是 lambda 表达式。
+
+匿名函数的特点
+
+像命名函数：
+
+- 语法
+- return
+- 返回值类型
+
+又像 lambda 表达式：
+
+- 是表达式
+- 参数类型
+
+```kotlin
+// currying
+fun greet(greeting: String) = fun(name: String) {
+    println("$greeting, $name")
+}
+
+// currying，等价于 greet 函数，
+fun greetLambda(greeting: String) = { name: String ->
+    println("$greeting, $name")
+}
+
+fun processList(process: (String)-> Unit) {
+    println("start")
+    listOf("hello", "world!", "from", "kotlin").forEach (process)
+    println("end")
+}
+
+fun main() {
+    greet("Hello")("Dave")
+
+    val goodbye = greet("Goodbye")
+    goodbye("Dave")
+
+
+    processList { line:String ->
+        if (line.endsWith("!")){
+            // 非内联 lambda 中的返回必须加标签
+            return@processList
+        }
+        println(line)
+    }
+
+    processList(fun (line:String){
+        if (line.endsWith("!")){
+            // 可以直接return
+            return
+        }
+        println(line)
+    })
+}
+```
