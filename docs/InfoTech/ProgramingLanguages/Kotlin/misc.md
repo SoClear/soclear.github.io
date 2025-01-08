@@ -348,3 +348,108 @@ fun main() {
     })
 }
 ```
+
+## 扩展函数
+
+```kotlin
+fun String.method1(i: Int) {
+    println(this)
+}
+
+fun method2(s: String, i: Int) {
+    println(s)
+}
+
+fun main() {
+    val a: String.(Int) -> Unit = String::method1
+    val b: (String, Int) -> Unit = String::method1
+    val c: (String, Int) -> Unit = a
+    val d: String.(Int) -> Unit = b
+
+    val e: (String, Int) -> Unit = ::method2
+    val f: String.(Int) -> Unit = ::method2
+
+    "hello".method1(1) // 原本可以调用
+    "hello".b(2) // 报错，不允许这样调用
+}
+```
+
+## Nothing
+
+### throw
+
+首先讲一个知识，Kotlin 规定抛出异常就可以忽略返回值（不返回值），这不是 `Nothing` 的规定，是 Kotlin 语言的规定，如
+
+```kotlin
+fun hello(name: String?): String {
+    val validName = name ?: throw Exception("name is null")
+    return "Hello $validName"
+}
+```
+
+`Nothing` 的源码：`public actual class Nothing private constructor()`
+
+`Nothing` 是一个 **类** ，是所有 **类** 的  **子类型** ，但却不是 **子类** 。关于类与类型的区别见 [类与类型](../../Concepts/misc.md#类与类型)
+
+`Nothing` 的构造方法是私有的，所以不能通过正常手段创建任何它的实例对象。
+
+另外 `throw` 关键字在 Kotlin 下层逻辑里实际是有返回值，它的返回值类型是 `Nothing`
+
+那看这句代码 `val validName = name ?: throw Exception("name is null")` ， 因为 `Nothing` 类是 `String?` 的子类型，
+所以 `throw Exception("name is null")` 可以被赋值给 `validName`。
+
+抛出异常会跳出函数，结束函数的执行，
+所以 `hello` 函数返回值类型即使不是 `String` 也可以用 `throw` 。
+
+因为 `throw` 的是 `Nothing` 类的实例对象，
+所以返回给 `hello` 函数的是 `Nothing` 类的实例对象，它又是所有类的子类型，这样就连 `throw` 也符合类型安全。
+
+`throw` 不会真正地返回，但在语法层面说得通了
+
+所以，在 Kotlin 里可以这样写：
+
+```kotlin
+val nothing1: Nothing = throw RuntimeException("抛异常")
+val nothing2: String = throw RuntimeException("抛异常")
+```
+
+这样写
+
+```kotlin
+fun hello(name: String?): String {
+    val validName = name ?: throw Exception("name is null")
+    return "Hello $validName"
+}
+```
+
+这样写
+
+`TODO()` 源码：
+
+```kotlin
+public inline fun TODO(): Nothing = throw NotImplementedError()
+```
+
+使用：
+
+```kotlin
+fun getName():String {
+    TODO()
+}
+```
+
+### return
+
+`return` 也是被规定为返回 `Nothing` 类型的实例对象，所以：
+
+```kotlin
+fun sayMyName(first:String, second:String) {
+    val name = if (first == "Walter" && second == "White") {
+        "Heisenberg"
+    }  else {
+        // 语法层面的返回值类型为 Nothing ，赋值给 name
+        return
+    }
+    println(name)
+}
+```
