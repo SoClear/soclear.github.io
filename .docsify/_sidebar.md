@@ -51,6 +51,7 @@
       * [inline noinline crossinline](/InfoTech/ProgramingLanguages/Kotlin/inline-noinline-crossinline.md)
       * [引用](/InfoTech/ProgramingLanguages/Kotlin/references.md)
       * [协程](/InfoTech/ProgramingLanguages/Kotlin/coroutine.md)
+      * [Implicit Receiver](/InfoTech/ProgramingLanguages/Kotlin/Implicit%20Receiver.md)
       * [杂记](/InfoTech/ProgramingLanguages/Kotlin/misc.md)
     * Rust
       * [介绍](/InfoTech/ProgramingLanguages/Rust/introduce.md)
