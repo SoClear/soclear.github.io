@@ -52,6 +52,7 @@
       * [引用](InfoTech/ProgramingLanguages/Kotlin/references.md)
       * [协程](InfoTech/ProgramingLanguages/Kotlin/coroutine.md)
       * [Implicit Receiver](InfoTech/ProgramingLanguages/Kotlin/Implicit%20Receiver.md)
+      * [以 Jetpack Compose 为例了解 Kotlin 的作用域机制](InfoTech/ProgramingLanguages/Kotlin/以%20Jetpack%20Compose%20为例了解%20Kotlin%20的作用域机制.md)
       * [杂记](InfoTech/ProgramingLanguages/Kotlin/misc.md)
     * Rust
       * [介绍](InfoTech/ProgramingLanguages/Rust/introduce.md)
