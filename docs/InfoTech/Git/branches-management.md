@@ -29,3 +29,12 @@
 - 切换分支前,一定要提交本地的修改
 - 及时提交代码,提交了就不会丢
 - 如果多人在同一分支上开发，在本地 `commit` 和 `push` 前要 `git pull` 。
+
+## 在 GitHub 上 重命名分支 master 为 main 后本地需要的操作
+
+```sh
+git branch -m master main
+git fetch origin
+git branch -u origin/main main
+git remote set-head origin -a
+```
