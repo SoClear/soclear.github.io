@@ -133,6 +133,7 @@
         * [Dagger作用域](/InfoTech/Android/Jetpack/Dagger-Hilt/scope.md)
         * [Dagger组件依赖](/InfoTech/Android/Jetpack/Dagger-Hilt/component_dependcies.md)
         * [Dagger子组件](/InfoTech/Android/Jetpack/Dagger-Hilt/subcomponents.md)
+      * [DataStore](/InfoTech/Android/Jetpack/DataStore.md)
     * 阿里Android开发规范
       * [一、Android 资源文件命名与使用](/InfoTech/Android/AliAndroidDevelopmentStandard/asset.md)
       * [二、Android 基本组件](/InfoTech/Android/AliAndroidDevelopmentStandard/component.md)
