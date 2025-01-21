@@ -211,7 +211,15 @@ ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serializatio
 toml:
 
 ```toml
-jetbrains-kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+[versions]
+kotlin = "2.1.0"
+kotlinxSerializationJson = "1.8.0"
+
+[libraries]
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+
+[plugins]
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ```
 
 build.gradle.kts:
@@ -219,11 +227,11 @@ build.gradle.kts:
 ```kotlin
 plugins {
     // ...
-    alias(libs.plugins.jetbrains.kotlin.plugin.serialization)
+    alias(libs.plugins.kotlin.serialization)
 }
 // ...
 dependencies {
-    implementation(libs.jetbrains.kotlinx.serialization.json)
+    implementation(libs.kotlinx.serialization.json)
 }
 ```
 
