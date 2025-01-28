@@ -126,7 +126,7 @@ android {
 2. 如果你只希望保留类本身但允许其成员（方法和字段）被混淆，你可以这样做：
 
     ```pro
-    -keep your.package.YourHookClass
+    -keep class your.package.YourHookClass
     ```
 
 3. 如果你有特定的方法或字段需要保留，你可以明确指出它们。例如：
