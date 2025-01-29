@@ -1,44 +1,48 @@
 # OpenCV
 
-OpenCV java/kotlin
+OpenCV Java/Kotlin
 
 ## 安装
 
-### 使用Maven仓库（推荐）
+### Java/Kotlin 项目
 
-libs.versions.toml
+#### 方式一：Gradle方式，bytedeco 版本（推荐）
 
-```toml
-[versions]
-opencv = "4.10.0"
-
-[libraries]
-opencv = { group = "org.opencv", name = "opencv", version.ref = "opencv" }
-```
-
-build.gradle.kts
+模块的 `build.gradle.kts` 文件中 `dependencies` 里添加如下代码：
 
 ```kotlin
-implementation(libs.opencv)
+implementation("org.bytedeco:opencv-platform:4.10.0-1.5.11")
 ```
 
-注意！安卓也可以用这个库
-
-JVM初始化：
+初始化：
 
 ```kotlin
-System.loadLibrary(Core.NATIVE_LIBRARY_NAME)
+// 初始化
+Loader.load(opencv_core::class.java)
+// 打印 OpenCV 版本
+println(opencv_core.CV_VERSION)
 ```
 
-安卓初始化：
+#### 方式二：Gradle方式，openpnp 版本（版本较老，不推荐）
+
+模块的 `build.gradle.kts` 文件中 `dependencies` 里添加如下代码：
 
 ```kotlin
-OpenCVLoader.initLocal()
+implementation("org.openpnp:opencv:4.9.0-0")
 ```
 
-### 手动安装
+初始化：
 
-进入[OpenCV Release](https://opencv.org/releases/)，选择Windows，等待下载完成后解压到合适的文件夹。  
+```kotlin
+// 初始化
+OpenCV.loadLocally()
+// 打印 OpenCV 版本
+println(Core.getVersionString())
+```
+
+#### 方式三：手动安装（操作略繁琐，不推荐）
+
+进入 [OpenCV Release](https://opencv.org/releases/) ，选择Windows，等待下载完成后解压到合适的文件夹。  
 打开项目的build.gradle.kts文件，在`dependices`里添加
 
 ```kotlin
@@ -50,6 +54,50 @@ implementation(files("""【这里替换成OpenCV的根目录】\build\java\openc
 
 ```kotlin
 System.load("""【这里替换成OpenCV的根目录】\build\java\x64\opencv_java490.dll""")
+```
+
+### Android 项目
+
+`libs.versions.toml` :
+
+```toml
+[versions]
+opencv = "4.11.0"
+
+[libraries]
+opencv = { group = "org.opencv", name = "opencv", version.ref = "opencv" }
+```
+
+模块的 `build.gradle.kts` :
+
+```kotlin
+// ...
+android {
+    // ...
+    defaultConfig {
+        // ...
+        ndk {
+            // ABI过滤，只加载 arm 架构 64 位动态链接库
+            abiFilters.add("arm64-v8a")
+        }
+        // ...
+    }
+    // ...
+}
+// ...
+dependencies {
+    // ...
+    // OpenCV
+    implementation(libs.opencv)
+    // ...
+}
+// ...
+```
+
+初始化 ：
+
+```kotlin
+OpenCVLoader.initLocal()
 ```
 
 ### 使用到的图片预览
