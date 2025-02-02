@@ -107,6 +107,7 @@
       * [应用安装目录](InfoTech/Android/AndroidReverseEngineering/application_installation_directory.md)
       * [apk 文件结构](InfoTech/Android/AndroidReverseEngineering/apk_file_structure.md)
       * [smali](InfoTech/Android/AndroidReverseEngineering/smali.md)
+      * [待整理](InfoTech/Android/AndroidReverseEngineering/temp.md)
     * 基础
       * [Gradle](InfoTech/Android/Basics/gradle.md)
       * [Android和 MVC 架构模式](InfoTech/Android/Basics/Android-MVC.md)

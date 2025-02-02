@@ -190,3 +190,10 @@ int SearchObjProcess()
 ### frida 检测
 
 [一些Frida检测手段](https://github.com/xxr0ss/AntiFrida)
+
+## 重启 systemui
+
+```sh
+su
+kill $(pidof com.android.systemui)
+```
