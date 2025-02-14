@@ -36,6 +36,7 @@
     * Java
       * [ByteBuffer](InfoTech/ProgramingLanguages/Java/ByteBuffer.md)
       * [JDK8的时间类](InfoTech/ProgramingLanguages/Java/JDK8Time.md)
+      * [FFM](InfoTech/ProgramingLanguages/Java/FFM.md)
     * JavaScript
       * [Object.defineProperty](InfoTech/ProgramingLanguages/JavaScript/defineProperty.md)
       * [yarn](InfoTech/ProgramingLanguages/JavaScript/yarn.md)
