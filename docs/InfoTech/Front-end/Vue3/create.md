@@ -16,7 +16,7 @@ cd vue_test
 npm run serve
 ```
 
-## 2.使用 vite 创建
+## 2.使用 vite 创建（推荐）
 
 官方文档：<https://v3.cn.vuejs.org/guide/installation.html#vite>
 
@@ -122,13 +122,33 @@ vite官网：<https://vitejs.cn>
 </defs>
 </svg>
 
+确保你的当前工作目录正是打算创建项目的目录。在命令行中运行以下命令
+
 ```bash
-## 创建工程
-npm init vite-app <project-name>
-## 进入工程目录
-cd <project-name>
-## 安装依赖
-npm install
-## 运行
-npm run dev
+bun create vue@latest
+```
+
+这一指令将会安装并执行 create-vue，它是 Vue 官方的项目脚手架工具。你将会看到一些诸如 TypeScript 和测试支持之类的可选功能提示：
+
+```txt
+Vue.js - The Progressive JavaScript Framework
+
+√ 请输入项目名称： ... vue-test
+√ 是否使用 TypeScript 语法？ ... 否 / 是
+√ 是否启用 JSX 支持？ ... 否 / 是
+√ 是否引入 Vue Router 进行单页面应用开发？ ... 否 / 是
+√ 是否引入 Pinia 用于状态管理？ ... 否 / 是
+√ 是否引入 Vitest 用于单元测试？ ... 否 / 是
+√ 是否要引入一款端到端（End to End）测试工具？ » Playwright
+√ 是否引入 ESLint 用于代码质量检测？ » 是，并同时引入 Oxlint 以加快检测（试验阶段）
+√ 是否引入 Prettier 用于代码格式化？ ... 否 / 是
+
+正在初始化项目 C:\Users\UserName\Projects\vue-test...
+
+项目初始化完成，可执行以下命令：
+
+  cd vue-test
+  bun install
+  bun format
+  bun dev
 ```
