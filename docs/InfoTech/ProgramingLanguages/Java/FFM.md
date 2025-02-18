@@ -531,13 +531,30 @@ class MuMu(val path: String, val index: Int = 0) : AutoCloseable {
 
 
     // keyCode 见 https://github.com/torvalds/linux/blob/master/include/uapi/linux/input-event-codes.h
-    fun inputKey(keyCode: Int) {
-        keyDown(keyCode)
-        keyUp(keyCode)
+    fun inputKey(keyCode: Int): Boolean {
+        val down = keyDown(keyCode)
+        val up = keyUp(keyCode)
+        return down == 0 && up == 0
     }
 
-    fun inputText(text: String): Int = Arena.ofConfined().use { arena ->
-        inputTextHandle.invoke(handle, text.utf8Size().toInt(), arena.allocateUtf8String(text)) as Int
+    fun inputText(text: String): Boolean = Arena.ofConfined().use { arena ->
+        inputTextHandle.invoke(handle, text.utf8Size().toInt(), arena.allocateUtf8String(text)) as Int == 0
+    }
+
+    suspend fun swipe(x1: Int, y1: Int, x2: Int, y2: Int, duration: Long = 500L, steps: Int = 20) {
+        val xStep = (x2 - x1) / steps.toFloat()
+        val yStep = (y2 - y1) / steps.toFloat()
+        val stepDelay = duration / steps
+
+        repeat(steps) {
+            val currentX = (x1 + xStep * it).roundToInt()
+            val currentY = (y1 + yStep * it).roundToInt()
+            touchDown(currentX, currentY)
+            delay(stepDelay)
+        }
+
+        touchDown(x2, y2)
+        touchUp()
     }
 
 
