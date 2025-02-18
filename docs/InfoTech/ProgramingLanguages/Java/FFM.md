@@ -218,11 +218,127 @@ private static void struct() {
 
 通过 varHandle 方法可以构造一个获取结构体成员的值的变量句柄，这样就可以在循环内设置或读取值
 
-## 实例
+## 示例
+
+### 1. 准备 dll/so 和对应的头文件
+
+例如 [MuMu模拟器](https://mumu.163.com/) 的 `...\MuMu Player 12\shell\sdk\external_renderer_ipc.dll` 对应 [EmulatorExtras 的 external_renderer_ipc.h](https://github.com/MaaXYZ/EmulatorExtras/blob/main/Mumu/external_renderer_ipc/external_renderer_ipc.h)：
+
+```c
+#pragma once
+
+#ifdef NEMUEXTERNALRENDERERIPC_EXPORTS
+#define EXTERNALRENDERERAPI __declspec(dllexport)
+#else
+#define EXTERNALRENDERERAPI
+#endif
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+ /*
+ * @path: emulator install path, utf16 format.
+ * @index: multi-instance index num
+ * @return: >0 when connect success, 0 when fail.
+ */
+ EXTERNALRENDERERAPI int nemu_connect(const wchar_t* path, int index);
+
+ /*
+ * disconnect handle;
+ */
+ EXTERNALRENDERERAPI void nemu_disconnect(int handle);
+
+ /*
+ * get pkg display id when 'keep-alive' is on. when 'keep-alive' is off, always return 0 no matter what @pkg is.
+ * when pkg close and start again, you should call this function again to get a newer display id.
+ * Call this function after the @pkg start up.
+ * @handle: value returned from nemu_connect();
+ * @pkg   : pkg name, utf-8 format.
+ * @appIndex: if @pkg is a cloned pkg, @appIndex means cloned index, the main clone is 0, the first clone is 1, and so on.
+ * @return: <0 means fail, check if the pkg is started or pkg name is correct;
+ *          >= 0 means valid display id.
+ */
+ EXTERNALRENDERERAPI int nemu_get_display_id(int handle, const char* pkg, int appIndex);
+
+ /*
+ * call this function twice to get valid pixels data.
+ * first you set @buffer_size to 0, function will return valid width and heigth to @width and @height.
+ * then you set 4*@width*@height to @buffer_size, and call this function again, @pixels will contain valid data when function success.
+ * 
+ * @handle: value returned from nemu_connect();
+ * @displayid: display id, return value from nemu_get_display_id().
+ * @buffer_size: ref above.
+ * @width,@height: valid width and height.
+ * @pixels: valid pixels data.
+ * @return: 0 when capture success, > 0 when fail.
+ */
+ EXTERNALRENDERERAPI int nemu_capture_display(int handle, unsigned int displayid, int buffer_size, int *width, int *height, unsigned char* pixels);
+
+ /*
+ * @handle: return value from connect_server function.
+ * @buf: text buffer, utf8 format.
+ * @isze: buffer size
+ * return: 0 means success, > 0 means fail
+ */
+ EXTERNALRENDERERAPI int nemu_input_text(int handle, int size, const char* buf);
+
+ /*
+ * @displayid: display id, current only 0 is valid.
+ * @return: 0 means success, > 0 means fail.
+ */
+ EXTERNALRENDERERAPI int nemu_input_event_touch_down(int handle, int displayid, int x_point, int y_point);
+
+ /*
+ * @return: 0 means success, > 0 means fail.
+ */
+ EXTERNALRENDERERAPI int nemu_input_event_touch_up(int handle, int displayid);
+
+ /*
+ * @key_code: ref in https://github.com/torvalds/linux/blob/master/include/uapi/linux/input-event-codes.h
+ * @return: 0 means success, > 0 means fail.
+ */
+ EXTERNALRENDERERAPI int nemu_input_event_key_down(int handle, int displayid, int key_code);
+
+ /*
+ * used to release keyboard event.
+ * @return: 0 means success, > 0 means fail.
+ */
+ EXTERNALRENDERERAPI int nemu_input_event_key_up(int handle, int displayid, int key_code);
+
+ /*
+ * when you want multi touch, you can call nemu_input_event_finger_touch_down 
+ * and nemu_input_event_finger_touch_up api multi times to simulate.
+ */
+
+ /*
+ * press your finger.
+ * @finger_id: which finger you press down, range is [1, 10].
+ * @x_point, @y_point: x, y value.
+ * @return: 0 when success, >0 when fail.
+ */
+ EXTERNALRENDERERAPI int nemu_input_event_finger_touch_down(int handle, int displayid, int finger_id, int x_point, int y_point);
+
+ /*
+ * raise your finger.
+ * @finger_id: which finger you press up, range is [1, 10].
+ * @return: 0 when success, >0 when fail.
+ */
+ EXTERNALRENDERERAPI int nemu_input_event_finger_touch_up(int handle, int displayid, int slot_id);
+
+
+#ifdef __cplusplus
+}
+#endif
+```
+
+### 2. 编写代码
 
 通过 MuMu 模拟器安装路径下的 `shell/sdk/external_renderer_ipc.dll` 来操作模拟器。
 
 ```kotlin
+import kotlinx.coroutines.delay
+import okio.utf8Size
 import org.bytedeco.opencv.global.opencv_core.CV_8UC4
 import org.bytedeco.opencv.global.opencv_core.flip
 import org.bytedeco.opencv.global.opencv_highgui.*
@@ -230,27 +346,40 @@ import org.bytedeco.opencv.global.opencv_imgproc.COLOR_RGBA2BGRA
 import org.bytedeco.opencv.global.opencv_imgproc.cvtColor
 import org.bytedeco.opencv.opencv_core.Mat
 import java.lang.foreign.*
-import kotlin.time.measureTimedValue
 
-fun main() {
-    MuMu().use { player ->
-        val initialized = player.initialize("""E:\softwares\MuMu Player 12""")
+suspend fun main() {
+    MuMu("""E:\softwares\MuMu Player 12""").use { player ->
+        val initialized = player.initialize()
         if (!initialized) return
+
         var lastUpdateTime = System.nanoTime()
         val frameInterval = 1_000_000_000L / 30 // 30 FPS
+        val mat = Mat()
+        delay(300)
         while (true) {
             when (waitKey(1)) {
                 27 -> {
                     destroyAllWindows()
                     return
                 }
+
+                32 -> {
+                    player.click(400, 120)
+                    delay(300)
+                    player.inputText("你好啊🎉")
+                    delay(300)
+                    // 数字 1
+                    player.inputKey(2)
+                    delay(300)
+                    // 数字 2
+                    player.inputKey(3)
+                }
+
                 else -> {
                     val currentTime = System.nanoTime()
                     if (currentTime - lastUpdateTime >= frameInterval) {
-                        val (mat,t) = measureTimedValue {
-                            player.captureAsMat()
-                        }
-                        println(t)
+                        player.capture(mat)
+
                         imshow("截屏", mat)
 
                         lastUpdateTime = currentTime
@@ -261,38 +390,87 @@ fun main() {
     }
 }
 
-class MuMu : AutoCloseable {
+class MuMu(val path: String, val index: Int = 0) : AutoCloseable {
+    // 模拟器的句柄
     private var handle = 0
-    private lateinit var size: Size
-    private lateinit var bufferMat: Mat
-    private lateinit var resultMat: Mat
-    private var dataAddress = 0L
 
-    fun initialize(path: String, index: Int = 0): Boolean = try {
+    // 模拟器显示 ID。安卓屏幕号，如果没有开启模拟器保活功能，永远为0
+    private var displayId = -1
+
+    // 模拟器分辨率 宽高指针
+    val widthPointer: MemorySegment = Arena.ofAuto().allocate(ValueLayout.JAVA_INT)
+    val heightPointer: MemorySegment = Arena.ofAuto().allocate(ValueLayout.JAVA_INT)
+
+    fun initialize(packageName: String = "default"): Boolean = synchronized(this) {
         val handle = connect(path, index)
-        captureDisplayHandle.invoke(handle, 0, 0, widthPointer, heightPointer, MemorySegment.NULL)
-        size = Size(
-            widthPointer.get(ValueLayout.JAVA_INT, 0),
-            heightPointer.get(ValueLayout.JAVA_INT, 0)
-        )
-        bufferMat = Mat(size.height, size.width, CV_8UC4)
-        resultMat = Mat(size.height, size.width, CV_8UC4)
-        dataAddress = bufferMat.data().address()
+        if (handle == 0) {
+            println("初始化失败：连接 $path 位置，编号为 $index 的模拟器失败！")
+            return false
+        }
+        println("连接 $path 位置，编号为 $index 的模拟器成功，句柄编号：$handle")
+
+
+        val displayId = getDisplayId(handle, packageName)
+        if (displayId < 0) {
+            println("初始化失败：获取模拟器显示 ID 失败！")
+            return false
+        }
+        println("模拟器显示 ID：$displayId")
+
+        captureDisplayHandle.invoke(handle, displayId, 0, widthPointer, heightPointer, MemorySegment.NULL)
+        val width = widthPointer.get(ValueLayout.JAVA_INT, 0)
+        val height = heightPointer.get(ValueLayout.JAVA_INT, 0)
+        if (width <= 0 || height <= 0) {
+            println("获初始化失败：取模拟器分辨率失败！")
+            return false
+        }
+        println("模拟器分辨率为宽：${width}，高：${height}")
+
         this.handle = handle
-        println("连接 $path 位置，编号为 $index 的模拟器成功。")
-        println("模拟器分辨率为宽：${size.width}，高：${size.height}")
-        true
-    } catch (_: Exception) {
-        println("连接 $path 位置，编号为 $index 的模拟器失败！")
-        false
+        this.displayId = displayId
+
+        println("初始化成功🎉")
+        return true
     }
 
+    fun capture(mat: Mat): Boolean {
+        val width = widthPointer.get(ValueLayout.JAVA_INT, 0)
+        val height = heightPointer.get(ValueLayout.JAVA_INT, 0)
+        val byteBufferSize = width * height * 4
+        if (byteBufferSize <= 0) return false
+
+        mat.create(height, width, CV_8UC4)
+
+        val result = captureDisplayHandle.invoke(
+            handle,
+            displayId,
+            byteBufferSize,
+            widthPointer,
+            heightPointer,
+            MemorySegment.ofAddress(mat.data().address())
+        )
+        cvtColor(mat, mat, COLOR_RGBA2BGRA)
+        flip(mat, mat, 0)
+        // 返回值 0 表示截屏成功
+        return result == 0
+    }
+
+    // 设置要截屏的包名
+    fun setPackage(name: String = "default", appIndex: Int = 0): Boolean {
+        val displayId = getDisplayId(handle, name, appIndex)
+        val result = displayId >= 0
+        if (result) {
+            this.displayId = displayId
+        }
+        println("设置显示 $name 的 $appIndex 号进程${if (result) "成功" else "失败！"}")
+        return result
+    }
 
     private fun connect(path: String, index: Int): Int {
         val connectHandle = linker.downcallHandle(
             symbolLookup.find("nemu_connect").get(),
             FunctionDescriptor.of(
-                // 返回值 handle，int 类型
+                // 返回值 handle，int 类型，0 表示失败，但非 0 并不表示成功
                 ValueLayout.JAVA_INT,
                 // 模拟器路径，字符串
                 ValueLayout.ADDRESS,
@@ -305,69 +483,175 @@ class MuMu : AutoCloseable {
         }
     }
 
-    fun captureAsMat(): Mat {
-        captureDisplayHandle.invoke(
-            handle,
-            0,
-            size.byteBufferSize,
-            widthPointer,
-            heightPointer,
-            MemorySegment.ofAddress(dataAddress)
+    // appIndex 为应用分身的序号，默认为 0
+    private fun getDisplayId(handle: Int, packageName: String, appIndex: Int = 0): Int {
+        val getDisplayIdHandle = linker.downcallHandle(
+            symbolLookup.find("nemu_get_display_id").get(),
+            FunctionDescriptor.of(
+                // 返回值类型 int
+                ValueLayout.JAVA_INT,
+                // 模拟器的 handle，int
+                ValueLayout.JAVA_INT,
+                // 包名，字符串
+                ValueLayout.ADDRESS,
+                // 要获取的进程索引号，int
+                ValueLayout.JAVA_INT,
+            )
         )
-        bufferMat.copyTo(resultMat)
-        cvtColor(resultMat, resultMat, COLOR_RGBA2BGRA)
-        flip(resultMat, resultMat, 0)
-        resultMat.reshape(-1, widthPointer.get(ValueLayout.JAVA_INT, 0))
-        return resultMat
+        return Arena.ofConfined().use { arena ->
+            getDisplayIdHandle.invoke(
+                handle,
+                arena.allocateUtf8String(packageName),
+                appIndex
+            ) as Int
+        }
     }
 
+    private fun touchDown(x: Int, y: Int): Int = touchDownHandle.invoke(handle, displayId, x, y) as Int
+
+    private fun touchUp() = touchUpHandle.invoke(handle, displayId) as Int
+
+    private fun keyDown(keyCode: Int): Int = keyDownHandle.invoke(handle, displayId, keyCode) as Int
+
+    private fun keyUp(keyCode: Int): Int = keyUpHandle.invoke(handle, displayId, keyCode) as Int
+
+
+    fun click(x: Int, y: Int): Boolean {
+        val down = touchDown(x, y)
+        val up = touchUp()
+        return down == 0 && up == 0
+    }
+
+    suspend fun longClick(x: Int, y: Int, delayMilliseconds: Long = 500L): Boolean {
+        val down = touchDown(x, y)
+        delay(delayMilliseconds)
+        val up = touchUp()
+        return down == 0 && up == 0
+    }
+
+
+    // keyCode 见 https://github.com/torvalds/linux/blob/master/include/uapi/linux/input-event-codes.h
+    fun inputKey(keyCode: Int) {
+        keyDown(keyCode)
+        keyUp(keyCode)
+    }
+
+    fun inputText(text: String): Int = Arena.ofConfined().use { arena ->
+        inputTextHandle.invoke(handle, text.utf8Size().toInt(), arena.allocateUtf8String(text)) as Int
+    }
+
+
     override fun close() {
-        bufferMat.release()
-        resultMat.release()
-        linker.downcallHandle(
-            symbolLookup.find("nemu_disconnect").get(),
-            // 无返回值，参数为 模拟器的 handle，int 类型
-            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT)
-        ).invoke(handle)
+        if (handle != 0) {
+            linker.downcallHandle(
+                symbolLookup.find("nemu_disconnect").get(),
+                // 无返回值，参数为 模拟器的 handle，int 类型
+                FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT)
+            ).invoke(handle)
+        }
     }
 
     companion object {
         private val symbolLookup = SymbolLookup.libraryLookup(
-            """E:\softwares\MuMu Player 12\shell\sdk\external_renderer_ipc.dll""",
-            Arena.global()
+            """lib/external_renderer_ipc""",
+            Arena.ofAuto()
         )
         private val linker = Linker.nativeLinker()
 
         private val captureDisplayHandle = linker.downcallHandle(
             symbolLookup.find("nemu_capture_display").get(),
             FunctionDescriptor.of(
-                // 返回值类型 int
+                // 返回值类型 int，0 代表截图成功，非 0 代表截图失败
                 ValueLayout.JAVA_INT,
-                // 模拟器的 handle，int
+                // 模拟器的 handle（句柄，代表是哪个模拟器），int
                 ValueLayout.JAVA_INT,
-                // 常量值 0 ，unsigned int (在Java中用JAVA_INT表示unsigned int)
+                // display id（一个模拟器可以有多个Windows窗口，这个参数代表是哪个窗口），int
                 ValueLayout.JAVA_INT,
                 // 截图字节数，等于 宽*高*4
                 ValueLayout.JAVA_INT,
-                // 宽
+                // 宽，int 类型的指针
                 ValueLayout.ADDRESS,
-                // 高
+                // 高，int 类型的指针
                 ValueLayout.ADDRESS,
-                // 截图数据，用 ByteBuffer 类型
+                // 截图数据，指针，用 ByteBuffer 类型
                 ValueLayout.ADDRESS
             )
         )
-        val widthPointer: MemorySegment = Arena.global().allocate(ValueLayout.JAVA_INT)
-        val heightPointer: MemorySegment = Arena.global().allocate(ValueLayout.JAVA_INT)
 
-        data class Size(val width: Int, val height: Int) {
-            // 用于分配内存来接收像素数据 (RGBA format, 4 bytes per pixel)
-            val byteBufferSize = width * height * 4
-        }
+        private val touchDownHandle = linker.downcallHandle(
+            symbolLookup.find("nemu_input_event_touch_down").get(),
+            FunctionDescriptor.of(
+                // 返回值类型 int，0 代表成功，非 0 代表失败
+                ValueLayout.JAVA_INT,
+                // 模拟器的 handle（句柄，代表是哪个模拟器），int
+                ValueLayout.JAVA_INT,
+                // display id（一个模拟器可以有多个Windows窗口，这个参数代表是哪个窗口），int
+                ValueLayout.JAVA_INT,
+                // x，int
+                ValueLayout.JAVA_INT,
+                // y，int
+                ValueLayout.JAVA_INT,
+            )
+        )
+
+        private val touchUpHandle = linker.downcallHandle(
+            symbolLookup.find("nemu_input_event_touch_up").get(),
+            FunctionDescriptor.of(
+                // 返回值类型 int，0 代表成功，非 0 代表失败
+                ValueLayout.JAVA_INT,
+                // 模拟器的 handle（句柄，代表是哪个模拟器），int
+                ValueLayout.JAVA_INT,
+                // display id（一个模拟器可以有多个Windows窗口，这个参数代表是哪个窗口），int
+                ValueLayout.JAVA_INT,
+            )
+        )
+
+        private val keyDownHandle = linker.downcallHandle(
+            symbolLookup.find("nemu_input_event_key_down").get(),
+            FunctionDescriptor.of(
+                // 返回值类型 int，0 代表成功，非 0 代表失败
+                ValueLayout.JAVA_INT,
+                // 模拟器的 handle（句柄，代表是哪个模拟器），int
+                ValueLayout.JAVA_INT,
+                // display id（一个模拟器可以有多个Windows窗口，这个参数代表是哪个窗口），int
+                ValueLayout.JAVA_INT,
+                // keycode，int
+                ValueLayout.JAVA_INT,
+            )
+        )
+
+        private val keyUpHandle = linker.downcallHandle(
+            symbolLookup.find("nemu_input_event_key_up").get(),
+            FunctionDescriptor.of(
+                // 返回值类型 int，0 代表成功，非 0 代表失败
+                ValueLayout.JAVA_INT,
+                // 模拟器的 handle（句柄，代表是哪个模拟器），int
+                ValueLayout.JAVA_INT,
+                // display id（一个模拟器可以有多个Windows窗口，这个参数代表是哪个窗口），int
+                ValueLayout.JAVA_INT,
+                // keycode，int
+                ValueLayout.JAVA_INT,
+            )
+        )
+
+        private val inputTextHandle = linker.downcallHandle(
+            symbolLookup.find("nemu_input_text").get(),
+            FunctionDescriptor.of(
+                // 返回值类型 int，0 代表成功，非 0 代表失败
+                ValueLayout.JAVA_INT,
+                // 模拟器的 handle（句柄，代表是哪个模拟器），int
+                ValueLayout.JAVA_INT,
+                // text 的 utf8 长度，int
+                ValueLayout.JAVA_INT,
+                // text，要输入的文本，utf8 格式
+                ValueLayout.ADDRESS,
+            )
+        )
     }
 }
 ```
 
-感谢 sakura2107 的 [OpenAR](https://github.com/sakura2107/OpenAR/blob/main/ARFrameWork/src/Controller/MuMuController.cpp) 项目，参考了该 dll 中函数的调用方式。
-
+感谢 sakura2107 的 [OpenAR](https://github.com/sakura2107/OpenAR/blob/main/ARFrameWork/src/Controller/MuMuController.cpp) 项目，参考了该 dll 中函数的调用方式。  
+参考 [MaaAssistantArknights](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/MaaCore/Controller/MumuExtras.cpp)  
+参考 [EmulatorExtras](https://github.com/MaaXYZ/EmulatorExtras/blob/main/Mumu/external_renderer_ipc/external_renderer_ipc.h)  
 前文来自于 [Java 22 FFM API(Project Panama) 简单介绍和使用](https://zhuanlan.zhihu.com/p/710138989)
