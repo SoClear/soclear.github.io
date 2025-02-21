@@ -194,7 +194,6 @@
     <!-- Offline Mode -->
     <script type="module" async>
         if (typeof navigator.serviceWorker !== 'undefined') {
-            console.log('Service Worker Registered');
             navigator.serviceWorker.register('sw.js')
         }
     </script>
