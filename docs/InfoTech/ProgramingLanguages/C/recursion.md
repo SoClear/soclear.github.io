@@ -24,7 +24,15 @@ int main()
 
 流程图：
 
-![递归](recursion_1.png)
+```mermaid
+flowchart TB;
+A@{ shape: circle, label: "开始" } -->  B[递归函数]
+B -->  C[执行语句]
+C -->  D{条件}
+D -->  |TRUE| B
+D -->  |FALSE| E[执行语句]
+E -->  F@{ shape: circle, label: "退出" }
+```
 
 C 语言支持递归，即一个函数可以调用其自身。但在使用递归时，程序员需要注意定义一个从函数退出的条件，否则会进入死循环。
 

@@ -69,7 +69,17 @@ Value of sum : 116
 **常用的算术转换**是隐式地把值强制转换为相同的类型。  
 编译器首先执行**整数提升**，如果操作数类型不同，则它们会被转换为下列层次中出现的最高层次的类型：
 
-![Usual Arithmetic Conversion](type-casting_1.png)
+```mermaid
+graph BT;
+int --> uint[unsigned int]
+uint --> long
+long --> ulong[unsigned long]
+ulong --> longlong[long long]
+longlong --> ulonglong[unsigned long long]
+ulonglong --> float
+float --> double
+double --> longdouble
+```
 
 常用的算术转换不适用于赋值运算符、逻辑运算符 && 和 ||。让我们看看下面的实例来理解这个概念：
 
