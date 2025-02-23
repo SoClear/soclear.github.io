@@ -253,24 +253,21 @@ int val = a[2][3];
 
 ```c
 #include <stdio.h>
-
-int main()
+ 
+int main ()
 {
-   int n[10]; /* n 是一个包含 10 个整数的数组 */
+   /* 一个带有 5 行 2 列的数组 */
+   int a[5][2] = { {0,0}, {1,2}, {2,4}, {3,6},{4,8}};
    int i, j;
-
-   /* 初始化数组元素 */
-   for (i = 0; i < 10; i++)
-   {
-      n[i] = i + 100; /* 设置元素 i 为 i + 100 */
-   }
-
+ 
    /* 输出数组中每个元素的值 */
-   for (j = 0; j < 10; j++)
+   for ( i = 0; i < 5; i++ )
    {
-      printf("Element[%d] = %d\n", j, n[j]);
+      for ( j = 0; j < 2; j++ )
+      {
+         printf("a[%d][%d] = %d\n", i,j, a[i][j] );
+      }
    }
-
    return 0;
 }
 ```
