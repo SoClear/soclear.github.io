@@ -150,6 +150,8 @@ message Settings {
 
 **注意：** 所存储对象的类是在编译时基于 proto 文件中定义的 `message` 生成的。请务必重新构建您的项目。
 
+每次更新 proto 文件后，必须重新构建 `Build` -> `Assemble 'app' Run Configuration` （ <kbd>CTRL</kbd> + <kbd>F9</kbd> ）。
+
 ### 3. 创建 Proto DataStore
 
 创建 Proto DataStore 来存储类型化对象涉及两个步骤：
@@ -338,3 +340,28 @@ suspend fun incrementCounter() {
     }
 }
 ```
+
+## 在同步代码中使用 DataStore
+
+**注意**：请尽可能避免在进行 DataStore 数据读取时阻塞线程。阻塞界面线程可能会导致 [ANR](https://developer.android.google.cn/topic/performance/vitals/anr?hl=zh-cn) 或界面卡顿，而阻塞其他线程可能会导致[死锁](https://en.wikipedia.org/wiki/Deadlock)。
+
+DataStore 的主要优势之一是异步 API，但可能不一定始终能将周围的代码更改为异步代码。如果您使用的现有代码库采用同步磁盘 I/O，或者您的依赖项不提供异步 API，可能就会如此。
+
+Kotlin 协程提供 [`runBlocking()`](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/run-blocking.html) 协程构建器，以帮助消除同步与异步代码之间的差异。您可以使用 `runBlocking()` 从 DataStore 同步读取数据。RxJava 提供了针对 `Flowable` 的阻塞方法。以下代码会阻塞发起调用的线程，直到 DataStore 返回数据：
+
+```kotlin
+val exampleData = runBlocking { context.dataStore.data.first() }
+```
+
+对界面线程执行同步 I/O 操作可能会导致 ANR 或界面卡顿。您可以通过从 DataStore 异步预加载数据来减少这些问题：
+
+```kotlin
+override fun onCreate(savedInstanceState: Bundle?) {
+    lifecycleScope.launch {
+        context.dataStore.data.first()
+        // You should also handle IOExceptions here.
+    }
+}
+```
+
+这样，DataStore 可以异步读取数据并将其缓存在内存中。以后使用 `runBlocking()` 进行同步读取的速度可能会更快，如果初始读取操作已经完成，或许还可以完全避免磁盘 I/O 操作。
