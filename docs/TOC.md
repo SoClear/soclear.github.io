@@ -55,6 +55,7 @@
       * [Implicit Receiver](InfoTech/ProgramingLanguages/Kotlin/Implicit%20Receiver.md)
       * [以 Jetpack Compose 为例了解 Kotlin 的作用域机制](InfoTech/ProgramingLanguages/Kotlin/以%20Jetpack%20Compose%20为例了解%20Kotlin%20的作用域机制.md)
       * [加强版类型推断 @BuilderInference](InfoTech/ProgramingLanguages/Kotlin/加强版类型推断@BuilderInference.md)
+      * [回调转 Coroutine 或者 Flow](InfoTech/ProgramingLanguages/Kotlin/CallbackToCoroutineOrFlow.md)
       * [杂记](InfoTech/ProgramingLanguages/Kotlin/misc.md)
     * Rust
       * [介绍](InfoTech/ProgramingLanguages/Rust/introduce.md)
