@@ -365,3 +365,133 @@ override fun onCreate(savedInstanceState: Bundle?) {
 ```
 
 这样，DataStore 可以异步读取数据并将其缓存在内存中。以后使用 `runBlocking()` 进行同步读取的速度可能会更快，如果初始读取操作已经完成，或许还可以完全避免磁盘 I/O 操作。
+
+## Json DataStore (Without Protobuf)
+
+### 1. 导入依赖
+
+`libs.versions.toml` :
+
+```toml
+[versions]
+kotlin = "2.1.0"
+datastore = "1.1.3"
+kotlinxSerializationJson = "1.8.0"
+
+
+[libraries]
+androidx-datastore = { group = "androidx.datastore", name = "datastore", version.ref = "datastore" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+
+
+[plugins]
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+```
+
+模块的 `build.gradle.kts` :
+
+```kotlin
+plugins {
+    // ...
+    alias(libs.plugins.kotlin.serialization)
+}
+
+// ...
+
+dependencies {
+    // ...
+    implementation(libs.androidx.datastore)
+    implementation(libs.kotlinx.serialization.json)
+}
+```
+
+### 2. 定义架构
+
+```kotlin
+@Serializable
+data class Settings(
+    val theme: Theme = Theme.SYSTEM,
+    val isDebugMode: Boolean = false,
+    val count: Int = 0,
+)
+
+enum class Theme { SYSTEM, LIGHT, DARK }
+```
+
+### 3. 创建 Json DataStore
+
+```kotlin
+object SettingsSerializer : Serializer<Settings> {
+    override val defaultValue: Settings = Settings()
+
+    override suspend fun readFrom(input: InputStream): Settings {
+        return try {
+            Json.decodeFromString(
+                deserializer = Settings.serializer(),
+                string = input.readBytes().decodeToString()
+            )
+        } catch (exception: SerializationException) {
+            exception.printStackTrace()
+            defaultValue
+        }
+    }
+
+    override suspend fun writeTo(t: Settings, output: OutputStream) {
+        output.write(
+            Json.encodeToString(
+                serializer = Settings.serializer(),
+                value = t
+            ).encodeToByteArray()
+        )
+    }
+}
+
+val Context.settingsDataStore: DataStore<Settings> by dataStore(
+    fileName = "settings.json", serializer = SettingsSerializer
+)
+```
+
+### 4. 使用
+
+```kotlin
+Column(modifier = modifier.verticalScroll(rememberScrollState()).fillMaxSize()){
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val settings by context.settingsDataStore.data.collectAsStateWithLifecycle(
+        initialValue = Settings()
+    )
+
+    Text(text = if (settings.isDebugMode) "DebugMode" else "ReleaseMode")
+    Button(
+        onClick = {
+            scope.launch {
+                context.settingsDataStore.updateData {
+                    it.copy(isDebugMode = !it.isDebugMode)
+                }
+            }
+        }
+    ) {
+        Text(text = "Toggle Mode")
+    }
+
+    Text(text = "the count is ${settings.count}")
+    Button(
+        onClick = {
+            scope.launch {
+                context.settingsDataStore.updateData {
+                    it.copy(count = it.count + 1)
+                }
+            }
+        }
+    ) {
+        Text(text = "+1")
+    }
+}
+```
+
+来源：
+
+[DataStore](https://developer.android.google.cn/topic/libraries/architecture/datastore?hl=zh-cn)  
+[Type-Safe Preferences With Proto DataStore (without Protobuf Files!) - Full Guide](https://www.youtube.com/watch?v=yMGAbm84iIY)  
+[ProtoDataStoreGuide](https://github.com/philipplackner/ProtoDataStoreGuide)  
+[Android开发拾遗：DataStore与JSON结合](https://github.com/Eliot00/elliot00.com/blob/master/posts/android-json-data-store.md)
