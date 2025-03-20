@@ -272,6 +272,7 @@
     * [Playwright](/InfoTech/Misc/playwright.md)
     * [OpenCV](/InfoTech/Misc/OpenCV/OpenCV.md)
     * [安卓应用推荐](/InfoTech/Misc/安卓应用推荐.md)
+    * [编程字体推荐](/InfoTech/Misc/编程字体推荐.md)
 * 考研
   * 数学
     * 高等数学
