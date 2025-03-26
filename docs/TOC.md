@@ -124,6 +124,17 @@
     * Jetpack
       * [Jetpack 简介](InfoTech/Android/Jetpack/Jetpack.md)
       * Jetpack Compose
+        * 写给初学者的Jetpack Compose教程
+          * [0. 为什么要学习Compose？](InfoTech/Android/Jetpack/Compose/写给初学者的Jetpack%20Compose教程/0.%20为什么要学习Compose？/index.md)
+          * [1. 基础控件和布局](InfoTech/Android/Jetpack/Compose/写给初学者的Jetpack%20Compose教程/1.%20基础控件和布局/index.md)
+          * [2. Modifier](InfoTech/Android/Jetpack/Compose/写给初学者的Jetpack%20Compose教程/2.%20Modifier/index.md)
+          * [3. State](InfoTech/Android/Jetpack/Compose/写给初学者的Jetpack%20Compose教程/3.%20State/index.md)
+          * [4. Lazy Layout](InfoTech/Android/Jetpack/Compose/写给初学者的Jetpack%20Compose教程/4.%20Lazy%20Layout/index.md)
+          * [5. derivedStateOf](InfoTech/Android/Jetpack/Compose/写给初学者的Jetpack%20Compose教程/5.%20derivedStateOf/index.md)
+          * [6. 高级Layout](InfoTech/Android/Jetpack/Compose/写给初学者的Jetpack%20Compose教程/6.%20高级Layout/index.md)
+          * [7. edge-to-edge全面屏体验](InfoTech/Android/Jetpack/Compose/写给初学者的Jetpack%20Compose教程/7.%20edge-to-edge全面屏体验/index.md)
+          * [8. 动画](InfoTech/Android/Jetpack/Compose/写给初学者的Jetpack%20Compose教程/8.%20动画/index.md)
+          * [9. Side Effect](InfoTech/Android/Jetpack/Compose/写给初学者的Jetpack%20Compose教程/9.%20Side%20Effect/index.md)
         * [官网教程代码](InfoTech/Android/Jetpack/Compose/official_tutorial.md)
         * [编程思想](InfoTech/Android/Jetpack/Compose/mental_model.md)
         * [基础](InfoTech/Android/Jetpack/Compose/basic.md)
