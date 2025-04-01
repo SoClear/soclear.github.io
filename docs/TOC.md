@@ -121,6 +121,7 @@
       * [日志](InfoTech/Android/Basics/log.md)
       * [Fragment](InfoTech/Android/Basics/Fragment.md)
       * [BuildConfig](InfoTech/Android/Basics/build_config.md)
+      * [判断通知权限状态](InfoTech/Android/Basics/判断通知权限状态.md)
     * Jetpack
       * [Jetpack 简介](InfoTech/Android/Jetpack/Jetpack.md)
       * Jetpack Compose
