@@ -70,6 +70,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    // 假设启用 ABI 拆分，如不需要请删除 splits 配置
+    splits {
+        abi {
+            enable true // 启用 ABI 拆分
+            reset() // 可选：清除任何先前的包含/排除规则
+            include 'arm64-v8a', 'x86_64' // 指定你想要构建的 ABI
+            // universalApk false // 可选：如果你不想生成包含所有 ABI 的通用 APK，可以设置为 false。默认为 false（当启用 ABI 拆分时）
+        }
+    }
 }
 ```
 
@@ -102,6 +112,17 @@ android {
             )
         }
     }
+
+    // 假设启用 ABI 拆分，如不需要请删除 splits 配置
+    splits {
+        abi {
+            isEnable = true // 启用 ABI 拆分
+            reset() // 可选：清除任何先前的包含/排除规则
+            include("arm64-v8a", "x86_64") // 指定你想要构建的 ABI
+            // isUniversalApk = false // 可选：如果你不想生成包含所有 ABI 的通用 APK，可以设置为 false。默认为 false
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -201,15 +222,19 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build Release APK
+      - name: Build Release APKs
         run: ./gradlew assembleRelease
 
-      # 将 APK 上传到 Release
-      - name: Upload Release Asset
+      # 上传所有相关的 Release APKs (兼容单/多 APK)
+      - name: Upload Release Assets
         uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/')
+#        下面这句在 on: release: types: [created] 条件下是多余的，因为 Release 创建必然与一个标签相关联。
+#        if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: app/build/outputs/apk/release/app-release.apk
+          # 使用多行输入来指定多个文件匹配模式
+          files: |
+            app/build/outputs/apk/release/app-release.apk
+            app/build/outputs/apk/release/app-*-release.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
