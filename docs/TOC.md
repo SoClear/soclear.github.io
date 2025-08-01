@@ -110,6 +110,7 @@
       * [apk 文件结构](InfoTech/Android/AndroidReverseEngineering/apk_file_structure.md)
       * [smali](InfoTech/Android/AndroidReverseEngineering/smali.md)
       * [Xposed模块注入资源原理以及思路](InfoTech/Android/AndroidReverseEngineering/Xposed模块注入资源原理以及思路.md)
+      * [Xposed模块使用DataStore存储配置信息](InfoTech/Android/AndroidReverseEngineering/Xposed模块使用DataStore存储配置信息.md)
       * [待整理](InfoTech/Android/AndroidReverseEngineering/temp.md)
     * 基础
       * [Gradle](InfoTech/Android/Basics/gradle.md)
