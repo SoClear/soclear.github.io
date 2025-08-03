@@ -311,13 +311,15 @@ MainHook :
 ```kotlin
 class MainHook : IXposedHookLoadPackage, IXposedHookInitPackageResources {
     override fun handleLoadPackage(lpparam: LoadPackageParam) {
+        if (lpparam.packageName == BuildConfig.APPLICATION_ID) {
+            SelfHook.enableDataStoreFileSharing(lpparam)
+        }
+
         val preference = PreferenceProvider.preference ?: return
 
         when (lpparam.packageName) {
-            BuildConfig.APPLICATION_ID -> {
-                SelfHook.enableDataStoreFileSharing(lpparam)
-            }
-            // 省略余下
+            Package.ANDROID -> {
+                // 省略余下
 ```
 
 ### 3. 确保 DataStore 文件全部可读
