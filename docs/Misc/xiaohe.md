@@ -20,9 +20,9 @@
 
 ![零声母](xiaohe_3.png)
 
-`uan üan R`  
-`üe T`  
-`un ün Y`  
+`uan üan R`
+`üe T`
+`un ün Y`
 `ü ui V`
 
 ## Windows 10/11 为微软拼音导入小鹤双拼方案
@@ -35,4 +35,4 @@
 reg add HKCU\Software\Microsoft\InputMethod\Settings\CHS /v UserDefinedDoublePinyinScheme0 /t REG_SZ /d "小鹤双拼*2*^*iuvdjhcwfg^xmlnpbksqszxkrltvyovt"
 ```
 
-打开输入法的设置菜单，其中已经出现小鹤双拼方案了，将其设置为默认即可。 作者：大白兔-夏日限定版  出处：[bilibili](https://www.bilibili.com/read/cv35435995/?jump_opus=1)
+打开输入法的设置菜单，其中已经出现小鹤双拼方案了，将其设置为默认即可。 作者：大白兔-夏日限定版 出处：[bilibili](https://www.bilibili.com/read/cv35435995/?jump_opus=1)
