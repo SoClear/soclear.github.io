@@ -102,6 +102,20 @@ private static @NonNull ArrayList<ApkAssets> loadAssets(@NonNull ArrayList<ApkKe
 
 那么思路很简单我们主动调用 `addAssetPath` 函数去把模块的资源加载到宿主App
 
+为防止资源 ID 互相冲突，你需要在当前 Xposed 模块项目的 `build.gradle.kts` 中修改资源 ID：
+
+```kotlin
+android {
+    androidResources.additionalParameters += listOf("--allow-reserved-package-id", "--package-id", "0x64")
+}
+```
+
+> 注意
+>
+> 过往版本中的 aaptOptions.additionalParameters 已被作废，请参考上述写法并保持你的 Android Gradle Plugin 为最新版本。
+>
+> 提供的示例资源 ID 值仅供参考，不可使用 0x7f，默认为 0x64，为了防止当前宿主存在多个 Xposed 模块，建议自定义你自己的资源 ID。
+
 需要用到 xposed 的 `IXposedHookZygoteInit` 接口
 
 重写 `initZygote` 函数:
@@ -243,4 +257,6 @@ private static void loadModules() throws IOException {
 
 可以看到是通过 `SELinuxHelper.getAppDataFileService` 服务读取了 `/data/data/de.robv.android.xposed.installer/conf/modules.list` 路径的文件读取
 
-来源： [Xposed模块注入资源原理以及思路](https://bbs.binmt.cc/thread-147411-1-1.html)
+来源：  
+[Xposed模块注入资源原理以及思路](https://bbs.binmt.cc/thread-147411-1-1.html)  
+[宿主资源注入扩展](https://highcapable.github.io/YukiHookAPI/zh-cn/api/special-features/host-inject.html#%E5%AE%BF%E4%B8%BB%E8%B5%84%E6%BA%90%E6%B3%A8%E5%85%A5%E6%89%A9%E5%B1%95)
