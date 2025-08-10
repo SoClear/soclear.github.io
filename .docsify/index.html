@@ -63,6 +63,13 @@
         docsify-latex>span.katex {
             padding: 2px;
         }
+
+        /* 行内代码块自动换行 */
+        .markdown-section code {
+            white-space: pre-wrap;      /* 保留格式并自动换行 */
+            word-wrap: break-word;      /* 旧版浏览器兼容 */
+            overflow-wrap: break-word;  /* 强制在长单词内换行 */
+        }
     </style>
 </head>
 
