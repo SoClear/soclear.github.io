@@ -27,10 +27,6 @@
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/sidebar.min.css" /> -->
     <!-- MiSans -->
     <link rel="stylesheet" href="https://font.sec.miui.com/font/css?family=MiSans:400,700:MiSans" />
-    <!-- Jetbrains Mono -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap">
     <!-- docsify-latex -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css" />
 
@@ -70,6 +66,13 @@
             word-wrap: break-word;      /* 旧版浏览器兼容 */
             overflow-wrap: break-word;  /* 强制在长单词内换行 */
         }
+
+        @font-face {
+            font-family: 'Maple Mono';
+            src: url('assets/fonts/MapleMonoNormalNL-Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
     </style>
 </head>
 
@@ -104,7 +107,7 @@
             darklightTheme: {
                 defaultTheme: 'dark',
                 siteFont: 'MiSans',
-                codeFontFamily: 'JetBrains Mono, Roboto Mono, Monaco, courier, monospace',
+                codeFontFamily: 'Maple Mono, Roboto Mono, Monaco, courier, monospace',
                 dark: {
                     accent: '#42b983',
                     toogleBackground: '#ffffff',
