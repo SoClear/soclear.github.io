@@ -171,7 +171,10 @@ kotlinx-io = { group = "org.jetbrains.kotlinx", name = "kotlinx-io-core", versio
 使用
 
 ```kotlin
-val string = SystemFileSystem.source(Path("./h.html")).buffered().use { it.readString() }
+// 读取
+val string = SystemFileSystem.source(Path("index.html")).buffered().use { it.readString() }
+// 写入
+SystemFileSystem.sink(Path("log.txt")).buffered().use { it.writeString("some string") }
 ```
 
 ## kotlinx-coroutines
