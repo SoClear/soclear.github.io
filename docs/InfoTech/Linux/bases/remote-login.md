@@ -7,9 +7,11 @@ ssh默认端口为22
 
 ## 使用密钥登录
 
-1. 生成密钥 `ssh-keygen -t rsa`  
-一路回车，在`$HOME/.ssh/`中就可以看到生产的公钥 `id_rsa.pub` 和私钥 `id_rsa`  
-2. 复制到远程主机的`$HOME/.ssh/authorized_keys`：  
+1. 生成密钥 `ssh-keygen -t ed25519 -C "your_email@example.com"`  
+    - `-t ed25519` ：指定密钥类型为 Ed25519，这是一种既安全又高效的现代加密算法。如果您的系统不支持 Ed25519，可以使用 `-t rsa -b 4096` 来生成一个 4096 位的 RSA 密钥。
+    - `-C "<your_email@example.com>"` ：这是一个可选的注释，通常用于标识密钥的所属者。建议替换为您自己的电子邮件地址。  
+2. 一路回车，在`$HOME/.ssh/`中就可以看到生产的公钥 `id_rsa.pub` 和私钥 `id_rsa`  
+3. 复制到远程主机的`$HOME/.ssh/authorized_keys`：  
 `ssh-copy-id -i 【公钥路径】 -p 端口 远程主机用户名@IP地址`
 
 ## 禁用密码登录、修改端口
