@@ -29,6 +29,8 @@ Port 【自定义端口号，最大不能超过65535】
 
 保存并退出，重启ssh服务
 
+`sudo systemctl restart sshd`
+
 ```bash
 #centos系统
 service sshd restart
