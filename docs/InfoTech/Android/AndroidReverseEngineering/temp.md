@@ -197,3 +197,20 @@ int SearchObjProcess()
 su
 kill $(pidof com.android.systemui)
 ```
+
+## 如何 hook 安卓原生 URLConnection 的 getInputStream()
+
+现代安卓 `URLConnection` 的底层实现是 okhttp, 所以直接 hook `URLConnection` 的 `getInputStream()` 没有任何效果。
+
+见安卓源码：[https://android.googlesource.com/platform/external/okhttp/+/refs/heads/main/okhttp-urlconnection/src/main/java/com/squareup/okhttp/internal/huc?autodive=0%2F%2F%2F%2F%2F](https://android.googlesource.com/platform/external/okhttp/+/refs/heads/main/okhttp-urlconnection/src/main/java/com/squareup/okhttp/internal/huc?autodive=0%2F%2F%2F%2F%2F)
+
+其下有三个文件
+
+[DelegatingHttpsURLConnection.java](https://android.googlesource.com/platform/external/okhttp/+/refs/heads/main/okhttp-urlconnection/src/main/java/com/squareup/okhttp/internal/huc/DelegatingHttpsURLConnection.java?autodive=0%2F%2F%2F%2F%2F)  
+[HttpsURLConnectionImpl.java](https://android.googlesource.com/platform/external/okhttp/+/refs/heads/main/okhttp-urlconnection/src/main/java/com/squareup/okhttp/internal/huc/HttpsURLConnectionImpl.java?autodive=0%2F%2F%2F%2F%2F)  
+[HttpURLConnectionImpl.java](https://android.googlesource.com/platform/external/okhttp/+/refs/heads/main/okhttp-urlconnection/src/main/java/com/squareup/okhttp/internal/huc/HttpURLConnectionImpl.java?autodive=0%2F%2F%2F%2F%2F)  
+
+查看源码得知可以 hook `DelegatingHttpsURLConnection.java` 或者 `HttpURLConnectionImpl.java` 里的 `getInputStream()` 来实现修改响应数据。
+
+注意：虽然源码中的包名是 `com.squareup.okhttp.internal.huc` ，
+但是因为 jarjar-rules 的存在，其真实包名为 `com.android.okhttp.internal.huc`
