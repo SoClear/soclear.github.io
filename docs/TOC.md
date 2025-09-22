@@ -170,6 +170,7 @@
       - [标签列表（功能排序）](InfoTech/Front-end/HTML/byfunc.md)
       - [全局属性](InfoTech/Front-end/HTML/standard_attributes.md)
       - [事件属性](InfoTech/Front-end/HTML/event_attributes.md)
+      - [静态网页配合油猴脚本实现跨域请求](InfoTech/Front-end/HTML/静态网页配合油猴脚本实现跨域请求.md)
     - CSS
       - [简介](InfoTech/Front-end/CSS/introduce.md)
       - [语法](InfoTech/Front-end/CSS/syntax.md)
