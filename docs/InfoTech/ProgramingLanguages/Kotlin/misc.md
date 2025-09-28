@@ -195,18 +195,6 @@ coroutineScope {
 }
 ```
 
-## ktor
-
-引入
-
-```toml
-ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
-ktor-client-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }
-ktor-client-serialization = { group = "io.ktor", name = "ktor-client-serialization", version.ref = "ktor" }
-ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
-ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
-```
-
 ## kotlinx-serialization
 
 引入
@@ -236,6 +224,101 @@ plugins {
 dependencies {
     implementation(libs.kotlinx.serialization.json)
 }
+```
+
+## ktor client
+
+引入
+
+toml:
+
+```toml
+[versions]
+kotlin = "2.2.10"
+kotlinxSerializationJson = "1.9.0"
+ktor = "3.3.0"
+
+[libraries]
+# kotlinx serialization json
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+
+# ktor client
+ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
+ktor-client-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }
+ktor-client-serialization = { group = "io.ktor", name = "ktor-client-serialization", version.ref = "ktor" }
+ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
+
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
+```
+
+build.gradle.kts:
+
+```kotlin
+plugins {
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.serialization)
+}
+// ...
+dependencies {
+    // kotlinx serialization json
+    implementation(libs.kotlinx.serialization.json)
+
+    // ktor client
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.cio)
+    implementation(libs.ktor.client.serialization)
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.serialization.kotlinx.json)
+}
+```
+
+使用:
+
+```kotlin
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.engine.cio.CIO
+import io.ktor.client.plugins.HttpTimeout
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.request.get
+import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+
+@Serializable
+data class Todo(
+    val userId: Int,
+    val id: Int,
+    val title: String,
+    val completed: Boolean
+)
+
+suspend fun main() {
+    val httpClient = HttpClient(CIO) {
+        install(ContentNegotiation) {
+            json(Json {
+                prettyPrint = true
+                isLenient = true
+                ignoreUnknownKeys = true
+            })
+        }
+        install(HttpTimeout) {
+            requestTimeoutMillis = 15000L
+            connectTimeoutMillis = 10000L
+            socketTimeoutMillis = 10000L
+        }
+    }
+
+    val todo: Todo = httpClient.get("https://jsonplaceholder.typicode.com/todos/1").body()
+    println(todo)
+    // Todo(userId=1, id=1, title=delectus aut autem, completed=false)
+}
+
 ```
 
 ## Kotlin-jvm 调用命令行
