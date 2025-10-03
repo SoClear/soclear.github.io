@@ -112,6 +112,7 @@
       - [Xposed模块注入资源原理以及思路](/InfoTech/Android/AndroidReverseEngineering/Xposed模块注入资源原理以及思路.md)
       - [Xposed模块使用DataStore存储配置信息](/InfoTech/Android/AndroidReverseEngineering/Xposed模块使用DataStore存储配置信息.md)
       - [利用Android系统漏洞实现后台弹窗](/InfoTech/Android/AndroidReverseEngineering/利用Android系统漏洞实现后台弹窗.md)
+      - [Frida](/InfoTech/Android/AndroidReverseEngineering/frida.md)
       - [待整理](/InfoTech/Android/AndroidReverseEngineering/temp.md)
     - 基础
       - [Gradle](/InfoTech/Android/Basics/gradle.md)
