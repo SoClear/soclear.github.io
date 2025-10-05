@@ -286,19 +286,41 @@ import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.get
+import io.ktor.client.request.header
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
+import io.ktor.client.statement.bodyAsChannel
+import io.ktor.http.ContentType
+import io.ktor.http.ContentType.Application.Json
+import io.ktor.http.HttpHeaders
+import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
+import io.ktor.utils.io.asByteWriteChannel
+import io.ktor.utils.io.copyAndClose
+import kotlinx.io.files.Path
+import kotlinx.io.files.SystemFileSystem
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
 @Serializable
-data class Todo(
+private data class Todo(
     val userId: Int,
     val id: Int,
     val title: String,
     val completed: Boolean
 )
 
-suspend fun main() {
+@Serializable
+private data class Post(
+    val title: String,
+    val body: String,
+    val id: Int?,
+)
+
+private suspend fun main() {
+    /**
+     * 创建 httpClient
+     */
     val httpClient = HttpClient(CIO) {
         install(ContentNegotiation) {
             json(Json {
@@ -314,11 +336,36 @@ suspend fun main() {
         }
     }
 
+
+    /**
+     * get 请求
+     */
     val todo: Todo = httpClient.get("https://jsonplaceholder.typicode.com/todos/1").body()
     println(todo)
     // Todo(userId=1, id=1, title=delectus aut autem, completed=false)
-}
 
+
+    /**
+     * post 请求
+     */
+    val post: Post = httpClient.post("https://jsonplaceholder.typicode.com/posts") {
+        // 设置请求头
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        // 设置请求头，更简便的写法，用于替换上面的写法
+        contentType(Json)
+        setBody(Post(title = "foo", body = "bar", id = null))
+    }.body()
+    println(post)
+    // Post(title=foo, body=bar, id=101)
+
+
+    /**
+     * 下载图片
+     */
+    val byteReadChannel = httpClient.get("https://placehold.co/600x400.png").bodyAsChannel()
+    val byteWriteChannel = SystemFileSystem.sink(Path("600x400.png")).asByteWriteChannel()
+    byteReadChannel.copyAndClose(byteWriteChannel)
+}
 ```
 
 ## Kotlin-jvm 调用命令行
