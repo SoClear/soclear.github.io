@@ -113,6 +113,7 @@
       - [Xposed模块使用DataStore存储配置信息](InfoTech/Android/AndroidReverseEngineering/Xposed模块使用DataStore存储配置信息.md)
       - [利用Android系统漏洞实现后台弹窗](InfoTech/Android/AndroidReverseEngineering/利用Android系统漏洞实现后台弹窗.md)
       - [Frida](InfoTech/Android/AndroidReverseEngineering/frida.md)
+      - [Android上的一个“全局穿透”的漏洞，Android16依然无解](InfoTech/Android/AndroidReverseEngineering/Android上的一个“全局穿透”的漏洞，Android16依然无解.md)
       - [待整理](InfoTech/Android/AndroidReverseEngineering/temp.md)
     - 基础
       - [Gradle](InfoTech/Android/Basics/gradle.md)

@@ -536,6 +536,6 @@ cleanup:
 
 转自：
 
-[Android APP实现在后台弹窗(外弹)](https://www.52pojie.cn/thread-2062261-1-1.html)
+[吾爱破解 Android APP实现在后台弹窗(外弹)](https://www.52pojie.cn/thread-2062261-1-1.html)
 
-[Android APP实现在后台弹窗(外弹)](https://www.52pojie.cn/thread-2062261-1-1.html)
+[CSDN Android APP实现在后台弹窗(外弹)](https://blog.csdn.net/jetoo/article/details/152030169)
