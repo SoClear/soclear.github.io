@@ -2,6 +2,8 @@
 
 Dynamic instrumentation toolkit for developers, reverse-engineers, and security researchers. Learn more at [frida.re](https://frida.re/).
 
+必看 [Frida 17 重大更新](https://frida.re/news/2025/05/17/frida-17-0-0-released/)
+
 ## 1. 安装
 
 ### 1.1 安装 uv
