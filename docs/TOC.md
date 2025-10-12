@@ -286,7 +286,7 @@
     - [在安卓中使用 SQLite](InfoTech/SQLite/sqlite-in-android.md)
   - 杂项
     - [最佳编码实践](InfoTech/Misc/best_coding_practice.md)
-    - [Markdown](InfoTech/Misc/marrkdown.md)
+    - [Markdown](InfoTech/Misc/markdown.md)
     - [LaTeX](InfoTech/Misc/latex.md)
     - [如何在局域网的其他主机上中访问本机的WSL2](InfoTech/Misc/LAN_WSL2/LAN_WSL2.md)
     - [新版 WSL2 2.0 设置 Windows 和 WSL 镜像网络教程](InfoTech/Misc/WSL2_net.md)
