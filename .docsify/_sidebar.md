@@ -114,6 +114,7 @@
       - [利用Android系统漏洞实现后台弹窗](/InfoTech/Android/AndroidReverseEngineering/利用Android系统漏洞实现后台弹窗.md)
       - [Frida](/InfoTech/Android/AndroidReverseEngineering/frida.md)
       - [Android上的一个“全局穿透”的漏洞，Android16依然无解](/InfoTech/Android/AndroidReverseEngineering/Android上的一个“全局穿透”的漏洞，Android16依然无解.md)
+      - [使用KotlinNative读取和修改内存](/InfoTech/Android/AndroidReverseEngineering/使用KotlinNative读取和修改内存.md)
       - [待整理](/InfoTech/Android/AndroidReverseEngineering/temp.md)
     - 基础
       - [Gradle](/InfoTech/Android/Basics/gradle.md)
@@ -286,7 +287,7 @@
     - [在安卓中使用 SQLite](/InfoTech/SQLite/sqlite-in-android.md)
   - 杂项
     - [最佳编码实践](/InfoTech/Misc/best_coding_practice.md)
-    - [Markdown](/InfoTech/Misc/markdown.md)
+    - [Markdown](/InfoTech/Misc/marrkdown.md)
     - [LaTeX](/InfoTech/Misc/latex.md)
     - [如何在局域网的其他主机上中访问本机的WSL2](/InfoTech/Misc/LAN_WSL2/LAN_WSL2.md)
     - [新版 WSL2 2.0 设置 Windows 和 WSL 镜像网络教程](/InfoTech/Misc/WSL2_net.md)
