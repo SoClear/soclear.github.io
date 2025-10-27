@@ -144,6 +144,7 @@
           - [9. Side Effect](InfoTech/Android/Jetpack/Compose/写给初学者的Jetpack%20Compose教程/9.%20Side%20Effect/index.md)
           - [10. 大屏设备适配](InfoTech/Android/Jetpack/Compose/写给初学者的Jetpack%20Compose教程/10.%20大屏设备适配/index.md)
           - [11. Navigation](InfoTech/Android/Jetpack/Compose/写给初学者的Jetpack%20Compose教程/11.%20Navigation/index.md)
+          - [12. Navigation3](InfoTech/Android/Jetpack/Compose/写给初学者的Jetpack%20Compose教程/12.%20Navigation3/index.md)
         - [官网教程代码](InfoTech/Android/Jetpack/Compose/official_tutorial.md)
         - [编程思想](InfoTech/Android/Jetpack/Compose/mental_model.md)
         - [基础](InfoTech/Android/Jetpack/Compose/basic.md)
