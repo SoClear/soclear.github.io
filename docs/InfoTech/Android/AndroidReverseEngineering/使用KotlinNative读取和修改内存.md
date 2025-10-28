@@ -33,15 +33,14 @@ libs.versions.toml:
 
 ```toml
 [versions]
-kotlin = "2.2.10"
-kotlinxSerialization = "1.9.0"
+kotlin = "2.2.20"
+kotlinx-io-core = "0.8.0"
 
 [libraries]
-kotlinxSerializationJson = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
+kotlinx-io-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-io-core", version.ref = "kotlinx-io-core" }
 
 [plugins]
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
-kotlinxSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ```
 
 settings.gradle.kts:
@@ -61,8 +60,7 @@ build.gradle.kts:
 
 ```kotlin
 plugins {
-    alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.kotlinxSerialization)
+    alias(libs.plugins.kotlin.multiplatform)
 }
 
 group = "me.user"
@@ -87,7 +85,7 @@ kotlin {
 
     sourceSets {
         nativeMain.dependencies {
-            implementation(libs.kotlinxSerializationJson)
+            implementation(libs.kotlinx.io.core)
         }
     }
 }
@@ -114,7 +112,13 @@ import kotlinx.cinterop.alloc
 import kotlinx.cinterop.memScoped
 import kotlinx.cinterop.ptr
 import kotlinx.cinterop.sizeOf
+import kotlinx.cinterop.toLong
 import kotlinx.cinterop.value
+import kotlinx.io.buffered
+import kotlinx.io.files.Path
+import kotlinx.io.files.SystemFileSystem
+import kotlinx.io.readLine
+import kotlinx.io.readString
 import platform.posix.O_RDWR
 import platform.posix.PTRACE_ATTACH
 import platform.posix.PTRACE_DETACH
@@ -131,7 +135,42 @@ import platform.posix.read
 import platform.posix.set_posix_errno
 import platform.posix.waitpid
 import platform.posix.write
+import kotlin.contracts.ExperimentalContracts
 
+
+fun main(args: Array<String>) {
+//    byPtrace(args)
+//    byProc(args)
+    auto(args)
+}
+
+fun auto(args: Array<String>) {
+    val pid = getPid("com.ea.game.pvzfree_row")
+    if (pid == null) {
+        println("未找到 植物大战僵尸 进程")
+        return
+    }
+
+    val moduleAddress = getModuleAddress(pid, "libpvz.so")
+    if (moduleAddress == null) {
+        println("未找到模块 libpvz.so")
+        return
+    }
+
+    ProcMem(pid).use { mem ->
+        val p1 = mem.readLong(moduleAddress + 0x01F729C0) ?: return@use null
+        val p2 = mem.readLong(p1 + 0x1E0) ?: return@use null
+        val p3 = mem.readLong(p2 + 0x48) ?: return@use null
+        val p4 = mem.readLong(p3 + 0xB0) ?: return@use null
+        val sunAddress = p4 + 0x8C
+        println("阳光地址: $sunAddress")
+        val sun = mem.readInt(sunAddress) ?: return@use null
+        println("当前阳光: $sun")
+        val newSun = args.firstOrNull()?.toIntOrNull() ?: return@use null
+        mem.writeInt(newSun, sunAddress)
+        println("修改成功")
+    }
+}
 
 @OptIn(ExperimentalForeignApi::class)
 fun byPtrace(args: Array<String>) {
@@ -244,9 +283,47 @@ fun byProc(args: Array<String>) {
 }
 
 
-fun main(args: Array<String>) {
-//    byPtrace(args)
-    byProc(args)
+fun getPid(processName: String): Int? {
+    val procDir = Path("/proc")
+    if (!SystemFileSystem.exists(procDir)) {
+        return null
+    }
+
+    SystemFileSystem.list(procDir).forEach { path ->
+        val dirName = path.name
+        val pid = dirName.toIntOrNull() ?: return@forEach
+        val cmdlinePath = Path(procDir, dirName, "cmdline")
+        try {
+
+            val cmdline = SystemFileSystem.source(cmdlinePath).buffered().use { it.readString().split('\u0000')[0] }
+            if (cmdline == processName) {
+                return pid
+            }
+        } catch (_: Exception) {
+        }
+    }
+
+    return null
+}
+
+fun getModuleAddress(pid: Int, moduleName: String): Long? {
+    val mapsPath = Path("/proc/$pid/maps")
+    try {
+        SystemFileSystem.source(mapsPath).buffered().use { a ->
+            while (true) {
+                val line = a.readLine() ?: break
+
+                if (line.endsWith(moduleName)) {
+                    val strings = line.split(' ')
+                    if (strings[1] == "r-xp") {
+                        return strings[0].substringBefore("-").toLong(16)
+                    }
+                }
+            }
+        }
+    } catch (_: Exception) {
+    }
+    return null
 }
 
 class ProcMem(val pid: Int) {
@@ -258,7 +335,7 @@ class ProcMem(val pid: Int) {
 
     var fd = -1
         private set
-    
+
     fun open(): Int {
         return open("/proc/$pid/mem", O_RDWR).also {
             fd = it
@@ -269,6 +346,7 @@ class ProcMem(val pid: Int) {
         return close(fd)
     }
 
+    @OptIn(ExperimentalContracts::class)
     fun <T> use(block: (ProcMem) -> T): T {
         if (open() < 0) {
             throw RuntimeException("open failed")
@@ -307,6 +385,7 @@ class ProcMem(val pid: Int) {
         }
         return memScoped {
             val buf = alloc<T>()
+            buf.ptr.toLong()
             val read = read(buf.ptr, sizeOf<T>().toULong())
             if (read >= 0) block(buf) else null
         }
@@ -402,7 +481,7 @@ class ProcMem(val pid: Int) {
 
 使用 `adb shell ps -A | grep [进程名称]` 命令查看进程的 `pid`
 
-使用 GG 或者 CE 找出偏移 `offset`
+使用 GG 或者 CE 找出地址 `address`
 
 使用 `adb shell` 命令进入手机的 shell
 
@@ -412,4 +491,6 @@ class ProcMem(val pid: Int) {
 
 使用 `chmod +x ./KotlinNativeTemplate.kexe` 命令修改可执行文件的权限
 
-使用 `./KotlinNativeTemplate.kexe [pid] [偏移]` 命令运行
+`byPtrace()` 或者 `byProc()` 使用 `./KotlinNativeTemplate.kexe [pid] [address]` 命令运行
+
+`auto()` 使用 `./KotlinNativeTemplate.kexe` 命令来查看阳光，使用 `./KotlinNativeTemplate.kexe [阳光数量]` 命令来修改阳光
