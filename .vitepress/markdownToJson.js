@@ -24,7 +24,7 @@ const s2 = `* Jetpack
 /**
  * 分割输入的字符串并提取空白部分和标题。
  * 
- * 此函数接受一个字符串作为输入，该字符串由一个星号分隔成两部分。
+ * 此函数接受一个字符串作为输入，该字符串由一个星号或减号分隔成两部分。
  * 第一部分是空白部分，第二部分是标题。函数的目的是将输入字符串分割成这两部分，
  * 并对标题部分进行trim操作，以去除前导和尾随的空格。
  * 
@@ -32,10 +32,19 @@ const s2 = `* Jetpack
  * @returns {Array} - 返回一个包含两个元素的数组：第一个元素是空白部分，第二个元素是trim后的标题。
  */
 function blanksAndTitle(line) {
-    // 使用split方法将输入字符串按星号分割成两部分。
-    const [blanks, title] = line.split('*')
-    // 对标题部分使用trim方法去除前导和尾随的空格，然后将结果作为数组返回。
-    return [blanks, title.trim()]
+    // 将输入字符串按第一个不为空格的字符（ - 和 * 都行）分割成两部分
+    let index
+    for (let i = 0; i < line.length; i++) {
+        if (line[i] !== ' ') {
+            index = i
+            break
+        }
+    }
+    const blanks = line.substring(0, index)
+    // 对标题部分使用trim方法去除前导和尾随的空格
+    const title = line.substring(index + 1).trim()
+    // 将结果作为数组返回。
+    return [blanks, title]
 }
 
 
