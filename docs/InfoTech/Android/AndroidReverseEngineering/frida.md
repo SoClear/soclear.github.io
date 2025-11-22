@@ -131,6 +131,35 @@ bun add -d @types/frida-gum frida-java-bridge
 - watch 命令会监听 index.ts 文件，保存时自动编译
 - attach 命令会启动 frida-server，附加到被控设备的进程，并加载 dist/agent.js 文件
 
+附：il2cpp dump
+
+```json
+{
+  "name": "frida-js",
+  "module": "index.ts",
+  "private": true,
+  "scripts": {
+    "adb": "adb shell 'su -c /data/local/tmp/frida-server'",
+    "build": "bun build ./ZombieHunter.ts --outfile ./dist/agent.js",
+    "watch": "bun build ./ZombieHunter.ts --outfile ./dist/agent.js --watch",
+    "attach": "../example/Scripts/frida.exe -U -f zombie.survival.dead.shooting -l ./dist/agent.js",
+    "dev": "bun dev.ts",
+    "dump": "../example/Scripts/activate && python node_modules/frida-il2cpp-bridge/cli/main.py -U -f zombie.survival.dead.shooting dump --out-dir dumps"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/frida-gum": "^19.0.1",
+    "frida-java-bridge": "^7.0.8"
+  },
+  "peerDependencies": {
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "frida-il2cpp-bridge": "^0.12.1"
+  }
+}
+```
+
 ### 2.3 编写 js/ts 代码
 
 index.ts:
