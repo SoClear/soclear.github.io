@@ -353,3 +353,15 @@ class MainHook : IXposedHookLoadPackage, IXposedHookZygoteInit {
 然后后面我们可以随意去使用我们的资源(drawable,mipmap,values,layout....)
 
 注意使用的时候，调用的 context 是使用的宿主 App 的
+
+注：不使用下述方式获取模块路径
+
+```kotlin
+val moduleContext = context.createPackageContext(
+    BuildConfig.APPLICATION_ID,
+    Context.CONTEXT_IGNORE_SECURITY
+)
+val modulePath = moduleContext.applicationInfo.sourceDir
+```
+
+的原因是防止 HMAL (Hide My App List) 模块对宿主隐藏了模块。
