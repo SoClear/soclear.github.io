@@ -260,3 +260,96 @@ private static void loadModules() throws IOException {
 来源：  
 [Xposed模块注入资源原理以及思路](https://bbs.binmt.cc/thread-147411-1-1.html)  
 [宿主资源注入扩展](https://highcapable.github.io/YukiHookAPI/zh-cn/api/special-features/host-inject.html#%E5%AE%BF%E4%B8%BB%E8%B5%84%E6%BA%90%E6%B3%A8%E5%85%A5%E6%89%A9%E5%B1%95)
+
+## 最终注入资源实现步骤
+
+### 1. 防止资源 ID 互相冲突
+
+默认情况下，所有安卓应用（宿主和模块）的资源 ID 都是以 `0x7f` 开头的。如果直接合并，资源 ID 会冲突（例如宿主的图标变成模块的图标，或者布局错乱）。
+
+解决方法：在 Xposed 模块应用的模块（Module）项目 `build.gradle.kts` （不是项目 Project 的）中修改资源 ID 前缀（Package ID），避开 `0x7f`。
+
+```kotlin
+android {
+    // 防止资源 ID 互相冲突，避开 0x7f
+    androidResources.additionalParameters += listOf("--allow-reserved-package-id", "--package-id", "0x64")
+}
+```
+
+> 注意
+>
+> 过往版本中的 `aaptOptions.additionalParameters` 已被作废，请参考上述写法并保持你的 Android Gradle Plugin 为最新版本。
+>
+> 提供的示例资源 ID 值仅供参考，不可使用 `0x7f` ，默认为 `0x64` ，为了防止当前宿主存在多个 Xposed 模块，建议自定义你自己的资源 ID。
+
+### 2. Hook 添加资源
+
+Google 在 Android 11 引入了 `ResourcesLoader` API，这正是为了替代 `addAssetPath` 设计的官方公开 API，专门用于动态加载 APK 资源。
+
+Android 11 之前则主动调用 `addAssetPath` 函数去把模块的资源加载到宿主App
+
+```kotlin
+import android.app.Application
+import android.content.Context
+import android.content.res.loader.ResourcesLoader
+import android.content.res.loader.ResourcesProvider
+import android.os.Build
+import android.os.ParcelFileDescriptor
+import de.robv.android.xposed.IXposedHookLoadPackage
+import de.robv.android.xposed.IXposedHookZygoteInit
+import de.robv.android.xposed.XC_MethodHook
+import de.robv.android.xposed.XposedBridge
+import de.robv.android.xposed.XposedHelpers
+import de.robv.android.xposed.callbacks.XC_LoadPackage
+import java.io.File
+
+
+@Suppress("unused")
+class MainHook : IXposedHookLoadPackage, IXposedHookZygoteInit {
+    private lateinit var modulePath: String
+
+    override fun initZygote(startupParam: IXposedHookZygoteInit.StartupParam) {
+        modulePath = startupParam.modulePath
+    }
+
+    override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
+        if (loadPackageParam.packageName == "com.target.app") {
+            XposedHelpers.findAndHookMethod(
+                Application::class.java,
+                "attach",
+                Context::class.java,
+                object : XC_MethodHook() {
+                    override fun afterHookedMethod(param: MethodHookParam) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                            val context = param.args[0] as Context
+                            val loader = ResourcesLoader()
+                            val moduleFile = File(modulePath)
+                            val parcelFileDescriptor = ParcelFileDescriptor.open(
+                                moduleFile,
+                                ParcelFileDescriptor.MODE_READ_ONLY
+                            )
+                            val provider = ResourcesProvider.loadFromApk(parcelFileDescriptor)
+                            loader.addProvider(provider)
+                            context.resources.addLoaders(loader)
+                        } else {
+                            val context = param.args[0] as Context
+                            val cookie = XposedHelpers.callMethod(
+                                context.assets,
+                                "addAssetPath",
+                                modulePath
+                            )
+                            val isResourcesInjected = (cookie as? Int ?: 0) > 0
+                            val resourcesInjectLog = if (isResourcesInjected) "成功" else "失败"
+                            XposedBridge.log(resourcesInjectLog)
+                        }
+                    }
+                }
+            )
+        }
+    }
+}
+```
+
+然后后面我们可以随意去使用我们的资源(drawable,mipmap,values,layout....)
+
+注意使用的时候，调用的 context 是使用的宿主 App 的
