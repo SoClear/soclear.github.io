@@ -73,7 +73,26 @@
             font-weight: normal;
             font-style: normal;
         }
+
+        .markdown-section pre.shiki {
+            /* 移除额外的内边距，因为 Shiki 内部可能有 */
+            padding: 0;
+            /* 确保和 github-dark-default 一致，或者设为 transparent */
+            background-color: transparent;
+        }
+        /* 移除 code 标签的背景，防止双重背景 */
+        .markdown-section pre.shiki > code {
+            background: none !important;
+            font-family: var(--codeFontFamily) !important;
+        }
     </style>
+    <script type="importmap">
+        {
+            "imports": {
+                "shiki": "https://cdn.jsdelivr.net/npm/shiki@1/+esm"
+            }
+        }
+    </script>
 </head>
 
 <body>
@@ -181,27 +200,108 @@
         };
     </script>
     <!-- shiki -->
-    <script type="module" async>
-        // import themes from esm.sh
-        import githubDarkDefault from 'https://esm.sh/@shikijs/themes@1/github-dark-default';
-        // import languages from esm.sh
-        import kotlin from 'https://esm.sh/@shikijs/langs@1/kotlin'
-        import java from 'https://esm.sh/@shikijs/langs@1/java'
-        import sql from 'https://esm.sh/@shikijs/langs@1/sql'
-        import c from 'https://esm.sh/@shikijs/langs@1/c'
-        import rust from 'https://esm.sh/@shikijs/langs@1/rust'
-        import js from 'https://esm.sh/@shikijs/langs@1/js'
-        import ts from 'https://esm.sh/@shikijs/langs@1/ts'
-        import vue from 'https://esm.sh/@shikijs/langs@1/vue'
-        import cpp from 'https://esm.sh/@shikijs/langs@1/cpp'
-        import xml from 'https://esm.sh/@shikijs/langs@1/xml'
+    <script type="module">
+        import { createHighlighter } from 'shiki';
 
-        window.$docsify.shiki = {
-            theme: githubDarkDefault,
-            langs: [kotlin, java, sql, c, rust, js, ts, vue, cpp, xml],
-        }
+        // 引入你的主题和语言
+        import githubDarkDefault from 'https://cdn.jsdelivr.net/npm/@shikijs/themes@1/dist/github-dark-default.mjs';
+        import kotlin from 'https://cdn.jsdelivr.net/npm/@shikijs/langs@1/dist/kotlin.mjs';
+        import java from 'https://cdn.jsdelivr.net/npm/@shikijs/langs@1/dist/java.mjs';
+        import sql from 'https://cdn.jsdelivr.net/npm/@shikijs/langs@1/dist/sql.mjs';
+        import c from 'https://cdn.jsdelivr.net/npm/@shikijs/langs@1/dist/c.mjs';
+        import rust from 'https://cdn.jsdelivr.net/npm/@shikijs/langs@1/dist/rust.mjs';
+        import js from 'https://cdn.jsdelivr.net/npm/@shikijs/langs@1/dist/js.mjs';
+        import ts from 'https://cdn.jsdelivr.net/npm/@shikijs/langs@1/dist/ts.mjs';
+        import vue from 'https://cdn.jsdelivr.net/npm/@shikijs/langs@1/dist/vue.mjs';
+        import cpp from 'https://cdn.jsdelivr.net/npm/@shikijs/langs@1/dist/cpp.mjs';
+        import xml from 'https://cdn.jsdelivr.net/npm/@shikijs/langs@1/dist/xml.mjs';
+
+        // 定义插件
+        const shikiPlugin = (hook, vm) => {
+            let highlighter = null;
+
+            // 1. 初始化 Shiki
+            hook.init(function() {
+                createHighlighter({
+                    themes: [githubDarkDefault],
+                    langs: [kotlin, java, sql, c, rust, js, ts, vue, cpp, xml]
+                }).then(h => {
+                    highlighter = h;
+                    // 初始化完成后，尝试高亮当前页面（处理首屏加载慢的情况）
+                    highlightCurrentPage();
+                }).catch(err => {
+                    console.error('[Shiki] Init failed:', err);
+                });
+            });
+
+            // 2. 每次页面切换/渲染后调用
+            hook.doneEach(function() {
+                highlightCurrentPage();
+            });
+
+            // 核心高亮逻辑
+            function highlightCurrentPage() {
+                if (!highlighter) return;
+
+                const content = document.querySelector('.markdown-section');
+                if (!content) return;
+
+                // 查找所有代码块 (Docsify 生成的格式是 pre[data-lang])
+                const codeBlocks = content.querySelectorAll('pre[data-lang]');
+
+                codeBlocks.forEach(pre => {
+                    // 防止重复处理
+                    if (pre.getAttribute('data-shiki-processed')) return;
+                    
+                    const lang = pre.getAttribute('data-lang');
+                    // 跳过 Mermaid 图表
+                    if (lang === 'mermaid') return;
+
+                    const codeElement = pre.querySelector('code');
+                    if (!codeElement) return;
+
+                    // 获取原始内容
+                    const code = codeElement.textContent;
+
+                    // 暂存 Docsify Copy Code 插件生成的按钮 (如果有)
+                    const copyBtn = pre.querySelector('.docsify-copy-code-button');
+
+                    try {
+                        // 生成高亮 HTML
+                        const html = highlighter.codeToHtml(code, {
+                            lang: lang,
+                            theme: 'github-dark-default'
+                        });
+
+                        // 创建临时元素来解析 HTML
+                        const tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = html;
+                        const newPre = tempDiv.firstElementChild;
+
+                        // 迁移必要的类名和属性，保持样式兼容
+                        newPre.setAttribute('data-lang', lang);
+                        newPre.setAttribute('data-shiki-processed', 'true');
+                        newPre.classList.add('shiki'); // 加上 shiki 类名以便 CSS 覆盖
+
+                        // 如果之前有复制按钮，把它加回到新结构中
+                        if (copyBtn) {
+                            newPre.appendChild(copyBtn);
+                        }
+
+                        // 替换 DOM
+                        pre.replaceWith(newPre);
+
+                    } catch (e) {
+                        console.warn(`[Shiki] Failed to highlight ${lang}:`, e);
+                        // 失败时不替换，保留原文
+                    }
+                });
+            }
+        };
+
+        // 注册插件
+        window.$docsify.plugins = [].concat(shikiPlugin, window.$docsify.plugins);
     </script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/docsify-shiki@v1"></script>
 
     <!-- Offline Mode -->
     <script type="module" async>
