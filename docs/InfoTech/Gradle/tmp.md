@@ -56,3 +56,57 @@ buildscript {
 ## Gradle-Wrapper
 
 Gradle-Wrapper是简化Gardle的安装和部署，出发点是让任意的gradle的项目都不需要单独安装环境，项目会自动识别有无环境，如果在本地没有找到与wrapper.properties版本相同的Gardle，IDEA就会帮你下载一个gradle环境，官方的出发点是好的，下面我们来了解下这些配置的意义。
+
+## 热重载
+
+### 1. `./gradlew -t build` (太慢，不推荐)
+
+* **做了什么**：它执行的是 Gradle 的完整生命周期。
+  * 编译代码 (Compile)
+  * 处理资源 (Process Resources)
+  * 打包 (Jar)
+  * **运行所有测试 (Run Tests)**
+  * 代码检查 (Lint/Check)
+* **缺点**：每次你改一行代码保存，它不仅会编译，还会把你的单元测试全部跑一遍。如果你的测试很多，等待时间会非常长，严重拖慢热重载的节奏。
+
+### 2. `./gradlew -t installDist` (较快，官方文档常用)
+
+* **做了什么**：它由 `application` 插件提供。
+  * 编译代码 (Compile)
+  * 处理资源 (Process Resources)
+  * **跳过测试 (Skips Tests)**
+  * 将编译后的文件和依赖库复制到 `build/install` 目录下，生成可运行的文件结构。
+* **优点**：因为它不跑测试，所以速度比 `build` 快得多。它能确保你的应用依赖和资源都被正确生成。
+
+---
+
+### 3. 🚀 最佳方案：`./gradlew -t classes` (最快，强烈推荐)
+
+如果你只是想让 Ktor 检测到变化并热重载，其实你不需要打包，也不需要生成安装目录，只需要**编译出 `.class` 文件**即可。
+
+* **做了什么**：
+  * 只编译 Kotlin/Java 源码。
+  * 只处理 `src/main/resources` 资源。
+* **优点**：这是**耗时最短**的任务。当你按下保存键，Gradle 几乎瞬间就能完成编译，Ktor 也能立刻监测到 `build/classes` 目录的变化并重启。
+
+### 总结建议
+
+为了最极致的开发体验，请使用：
+
+```bash
+./gradlew -t classes
+```
+
+**对比总结表：**
+
+| 命令 | 包含编译 | 包含资源处理 | **运行测试** | **打包/安装** | **热重载速度** |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| `build` | ✅ | ✅ | ✅ (慢) | ✅ | 🐢 慢 |
+| `installDist`| ✅ | ✅ | ❌ | ✅ | 🚗 快 |
+| **classes** | ✅ | ✅ | ❌ | ❌ | 🚀 **极快** |
+
+**建议：** 除非你的 `application.yaml` 配置非常特殊（依赖于完整的 install 目录结构），否则平时开发直接用 **`classes`** 即可。
+
+## 最佳实践
+
+在IDEA控制台执行 `./gradlew -t classes` 命令，在 Run/Debug Configurations 中添加 `./gradlew run` 并点击绿色三角图标执行。
