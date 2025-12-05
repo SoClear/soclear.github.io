@@ -103,10 +103,25 @@ Gradle-Wrapper是简化Gardle的安装和部署，出发点是让任意的gradle
 | :--- | :---: | :---: | :---: | :---: | :---: |
 | `build` | ✅ | ✅ | ✅ (慢) | ✅ | 🐢 慢 |
 | `installDist`| ✅ | ✅ | ❌ | ✅ | 🚗 快 |
-| **classes** | ✅ | ✅ | ❌ | ❌ | 🚀 **极快** |
+| **`classes`** | ✅ | ✅ | ❌ | ❌ | 🚀 **极快** |
 
 **建议：** 除非你的 `application.yaml` 配置非常特殊（依赖于完整的 install 目录结构），否则平时开发直接用 **`classes`** 即可。
 
-## 最佳实践
+### ktor 最佳实践
+
+ktor application.yaml 配置文件:
+
+```yaml
+ktor:
+    development: true
+    application:
+        modules:
+            - com.example.ApplicationKt.module
+    deployment:
+        port: 9292
+        watch:
+          - classes
+          - resources
+```
 
 在IDEA控制台执行 `./gradlew -t classes` 命令，在 Run/Debug Configurations 中添加 `./gradlew run` 并点击绿色三角图标执行。
