@@ -202,6 +202,7 @@
       - [简介](/InfoTech/Front-end/Vue3/introduce.md)
       - [一、创建Vue3.0工程](/InfoTech/Front-end/Vue3/create.md)
       - [二、常用 Composition API](/InfoTech/Front-end/Vue3/composition_api.md)
+    - [code-server端口转发与vite配合](/InfoTech/Front-end/code-server端口转发与vite配合.md)
   - Git
     - [什么是版本控制](/InfoTech/Git/what_is_version_control.md)
     - [常见的版本控制系统](/InfoTech/Git/tools.md)
