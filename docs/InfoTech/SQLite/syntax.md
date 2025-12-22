@@ -346,3 +346,74 @@ WHERE  CONDITION;
 ## SQLite 没有 ANY 和 ALL
 
 ANY：任一，ALL：所有
+
+## 速记
+
+```sql
+/*
+多行注解
+*/
+
+-- 单行注解
+
+select * from students;
+select 姓名,班级,成绩 from students;
+select 姓名,班级,成绩 from students limit 5;
+select 姓名,班级,成绩 from students limit 5 offset 5;
+select 姓名,班级,成绩 from students where 班级 = '一年二班';
+select 姓名,班级,成绩 from students where 班级 != '一年二班';
+select 姓名,班级,成绩 from students where 班级 != '一年二班'  order by 班级;
+select 姓名,班级,成绩 from students where 班级 != '一年二班'  order by 班级, 成绩;
+select 姓名,班级,成绩 from students where 班级 != '一年二班'  order by 班级, 成绩 desc;
+select 姓名,班级,成绩 from students where 姓名 = '张三';
+select 姓名,班级,成绩 from students where 姓名 like '张%'; -- 匹配0个或者多个
+select 姓名,班级,成绩 from students where 姓名 like '张_'; -- 匹配 1 个
+select 姓名,班级,成绩 from students where 成绩 >= 80 and 成绩 <90;
+select 姓名,班级,成绩 from students where 成绩 between 80 and  90;
+select 姓名,班级,成绩 from students where 成绩 between 80 and  90 and 班级 = '一年二班';
+select 姓名,班级,成绩 from students where 成绩 between 80 and  90 and (班级 = '一年一班' or 班级 = '一年二班');
+select 姓名,班级,成绩 from students where 成绩 between 80 and  90 and (班级 in ('一年一班' , '一年二班'));
+select avg(成绩),sum(成绩),max(成绩),min(成绩), count(成绩) from students;
+select avg(成绩) as 成绩平均 ,max(成绩) as 最高分 from students;
+select round(avg(成绩), 1) as 成绩平均 ,max(成绩) as 最高分 from students;
+select round(avg(成绩)) as 成绩平均  from students;
+select 班级,round(avg(成绩)) as 成绩平均  from students order by 班级;
+select 班级,round(avg(成绩)) as 成绩平均  from students order by 班级 order by 成绩平均 desc;
+```
+
+顺序：
+
+```sql
+select
+from
+where
+group by
+having
+order by
+limit
+```
+
+```sql
+select count(*) from students; -- 计算总行数
+select count(社团) from students; -- 计算社团行数，count 排除空值
+select count(distinct 社团) from students; -- 排除重复
+select distinct 社团 from students; -- distinct 不排除空值
+select distinct 社团 from students where 社团 != null;
+
+create table clubs(
+社团编号 int primary key,
+社团名称 varchar(15)
+);
+
+drop table clubs2;
+
+insert into clubs (社团编号, 社团名称) values (101, '吉他社'), (102, '美术社'), (104, null);
+
+update clubs set 社团名称 = '舞蹈社' where 社团编号 = 104;
+
+delete from clubs where  社团编号 = 104;
+
+select students.姓名, students.社团, clubs.社团名称 from students left join clubs on students.社团 = clubs.社团编号 where 班级 = '一年一班'; -- left join 左侧所有记录，例如没有报名社团的同学，或者报名的社团没找到名称的同学也会显示
+
+select students.姓名, students.社团, clubs.社团名称 from students inner join clubs on students.社团 = clubs.社团编号 where 班级 = '一年一班'; -- inner join 只会显示左右两表能对应上的元素
+```
