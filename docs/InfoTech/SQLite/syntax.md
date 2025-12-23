@@ -377,8 +377,8 @@ select avg(成绩),sum(成绩),max(成绩),min(成绩), count(成绩) from stude
 select avg(成绩) as 成绩平均 ,max(成绩) as 最高分 from students;
 select round(avg(成绩), 1) as 成绩平均 ,max(成绩) as 最高分 from students;
 select round(avg(成绩)) as 成绩平均  from students;
-select 班级,round(avg(成绩)) as 成绩平均  from students order by 班级;
-select 班级,round(avg(成绩)) as 成绩平均  from students order by 班级 order by 成绩平均 desc;
+select 班级,round(avg(成绩)) as 成绩平均  from students group by 班级;
+select 班级,round(avg(成绩)) as 成绩平均  from students group by 班级 order by 成绩平均 desc;
 ```
 
 顺序：
