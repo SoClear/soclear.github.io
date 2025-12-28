@@ -301,7 +301,7 @@
     - [DNS](/InfoTech/Misc/DNS/DNS.md)
     - [三星玩机](/InfoTech/Misc/三星玩机.md)
     - [激活JetBrains全家桶](/InfoTech/Misc/激活JetBrains全家桶.md)
-    
+    - [为三星 Note20 Ultra 编译支持 Docker 的内核](/InfoTech/Misc/为三星Note20Ultra编译支持Docker的内核.md)
 - 考研
   - 数学
     - 高等数学
