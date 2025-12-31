@@ -9,8 +9,9 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
-const proxyUrl = '/proxy/5173'
-const codeServerHost = 'code-server.your.domain'
+const serverPort = 5173
+const serverHost = 'code-server.your.domain'
+const proxyUrl = `/proxy/${serverPort}`
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -43,6 +44,15 @@ export default defineConfig({
             req.url = proxyUrl + req.url;
           }
         });
+
+        // C. 修复控制台显示的地址
+        const _print = server.printUrls;
+        server.printUrls = () => {
+          // 先调用原有的打印逻辑
+          _print();
+          // 然后补充一个醒目的外部访问地址
+          console.log(`  \x1b[32m➜\x1b[0m  \x1b[1mExternal\x1b[0m: \x1b[36mhttps://${serverHost}${proxyUrl}\x1b[0m`);
+        };
       }
     }
   ],
@@ -53,10 +63,10 @@ export default defineConfig({
   },
   server: {
     host: '0.0.0.0',
-    port: 5173,
-    allowedHosts: [codeServerHost],
+    port: serverPort,
+    allowedHosts: [serverHost],
     hmr: {
-      host: codeServerHost,
+      host: serverHost,
       protocol: 'wss', // 因为是 https，必须用 wss
       clientPort: 443, // 浏览器看到的端口是 https 的 443
       // ⚠️ 关键修改：【删除】path 字段

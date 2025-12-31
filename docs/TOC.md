@@ -40,6 +40,7 @@
     - JavaScript
       - [Object.defineProperty](InfoTech/ProgramingLanguages/JavaScript/defineProperty.md)
       - [yarn](InfoTech/ProgramingLanguages/JavaScript/yarn.md)
+      - [Node.js 环境变量](InfoTech/ProgramingLanguages/JavaScript/nodejs_environment_variables.md)
     - Kotlin
       - [lambda](InfoTech/ProgramingLanguages/Kotlin/lambda.md)
       - [不使用泛型的型变](InfoTech/ProgramingLanguages/Kotlin/Variance%20without%20Generics.md)
