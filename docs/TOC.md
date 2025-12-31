@@ -258,6 +258,7 @@
     - [ufw防火墙](InfoTech/Linux/ufw.md)
     - [Nginx Proxy Manager](InfoTech/Linux/nginx-proxy-manager.md)
     - [tmux终端复用](InfoTech/Linux/tmux.md)
+    - [在 Docker 中使用 Nginx](InfoTech/Linux/NginxInDocker.md)
   - SQLite
     - [安装](InfoTech/SQLite/intall.md)
     - [命令](InfoTech/SQLite/commands.md)
