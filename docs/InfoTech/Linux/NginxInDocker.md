@@ -100,6 +100,9 @@ location /.well-known/acme-challenge/ {
 ```conf
 # 公共代理配置，所有反向代理都可以引用
 
+# 允许客户端上传无限大小的请求体（解决 413 Request Entity Too Large）
+client_max_body_size 0;
+
 proxy_set_header Host $host;
 proxy_set_header X-Real-IP $remote_addr;
 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
