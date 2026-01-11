@@ -87,6 +87,7 @@
     - [并发并行](InfoTech/Concepts/concurrency_parallelism.md)
     - [进程 线程 协程](InfoTech/Concepts/process_thread_coroutine.md)
     - [软件设计原则](InfoTech/Concepts/software_design_principles.md)
+    - [主定理](InfoTech/Concepts/MasterTheorem.md)
     - [杂记](InfoTech/Concepts/misc.md)
   - 力扣算法题
     - 简单
