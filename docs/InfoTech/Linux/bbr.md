@@ -127,21 +127,15 @@ echo "net.ipv4.tcp_congestion_control = bbr" | sudo tee -a /etc/sysctl.d/99-bbr.
 
 (解释：在 `/etc/sysctl.d/` 下新建了一个叫 `99-bbr.conf` 的文件。数字 `99` 保证了它会最后执行。)
 
-### 第三步：再次验证并重启
+### 第三步：重启并验证
 
-1. **手动刷新配置**（此时应该不报错）：
-
-    ```bash
-    sudo sysctl -p
-    ```
-
-2. **重启系统**（关键步骤）：
+1. **重启系统**（关键步骤）：
 
     ```bash
     reboot
     ```
 
-3. **重启后检查**：
+2. **重启后检查**：
     再次输入：
 
     ```bash
