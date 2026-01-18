@@ -100,6 +100,10 @@ location /.well-known/acme-challenge/ {
 ```conf
 # 公共代理配置，所有反向代理都可以引用
 
+# 默认情况下 Nginx 使用 HTTP/1.0 连接后端，而 WebSocket 必须使用 HTTP/1.1
+# 必须指定 HTTP 1.1，否则 WebSocket 无法握手
+proxy_http_version 1.1;
+
 # 允许客户端上传无限大小的请求体（解决 413 Request Entity Too Large）
 client_max_body_size 0;
 
