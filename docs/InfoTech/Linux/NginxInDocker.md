@@ -62,7 +62,7 @@ root@debian:~/container/nginx# tree
 
 ### conf.d/00-default-http.conf
 
-```conf
+```nginx
 # HTTP 默认配置 - 处理所有 your.domain 的子域名
 server {
     listen 80 default_server;
@@ -87,7 +87,7 @@ server {
 
 所以 `00-default-http.conf` 里的
 
-```conf
+```nginx
 location /.well-known/acme-challenge/ {
     root /var/www/acme-challenges;
 }
@@ -97,7 +97,7 @@ location /.well-known/acme-challenge/ {
 
 ### conf.d/snippets/proxy-common.conf
 
-```conf
+```nginx
 # 公共代理配置，所有反向代理都可以引用
 
 # 默认情况下 Nginx 使用 HTTP/1.0 连接后端，而 WebSocket 必须使用 HTTP/1.1
@@ -119,7 +119,7 @@ proxy_set_header Connection "upgrade";
 
 ### conf.d/snippets/ssl-common.conf
 
-```conf
+```nginx
 # 公共 SSL 配置，所有 HTTPS server 都可以引用
 
 ssl_certificate /etc/nginx/certs/your.domain.pem;
@@ -142,7 +142,7 @@ add_header X-XSS-Protection "1; mode=block" always;
 
 这是一个 Cloudreve 的配置文件，可以参考。
 
-```conf
+```nginx
 server {
     listen 443 ssl;
     listen [::]:443 ssl;
@@ -202,7 +202,7 @@ server {
 
 这样 code.your.domain 和 3000.your.domain 都会进到这里
 
-```conf
+```nginx
 server {
     listen 443 ssl;
     listen [::]:443 ssl;
@@ -380,3 +380,122 @@ docker exec acme --install-cert -d your.domain \
 1. 在 `./conf.d/` 新建 `名字.your.domain.conf` 并配置。
 2. 检查配置：`docker compose exec nginx nginx -t`
 3. 重载 Nginx：`docker compose exec nginx nginx -s reload`
+
+## 进阶：隐藏源站 IP 防止网络测绘（Security）
+
+在使用 CDN（如 Cloudflare）时，我们希望攻击者无法直接通过 IP 访问到源站。但如果 Nginx 配置不当，网络空间测绘引擎（如 Fofa、Shodan）扫描全网 IP 的 443 端口时，Nginx 会默认返回包含你真实域名的 SSL 证书。这样，攻击者就能通过“IP 反查域名”找到你的源站 IP。
+
+为了解决这个问题，我们需要利用 Nginx 的 `default_server` 机制，配合一个“假证书”来欺骗扫描器。
+
+### 1. 生成自签名“假证书”
+
+我们需要生成一个与真实域名无关的自签名证书。
+
+在宿主机创建的 `certs` 目录下执行以下命令（注意：CN 我们填了 127.0.0.1，千万不要填真实域名）
+
+生成有效期 10 年的自签名假证书（注意在 `certs` 的父目录下执行）：
+
+```bash
+openssl req -x509 -nodes -days 3650 -newkey rsa:2048 \
+-keyout certs/fake.key \
+-out certs/fake.crt \
+-subj "/C=US/ST=Fake/L=Fake/O=Fake/CN=127.0.0.1"
+```
+
+确保 `certs` 目录已正确挂载到 Docker 容器内的 `/etc/nginx/certs`。
+
+### 2. 升级默认配置文件
+
+我们将原来的 `00-default-http.conf` 改造为 `00-default-protection.conf`。这个配置文件的作用是：**当有人直接访问 IP，或者访问未绑定的域名时，直接拒绝连接或返回假证书。**
+
+**conf.d/00-default-protection.conf** :
+
+```nginx
+# --------------------------------------------------------
+# 1. 默认捕获：直接 IP 访问 HTTP (80) -> 直接拒绝
+# --------------------------------------------------------
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    
+    # 匹配所有未定义的域名或直接 IP 访问
+    server_name _;
+    
+    # 返回 444 代表 Nginx 直接关闭连接，不返回任何 HTTP 头部，节省资源
+    return 444;
+}
+
+# --------------------------------------------------------
+# 2. 默认捕获：直接 IP 访问 HTTPS (443) -> 防止测绘的关键
+# --------------------------------------------------------
+server {
+    listen 443 ssl default_server;
+    listen [::]:443 ssl default_server;
+    
+    server_name _;
+    
+    # 【关键】使用刚才生成的假证书
+    # 扫描器扫描 IP 时，只会看到这张假证书，无法关联到你的真实域名
+    ssl_certificate /etc/nginx/certs/fake.crt;
+    ssl_certificate_key /etc/nginx/certs/fake.key;
+    
+    # 握手完成后直接关闭连接
+    return 444;
+}
+
+# --------------------------------------------------------
+# 3. 正常业务：域名访问 HTTP (80) -> 强制跳转 HTTPS
+# --------------------------------------------------------
+server {
+    listen 80;
+    listen [::]:80;
+    
+    # 只有明确匹配到你的域名时，才进行跳转
+    server_name *.your.domain your.domain;
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+```
+
+### 3. 核心注意事项（非常重要）
+
+配置了上述 `default_server` 后，必须遵循一条铁律：
+
+**所有其他的业务配置文件（如 `cloudreve.your.domain.conf`、`code.your.domain.conf`）中，`listen` 指令绝对不能包含 `default_server` 标记。**
+
+Nginx 规定对于同一个端口（如 443），只能有一个 `default_server`。如果其他配置文件里写了 `listen 443 ssl default_server;`，Nginx 启动时会报错 `duplicate default_server`。
+
+**正确的业务配置示例 (app.your.domain.conf)：**
+
+```nginx
+server {
+    # 这里的 listen 不要加 default_server
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    http2 on;
+
+    # 你的域名
+    server_name app.your.domain;
+
+    # 复用 SSL 配置
+    include /etc/nginx/conf.d/snippets/ssl-common.conf;
+
+    # 日志
+    access_log /var/log/nginx/app_access.log;
+    error_log /var/log/nginx/app_error.log warn;
+
+    location / {
+        # 在同一网络下，直接用服务名加端口号访问
+        proxy_pass http://app:8443;
+
+        # 复用通用 Header (包含 Host, Real-IP, WebSocket Upgrade)
+        include /etc/nginx/conf.d/snippets/proxy-common.conf;
+
+        # 其他配置
+    }
+}
+```
+
+配置生效后，你可以尝试直接访问 `https://你的IP`，浏览器会警告证书错误，且证书信息显示为 `Fake`，证明你的真实域名已被成功隐藏。
