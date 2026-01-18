@@ -194,6 +194,93 @@ server {
 }
 ```
 
+### conf.d/code.your.domain.conf
+
+这是 code-server 的配置文件，可以参考。
+
+重点：修改 server_name 以匹配泛域名
+
+这样 code.your.domain 和 3000.your.domain 都会进到这里
+
+```conf
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    http2 on;
+
+    # 你的域名
+    server_name code.your.domain *.your.domain;
+
+    # 复用 SSL 配置
+    include /etc/nginx/conf.d/snippets/ssl-common.conf;
+
+    access_log /var/log/nginx/code_access.log;
+    error_log /var/log/nginx/code_error.log warn;
+
+    location / {
+        # LinuxServer 镜像默认容器内监听 8443
+        # 且在同一网络下，直接用服务名访问
+        proxy_pass http://code-server:8443;
+
+        # 复用通用 Header (包含 Host, Real-IP, WebSocket Upgrade)
+        include /etc/nginx/conf.d/snippets/proxy-common.conf;
+
+        # =========================================
+        # code-server 专属优化
+        # =========================================
+
+        # 1. WebSocket 核心 (终端必须)
+        # 你的 proxy-common.conf 已经包含了 Upgrade 和 Connection 头
+        # 所以这里不需要重复写，但下面的超时必须加
+
+        # 2. 长连接超时设置
+        # 如果不设置，你在网页终端里写代码，过一会不动就会断开连接
+        proxy_read_timeout 86400s;
+        proxy_send_timeout 86400s;
+
+        # 3. 关闭缓冲
+        # 保证终端输入输出的实时性
+        proxy_buffering off;
+        proxy_request_buffering off;
+    }
+}
+```
+
+code-server 的 `docker-compose.yml` :
+
+```yml
+services:
+  code-server:
+    image: lscr.io/linuxserver/code-server:latest
+    container_name: code-server
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Shanghai
+      - PASSWORD=YourPassword
+      - PROXY_DOMAIN=your.domain
+      - SUDO_PASSWORD=YourSudoPassword
+    volumes:
+      - ./config:/config
+    #ports:
+      #- 8443:8443
+    restart: unless-stopped
+
+networks:
+  default:
+    external: true
+    name: scoobydoo
+```
+
+`code.your.domain.conf` 中的 `*.your.domain` 与 `docker-compose.yml` 中的 `- PROXY_DOMAIN=your.domain` 配合使用。
+
+这样 code-server 支持通过子域名访问项目的端口，例如 `https://3000.your.domain/` ，
+
+- 此时项目运行在域名的根目录 `/` 下，不再需要剥离 `/proxy/3000/` 前缀。
+- 不需要更改项目配置，所有的懒编译、静态资源、路由都默认工作正常。
+- 需要输入 code-server 的密码才能访问你的项目。
+- 能够利用 `*.your.domain` 泛域名证书，不用再单独为 `*.code.your.domain` 创建新的证书。
+
 ## Cloudflare API Token
 
 在 [Cloudflare API Token](https://dash.cloudflare.com/profile/api-tokens) 点击创建令牌，点击 `编辑区域 DNS` 后面的模板，权限分别选择 `区域` `DNS` `编辑` ，区域资源选择 `包括` `特定区域` `你的域名` ，点击底部的 `继续以显示摘要` ，将会显示 API Token，复制下来，关闭页面就再也不会显示了。
