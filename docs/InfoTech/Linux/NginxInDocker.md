@@ -194,7 +194,7 @@ server {
 }
 ```
 
-### conf.d/code.your.domain.conf
+### conf.d/code.your.domain.conf 示例
 
 这是 code-server 的配置文件，可以参考。
 
