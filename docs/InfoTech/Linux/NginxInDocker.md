@@ -502,7 +502,7 @@ server {
 
 ## 附：WebSocket 代理
 
-假定把代理服务放在 `code.your.domain` 下，路径为 `/your_secret_path`
+假定把代理服务放在 `code.your.domain` 下，路径为 `/your_secret_path` ，转发到 `s-ui` 的 `10000` 端口。
 
 **conf.d/code.your.domain.conf** :
 
