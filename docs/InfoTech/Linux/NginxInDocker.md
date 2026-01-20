@@ -499,3 +499,98 @@ server {
 ```
 
 配置生效后，你可以尝试直接访问 `https://你的IP`，浏览器会警告证书错误，且证书信息显示为 `Fake`，证明你的真实域名已被成功隐藏。
+
+## 附：WebSocket 代理
+
+假定把代理服务放在 `code.your.domain` 下，路径为 `/your_secret_path`
+
+**conf.d/code.your.domain.conf** :
+
+```nginx
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    http2 on;
+
+    # 你的域名
+    server_name code.your.domain *.your.domain;
+
+    # 复用 SSL 配置
+    include /etc/nginx/conf.d/snippets/ssl-common.conf;
+
+    access_log /var/log/nginx/code_access.log;
+    error_log /var/log/nginx/code_error.log warn;
+
+    location / {
+        # LinuxServer 镜像默认容器内监听 8443
+        # 且在同一网络下，直接用服务名访问
+        proxy_pass http://code-server:8443;
+
+        # 复用通用 Header (包含 Host, Real-IP, WebSocket Upgrade)
+        include /etc/nginx/conf.d/snippets/proxy-common.conf;
+
+        # =========================================
+        # code-server 专属优化
+        # =========================================
+
+        # 1. WebSocket 核心 (终端必须)
+        # 你的 proxy-common.conf 已经包含了 Upgrade 和 Connection 头
+        # 所以这里不需要重复写，但下面的超时必须加
+
+        # 2. 长连接超时设置
+        # 如果不设置，你在网页终端里写代码，过一会不动就会断开连接
+        proxy_read_timeout 86400s;
+        proxy_send_timeout 86400s;
+
+        # 3. 关闭缓冲
+        # 保证终端输入输出的实时性
+        proxy_buffering off;
+        proxy_request_buffering off;
+    }
+
+    # ===============================
+    #      秘密通道 (s-ui 分流)
+    # ===============================
+    location /your_secret_path {
+        proxy_pass http://s-ui:10000;
+
+        # 1. 基础 WebSocket 必须头
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+
+        # 2. 传递真实 IP (配合 s-ui 日志或审计)
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+        # =========================================
+        # 核心优化部分
+        # =========================================
+
+        # 3. 关闭缓冲 (极重要：降低延迟)
+        # Nginx 默认会缓存后端的数据。对于代理流量，我们希望数据来了立马转给客户端。
+        # 开启这个可以显著降低延迟，提升浏览网页和看视频的流畅度。
+        proxy_buffering off;
+
+        # 4. 延长超时时间 (极重要：防止断连)
+        # Nginx 默认 60秒 无数据传输就切断连接。
+        # 挂梯子时（特别是 SSH 或看长视频暂停时），容易因此意外断开。
+        # 设置为一天 (86400s) 确保连接极其稳定。
+        proxy_read_timeout 86400s;
+        proxy_send_timeout 86400s;
+
+        # 5. 支持 Xray/Sing-box 的 0-RTT (Early Data)
+        # 这可以让连接建立更快。如果不透传这些头，Early Data 功能会失效。
+        # 客户端需设置 Max Early Data > 0 才能生效。
+        proxy_set_header Sec-WebSocket-Key $http_sec_websocket_key;
+        proxy_set_header Sec-WebSocket-Extensions $http_sec_websocket_extensions;
+        proxy_set_header Sec-WebSocket-Accept $http_sec_websocket_accept;
+        proxy_set_header Sec-WebSocket-Protocol $http_sec_websocket_protocol;
+
+        # 6. 禁用重定向处理
+        # 代理隧道不需要 Nginx 去处理 301/302 跳转，直接透传即可。
+        proxy_redirect off;
+    }
+}
+```
