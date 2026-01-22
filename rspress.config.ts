@@ -9,7 +9,7 @@ export default defineConfig({
   plugins: [
     ghPages({
       repo: 'https://github.com/SoClear/soclear.github.io.git',
-      branch: 'website',
+      branch: 'rspress',
     }),
     katex(),
     mermaid()
