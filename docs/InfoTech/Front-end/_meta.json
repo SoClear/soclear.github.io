@@ -1,0 +1,35 @@
+[
+  {
+    "type": "dir",
+    "name": "HTML",
+    "label": "HTML",
+    "collapsible": true,
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "CSS",
+    "label": "CSS",
+    "collapsible": true,
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "Vue",
+    "label": "Vue",
+    "collapsible": true,
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "Vue3",
+    "label": "Vue3",
+    "collapsible": true,
+    "collapsed": true
+  },
+  {
+    "type": "file",
+    "name": "code-server端口转发与vite配合",
+    "label": "code-server端口转发与vite配合"
+  }
+]

@@ -1,18 +1,18 @@
-import { defineConfig, type DefaultTheme } from 'vitepress'
+import { defineConfig, type DefaultTheme } from 'vitepress';
 
 // VitePress 配置文件
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   lang: 'zh-Hans',
-  title: "My Awesome Project",
-  description: "A VitePress Site",
+  title: 'My Awesome Project',
+  description: 'A VitePress Site',
   // markdown文件的根目录
   srcDir: 'docs',
   vite: {
     build: {
       // 忽略打包大小超过阈值的警告
-      chunkSizeWarningLimit: 3000
-    }
+      chunkSizeWarningLimit: 3000,
+    },
   },
   markdown: {
     // 支持html
@@ -25,12 +25,12 @@ export default defineConfig({
     attrs: { disable: true },
     // 禁止将 `{{text}}` 中的 text 解析为JS表达式，见 https://github.com/vuejs/vitepress/discussions/480
     config(md) {
-      const defaultCodeInline = md.renderer.rules.code_inline!
+      const defaultCodeInline = md.renderer.rules.code_inline!;
       md.renderer.rules.code_inline = (tokens, idx, options, env, self) => {
-        tokens[idx].attrSet('v-pre', '')
-        return defaultCodeInline(tokens, idx, options, env, self)
-      }
-    }
+        tokens[idx].attrSet('v-pre', '');
+        return defaultCodeInline(tokens, idx, options, env, self);
+      };
+    },
   },
   // 忽略死链（已失效的链接，也即没有对应文件的链接）
   ignoreDeadLinks: true,
@@ -38,7 +38,7 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/markdown-examples' }
+      { text: 'Examples', link: '/markdown-examples' },
     ],
 
     sidebar: [
@@ -46,32 +46,32 @@ export default defineConfig({
         text: 'Examples',
         items: [
           { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' }
-        ]
-      }
+          { text: 'Runtime API Examples', link: '/api-examples' },
+        ],
+      },
     ],
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
+      { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
     ],
     footer: {
       message: '请勿转载',
-      copyright: `版权所有 © 2019-${new Date().getFullYear()} SoClear`
+      copyright: `版权所有 © 2019-${new Date().getFullYear()} SoClear`,
     },
     docFooter: {
       prev: '上一页',
-      next: '下一页'
+      next: '下一页',
     },
     outline: {
       level: 'deep',
-      label: '页面导航'
+      label: '页面导航',
     },
 
     lastUpdated: {
       text: '最后更新于',
       formatOptions: {
         dateStyle: 'short',
-        timeStyle: 'medium'
-      }
+        timeStyle: 'medium',
+      },
     },
 
     langMenuLabel: '多语言',
@@ -86,7 +86,7 @@ export default defineConfig({
         translations: {
           button: {
             buttonText: '搜索文档',
-            buttonAriaLabel: '搜索文档'
+            buttonAriaLabel: '搜索文档',
           },
           modal: {
             displayDetails: '显示结果详情',
@@ -100,11 +100,11 @@ export default defineConfig({
               navigateUpKeyAriaLabel: '上一个',
               navigateDownKeyAriaLabel: '下一个',
               closeText: '关闭',
-              closeKeyAriaLabel: '关闭'
-            }
-          }
-        }
-      }
-    }
-  }
-})
+              closeKeyAriaLabel: '关闭',
+            },
+          },
+        },
+      },
+    },
+  },
+});

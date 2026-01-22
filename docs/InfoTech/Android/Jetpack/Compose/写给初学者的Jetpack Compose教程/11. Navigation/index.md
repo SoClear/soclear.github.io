@@ -12,7 +12,7 @@
 
 但Activity毕竟是比较重的组件，现在很多App甚至都在追求单Activity模式，而且这种思路更多还是一种基于View的编程思路，所以我们在Compose模式下就尽量不选它了。
 
-事实上，如果想要在Compose中实现多个页面之间进行跳转，可以借助我们在 [写给初学者的Jetpack Compose教程，使用State让界面动起来](../3.%20State/index.md) 这篇文章中学习的State技术来实现。
+事实上，如果想要在Compose中实现多个页面之间进行跳转，可以借助我们在 [写给初学者的Jetpack Compose教程，使用State让界面动起来](../03.%20State/index.md) 这篇文章中学习的State技术来实现。
 
 除此之外，Compose还给我们提供了一个专门用于在不同页面之间进行导航的组件：Navigation。
 
@@ -93,7 +93,7 @@ fun MyApp(modifier: Modifier = Modifier) {
 }
 ```
 
-这里使用到了在 [写给初学者的Jetpack Compose教程，使用State让界面动起来](../3.%20State/index.md) 这篇文章中学到的State技术。
+这里使用到了在 [写给初学者的Jetpack Compose教程，使用State让界面动起来](../03.%20State/index.md) 这篇文章中学到的State技术。
 
 定义了一个currentScreen变量用于控制当前展示的页面，然后用户点击了跳转按钮之后，更新currentScreen变量的值，这样就能实现页面跳转效果了，如下图所示。
 

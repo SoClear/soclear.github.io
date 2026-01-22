@@ -1,0 +1,37 @@
+[
+  {
+    "type": "dir",
+    "name": "AliAndroidDevelopmentStandard",
+    "label": "AliAndroidDevelopmentStandard",
+    "collapsible": true,
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "AndroidReverseEngineering",
+    "label": "AndroidReverseEngineering",
+    "collapsible": true,
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "Basics",
+    "label": "Basics",
+    "collapsible": true,
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "Jetpack",
+    "label": "Jetpack",
+    "collapsible": true,
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "Others",
+    "label": "Others",
+    "collapsible": true,
+    "collapsed": true
+  }
+]

@@ -205,7 +205,7 @@ fun checkModuleEnabled(): Boolean = preferenceFile != null
 
 接下来，开发一定要做好自测✍️✍️✍️。打 release 包，安装测试，又双叒叕出错了，查看 LSPosed 日志，发现找不到 `DataStore` 相关的类。哦哦哦，是我启用了 ProGuard/R8 压缩，那就保留相关的类及其方法：
 
-```proguard-rules.pro
+```text
 -keep class androidx.datastore.DataStoreFile {
     public static java.io.File dataStoreFile(android.content.Context, java.lang.String);
 }
@@ -346,7 +346,7 @@ override fun onPause() {
 
 如果启用了代码压缩/混淆，则需要添加以下规则：
 
-```pro
+```text
 -keep class your.packagename.MainHook
 
 -keep class androidx.datastore.DataStoreFile {

@@ -1,4 +1,6 @@
-# Node.js 环境变量[#](https://node.org.cn/api/environment_variables.html#environment-variables)
+# Node.js 环境变量
+
+[出处](https://node.org.cn/api/environment_variables.html#environment-variables)
 
 环境变量是与 Node.js 进程运行环境相关联的变量。
 
@@ -22,7 +24,7 @@
 
 以下是一个基本 `.env` 文件内容的示例：
 
-```env
+```text
 MY_VAR_A = "my variable A"
 MY_VAR_B = "my variable B"
 ```
@@ -57,7 +59,7 @@ MY_VAR_B = "my variable B"
 
 有效变量的示例：
 
-```env
+```text
 MY_SIMPLE_VAR = a simple single line variable
 MY_EQUALS_VAR = "this variable contains an = sign!"
 MY_HASH_VAR = 'this variable contains a # symbol!'
@@ -72,14 +74,14 @@ two separate lines\nSorry, I meant three lines'
 
 例如：
 
-```env
+```text
    MY_VAR_A   =    my variable a
     MY_VAR_B   =    '   my variable b   '
 ```
 
 将被视为与以下内容完全相同：
 
-```env
+```text
 MY_VAR_A = my variable a
 MY_VAR_B = '   my variable b   '
 ```
@@ -92,7 +94,7 @@ MY_VAR_B = '   my variable b   '
 
 例如：
 
-```env
+```text
 # This is a comment
 MY_VAR = my variable # This is also a comment
 MY_VAR_A = "# this is NOT a comment"
@@ -106,7 +108,7 @@ MY_VAR_A = "# this is NOT a comment"
 
 示例
 
-```env
+```text
 export MY_VAR = my variable
 ```
 

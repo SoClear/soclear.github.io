@@ -1,4 +1,6 @@
-# [官网教程代码（Material You版）](https://developer.android.com/jetpack/compose/tutorial)
+# 官网教程代码（Material You版）
+
+[官网教程代码（Material You版）](https://developer.android.com/jetpack/compose/tutorial)
 
 ## MainActivity.kt
 

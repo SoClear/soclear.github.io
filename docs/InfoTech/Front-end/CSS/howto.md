@@ -6,7 +6,7 @@
 
 当样式需要应用于很多页面时，外部样式表将是理想的选择。在使用外部样式表的情况下，你可以通过改变一个文件来改变整个站点的外观。每个页面使用 `<link>` 标签链接到样式表。 `<link>` 标签在（文档的）头部：
 
-```HTML
+```html
 <head>
 <link rel="stylesheet" type="text/css" href="mystyle.css">
 </head>

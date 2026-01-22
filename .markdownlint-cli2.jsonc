@@ -4,8 +4,5 @@
     "MD013": false,
     "MD024": false
   },
-  "ignores": [
-    ".docsify/_sidebar.md",
-    "docs/TOC.md"
-  ]
+  "ignores": [".docsify/_sidebar.md", "docs/TOC.md"]
 }

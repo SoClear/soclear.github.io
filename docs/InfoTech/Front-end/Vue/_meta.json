@@ -1,0 +1,77 @@
+[
+  {
+    "type": "file",
+    "name": "start",
+    "label": "初识"
+  },
+  {
+    "type": "file",
+    "name": "delegate",
+    "label": "数据代理"
+  },
+  {
+    "type": "file",
+    "name": "bind_class_style",
+    "label": "绑定样式"
+  },
+  {
+    "type": "file",
+    "name": "conditional_rendering",
+    "label": "条件渲染"
+  },
+  {
+    "type": "file",
+    "name": "list_rendering",
+    "label": "列表渲染"
+  },
+  {
+    "type": "file",
+    "name": "key",
+    "label": "key的作用与原理"
+  },
+  {
+    "type": "file",
+    "name": "list_filter",
+    "label": "列表过滤"
+  },
+  {
+    "type": "file",
+    "name": "list_sort",
+    "label": "列表排序"
+  },
+  {
+    "type": "file",
+    "name": "watch_data",
+    "label": "监视数据"
+  },
+  {
+    "type": "file",
+    "name": "collect_form_data",
+    "label": "收集表单数据"
+  },
+  {
+    "type": "file",
+    "name": "filters",
+    "label": "过滤器"
+  },
+  {
+    "type": "file",
+    "name": "built-in_instructions",
+    "label": "内置指令"
+  },
+  {
+    "type": "file",
+    "name": "custom_instructions",
+    "label": "自定义指令"
+  },
+  {
+    "type": "file",
+    "name": "lifecycle",
+    "label": "生命周期"
+  },
+  {
+    "type": "file",
+    "name": "non_sfc",
+    "label": "非单文件组件"
+  }
+]

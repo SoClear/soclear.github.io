@@ -1,0 +1,17 @@
+[
+  {
+    "type": "file",
+    "name": "introduce",
+    "label": "简介"
+  },
+  {
+    "type": "file",
+    "name": "create",
+    "label": "一、创建Vue3.0工程"
+  },
+  {
+    "type": "file",
+    "name": "composition_api",
+    "label": "二、常用 Composition API"
+  }
+]

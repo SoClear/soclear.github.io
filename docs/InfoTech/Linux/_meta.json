@@ -1,0 +1,44 @@
+[
+  {
+    "type": "dir",
+    "name": "bases",
+    "label": "基础",
+    "collapsible": true,
+    "collapsed": true
+  },
+  {
+    "type": "file",
+    "name": "BBR",
+    "label": "BBR"
+  },
+  {
+    "type": "file",
+    "name": "code-server_cron",
+    "label": "code-server 配置 cron"
+  },
+  {
+    "type": "file",
+    "name": "docker",
+    "label": "docker"
+  },
+  {
+    "type": "file",
+    "name": "nginx-proxy-manager",
+    "label": "Nginx Proxy Manager"
+  },
+  {
+    "type": "file",
+    "name": "NginxInDocker",
+    "label": "在 Docker 中使用 Nginx"
+  },
+  {
+    "type": "file",
+    "name": "tmux",
+    "label": "tmux"
+  },
+  {
+    "type": "file",
+    "name": "ufw",
+    "label": "ufw"
+  }
+]

@@ -81,7 +81,7 @@
 
 在~/.tmux.conf中更改前缀键为Ctrl+x
 
-```Text
+```text
 #below reset tmux prefix command key
 set -g prefix C-x
 unbind C-b

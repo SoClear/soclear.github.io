@@ -1,0 +1,44 @@
+[
+  {
+    "type": "dir",
+    "name": "C",
+    "label": "C",
+    "collapsible": true,
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "Java",
+    "label": "Java",
+    "collapsible": true,
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "JavaScript",
+    "label": "JavaScript",
+    "collapsible": true,
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "Kotlin",
+    "label": "Kotlin",
+    "collapsible": true,
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "Rust",
+    "label": "Rust",
+    "collapsible": true,
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "TypeScript",
+    "label": "TypeScript",
+    "collapsible": true,
+    "collapsed": true
+  }
+]

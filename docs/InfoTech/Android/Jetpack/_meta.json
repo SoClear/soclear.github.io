@@ -1,0 +1,26 @@
+[
+  {
+    "type": "file",
+    "name": "Jetpack",
+    "label": "简介"
+  },
+  {
+    "type": "dir",
+    "name": "Compose",
+    "label": "Compose",
+    "collapsible": true,
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "Dagger-Hilt",
+    "label": "Dagger-Hilt",
+    "collapsible": true,
+    "collapsed": true
+  },
+  {
+    "type": "file",
+    "name": "DataStore",
+    "label": "DataStore"
+  }
+]

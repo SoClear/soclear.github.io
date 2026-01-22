@@ -1,0 +1,92 @@
+[
+  {
+    "type": "file",
+    "name": "introduce",
+    "label": "介绍"
+  },
+  {
+    "type": "file",
+    "name": "install",
+    "label": "安装"
+  },
+  {
+    "type": "file",
+    "name": "type",
+    "label": "类型"
+  },
+  {
+    "type": "file",
+    "name": "compile_options",
+    "label": "编译选项"
+  },
+  {
+    "type": "file",
+    "name": "webpack",
+    "label": "用webpack打包ts代码"
+  },
+  {
+    "type": "file",
+    "name": "class_property_function",
+    "label": "类、属性和方法"
+  },
+  {
+    "type": "file",
+    "name": "constructor_this",
+    "label": "构造函数和this"
+  },
+  {
+    "type": "file",
+    "name": "extends",
+    "label": "继承和super关键字"
+  },
+  {
+    "type": "file",
+    "name": "abstract_class",
+    "label": "抽象类"
+  },
+  {
+    "type": "file",
+    "name": "interface",
+    "label": "接口"
+  },
+  {
+    "type": "file",
+    "name": "get_set",
+    "label": "get和set"
+  },
+  {
+    "type": "file",
+    "name": "optional_parameters_properties",
+    "label": "可选参数、可选属性"
+  },
+  {
+    "type": "file",
+    "name": "typeof",
+    "label": "typeof"
+  },
+  {
+    "type": "file",
+    "name": "compatible",
+    "label": "类型兼容性"
+  },
+  {
+    "type": "file",
+    "name": "intersection_types",
+    "label": "交叉类型"
+  },
+  {
+    "type": "file",
+    "name": "generics",
+    "label": "泛型"
+  },
+  {
+    "type": "file",
+    "name": "index_types",
+    "label": "索引签名类型"
+  },
+  {
+    "type": "file",
+    "name": "mapping_types",
+    "label": "映射类型"
+  }
+]

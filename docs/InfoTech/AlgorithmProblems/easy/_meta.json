@@ -1,0 +1,73 @@
+[
+  {
+    "type": "file",
+    "name": "two-sum",
+    "label": "两数之和"
+  },
+  {
+    "type": "file",
+    "name": "palindrome-number",
+    "label": "回文数"
+  },
+  {
+    "type": "file",
+    "name": "roman-to-integer",
+    "label": "罗马数字转整数"
+  },
+  {
+    "type": "file",
+    "name": "longest-common-prefix",
+    "label": "最长公共前缀"
+  },
+  {
+    "type": "file",
+    "name": "valid-parentheses",
+    "label": "有效的括号"
+  },
+  {
+    "type": "file",
+    "name": "merge-two-sorted-lists",
+    "label": "合并两个有序链表"
+  },
+  {
+    "type": "file",
+    "name": "remove-duplicates-from-sorted-array",
+    "label": "删除有序数组中的重复项"
+  },
+
+  {
+    "type": "file",
+    "name": "remove-element",
+    "label": "移除元素"
+  },
+  {
+    "type": "file",
+    "name": "implement-strstr",
+    "label": "实现 strStr()"
+  },
+  {
+    "type": "file",
+    "name": "search-insert-position",
+    "label": "搜索插入位置"
+  },
+  {
+    "type": "file",
+    "name": "maximum-subarray",
+    "label": "最大子数组和"
+  },
+  {
+    "type": "file",
+    "name": "string_n_times",
+    "label": "重复字符串n次"
+  },
+  {
+    "type": "file",
+    "name": "length-of-last-word",
+    "label": "最后一个单词的长度"
+  },
+  {
+    "type": "file",
+    "name": "plus-one",
+    "label": "加一"
+  }
+]

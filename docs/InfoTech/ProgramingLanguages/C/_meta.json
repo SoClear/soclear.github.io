@@ -1,0 +1,162 @@
+[
+  {
+    "type": "file",
+    "name": "introduce",
+    "label": "介绍"
+  },
+  {
+    "type": "file",
+    "name": "program-structure",
+    "label": "程序结构"
+  },
+  {
+    "type": "file",
+    "name": "basic-syntax",
+    "label": "基本语法"
+  },
+  {
+    "type": "file",
+    "name": "data-types",
+    "label": "数据类型"
+  },
+  {
+    "type": "file",
+    "name": "variables",
+    "label": "变量"
+  },
+  {
+    "type": "file",
+    "name": "constants",
+    "label": "常量"
+  },
+  {
+    "type": "file",
+    "name": "storage-classes",
+    "label": "存储类"
+  },
+  {
+    "type": "file",
+    "name": "operators",
+    "label": "运算符"
+  },
+  {
+    "type": "file",
+    "name": "decision",
+    "label": "判断"
+  },
+  {
+    "type": "file",
+    "name": "loops",
+    "label": "循环"
+  },
+  {
+    "type": "file",
+    "name": "functions",
+    "label": "函数"
+  },
+  {
+    "type": "file",
+    "name": "scope-rules",
+    "label": "作用域规则"
+  },
+  {
+    "type": "file",
+    "name": "arrays",
+    "label": "数组"
+  },
+  {
+    "type": "file",
+    "name": "enum",
+    "label": "枚举"
+  },
+  {
+    "type": "file",
+    "name": "pointers",
+    "label": "指针"
+  },
+  {
+    "type": "file",
+    "name": "fun-pointer-callback",
+    "label": "函数指针与回调函数"
+  },
+  {
+    "type": "file",
+    "name": "strings",
+    "label": "字符串"
+  },
+  {
+    "type": "file",
+    "name": "structures",
+    "label": "结构体"
+  },
+  {
+    "type": "file",
+    "name": "unions",
+    "label": "共用体"
+  },
+  {
+    "type": "file",
+    "name": "bit-fields",
+    "label": "位域"
+  },
+  {
+    "type": "file",
+    "name": "typedef",
+    "label": "typedef"
+  },
+  {
+    "type": "file",
+    "name": "input-output",
+    "label": "输入输出"
+  },
+  {
+    "type": "file",
+    "name": "file-io",
+    "label": "文件读写"
+  },
+  {
+    "type": "file",
+    "name": "preprocessors",
+    "label": "预处理器"
+  },
+  {
+    "type": "file",
+    "name": "header-files",
+    "label": "头文件"
+  },
+  {
+    "type": "file",
+    "name": "type-casting",
+    "label": "强制类型转换"
+  },
+  {
+    "type": "file",
+    "name": "error-handling",
+    "label": "错误处理"
+  },
+  {
+    "type": "file",
+    "name": "recursion",
+    "label": "递归"
+  },
+  {
+    "type": "file",
+    "name": "variable-arguments",
+    "label": "可变参数"
+  },
+  {
+    "type": "file",
+    "name": "memory-management",
+    "label": "内存管理"
+  },
+  {
+    "type": "file",
+    "name": "undefined-behavior",
+    "label": "未定义行为"
+  },
+  {
+    "type": "file",
+    "name": "command-line-arguments",
+    "label": "命令行参数"
+  }
+]

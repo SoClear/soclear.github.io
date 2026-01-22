@@ -1,0 +1,22 @@
+[
+  {
+    "type": "file",
+    "name": "introduce",
+    "label": "介绍"
+  },
+  {
+    "type": "file",
+    "name": "get-started",
+    "label": "入门"
+  },
+  {
+    "type": "file",
+    "name": "guessing-game",
+    "label": "猜数游戏"
+  },
+  {
+    "type": "file",
+    "name": "common-programming-concepts",
+    "label": "常见编程概念"
+  }
+]

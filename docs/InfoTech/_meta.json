@@ -1,0 +1,72 @@
+[
+  {
+    "type": "dir",
+    "name": "AlgorithmProblems",
+    "label": "AlgorithmProblems",
+    "collapsible": true,
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "Android",
+    "label": "Android",
+    "collapsible": true,
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "Concepts",
+    "label": "Concepts",
+    "collapsible": true,
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "Front-end",
+    "label": "Front-end",
+    "collapsible": true,
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "Git",
+    "label": "Git",
+    "collapsible": true,
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "Gradle",
+    "label": "Gradle",
+    "collapsible": true,
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "Linux",
+    "label": "Linux",
+    "collapsible": true,
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "Misc",
+    "label": "Misc",
+    "collapsible": true,
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "ProgramingLanguages",
+    "label": "ProgrammingLanguages",
+    "collapsible": true,
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "SQLite",
+    "label": "SQLite",
+    "collapsible": true,
+    "collapsed": true
+  }
+]

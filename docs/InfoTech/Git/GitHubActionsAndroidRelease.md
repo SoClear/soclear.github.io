@@ -138,7 +138,7 @@ android {
 1. 保留整个类：
     如果你想要保留整个类不被混淆并且不被移除，可以使用 `-keep` 指令。
 
-    ```pro
+    ```text
     -keep your.package.YourHookClass { *; }
     ```
 
@@ -146,13 +146,13 @@ android {
 
 2. 如果你只希望保留类本身但允许其成员（方法和字段）被混淆，你可以这样做：
 
-    ```pro
+    ```text
     -keep class your.package.YourHookClass
     ```
 
 3. 如果你有特定的方法或字段需要保留，你可以明确指出它们。例如：
 
-    ```pro
+    ```text
     -keepclassmembers your.package.YourHookClass {
         <fields>;
         <methods>;
@@ -163,7 +163,7 @@ android {
 
 4. 如果这个类是用于反射或者动态加载，你应该确保它的构造函数、方法签名和字段名都被保留下来：
 
-    ```pro
+    ```text
     -keep,allowobfuscation your.package.YourHookClass {
         *;
     }
@@ -171,7 +171,7 @@ android {
 
 5. 如果你还想保留注解信息，可以添加：
 
-    ```pro
+    ```text
     -keepattributes *Annotation*
     ```
 

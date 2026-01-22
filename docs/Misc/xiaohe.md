@@ -12,13 +12,13 @@
 
 学好小鹤双拼，首先得学好汉语拼音
 
-![拼音](xiaohe_1.jpeg)
+![拼音](./xiaohe_1.jpeg)
 
 ## 小鹤双拼
 
-![键位](xiaohe_2.png)
+![键位](./xiaohe_2.png)
 
-![零声母](xiaohe_3.png)
+![零声母](./xiaohe_3.png)
 
 `uan üan R`
 `üe T`

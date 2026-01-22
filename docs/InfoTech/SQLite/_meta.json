@@ -1,0 +1,152 @@
+[
+  {
+    "type": "file",
+    "name": "install",
+    "label": "安装"
+  },
+  {
+    "type": "file",
+    "name": "commands",
+    "label": "命令"
+  },
+  {
+    "type": "file",
+    "name": "syntax",
+    "label": "语法"
+  },
+  {
+    "type": "file",
+    "name": "data-types",
+    "label": "数据类型"
+  },
+  {
+    "type": "file",
+    "name": "create-database",
+    "label": "创建数据库"
+  },
+  {
+    "type": "file",
+    "name": "attach-database",
+    "label": "附加数据库"
+  },
+  {
+    "type": "file",
+    "name": "detach-database",
+    "label": "分离数据库"
+  },
+  {
+    "type": "file",
+    "name": "create-table",
+    "label": "创建表"
+  },
+  {
+    "type": "file",
+    "name": "drop-table",
+    "label": "删除表"
+  },
+  {
+    "type": "file",
+    "name": "insert",
+    "label": "Insert 语句"
+  },
+  {
+    "type": "file",
+    "name": "select",
+    "label": "Select 语句"
+  },
+  {
+    "type": "file",
+    "name": "operators",
+    "label": "运算符"
+  },
+  {
+    "type": "file",
+    "name": "expressions",
+    "label": "表达式"
+  },
+  {
+    "type": "file",
+    "name": "alias",
+    "label": "别名"
+  },
+  {
+    "type": "file",
+    "name": "where-clause",
+    "label": "Where 子句"
+  },
+  {
+    "type": "file",
+    "name": "and-or-clauses",
+    "label": "AND/OR 运算符"
+  },
+  {
+    "type": "file",
+    "name": "update",
+    "label": "Update 语句"
+  },
+  {
+    "type": "file",
+    "name": "delete",
+    "label": "Delete 语句"
+  },
+  {
+    "type": "file",
+    "name": "like-clause",
+    "label": "Like 子句"
+  },
+  {
+    "type": "file",
+    "name": "glob-clause",
+    "label": "Glob 子句"
+  },
+  {
+    "type": "file",
+    "name": "limit-clause",
+    "label": "Limit 子句"
+  },
+  {
+    "type": "file",
+    "name": "order-by",
+    "label": "Order By"
+  },
+  {
+    "type": "file",
+    "name": "group-by",
+    "label": "Group By"
+  },
+  {
+    "type": "file",
+    "name": "having",
+    "label": "Having 子句"
+  },
+  {
+    "type": "file",
+    "name": "distinct",
+    "label": "Distinct 关键字"
+  },
+  {
+    "type": "file",
+    "name": "pragma",
+    "label": "PRAGMA"
+  },
+  {
+    "type": "file",
+    "name": "constraints",
+    "label": "约束"
+  },
+  {
+    "type": "file",
+    "name": "join",
+    "label": "Join"
+  },
+  {
+    "type": "file",
+    "name": "union",
+    "label": "UNION"
+  },
+  {
+    "type": "file",
+    "name": "sqlite-in-android",
+    "label": "在安卓中使用 SQLite"
+  }
+]

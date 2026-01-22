@@ -6,7 +6,7 @@
 
 **示例 1：**
 
-![合并实例](merge-two-sorted-lists.jpg)
+![合并实例](./merge-two-sorted-lists.jpg)
 
 ```text
 输入：l1 = [1,2,4], l2 = [1,3,4]
@@ -77,14 +77,14 @@ def f(x):
 - 终止条件：当两个链表都为空时，表示我们对链表已合并完成。
 - 如何递归：我们判断 `l1` 和 `l2` 头结点哪个更小，然后较小结点的 `next` 指针指向**其余结点的合并结果。（调用递归）**
 
-![合并实例](merge-two-sorted-lists-1.jpg)
-![合并实例](merge-two-sorted-lists-2.jpg)
-![合并实例](merge-two-sorted-lists-3.jpg)
-![合并实例](merge-two-sorted-lists-4.jpg)
-![合并实例](merge-two-sorted-lists-5.jpg)
-![合并实例](merge-two-sorted-lists-6.jpg)
-![合并实例](merge-two-sorted-lists-7.jpg)
-![合并实例](merge-two-sorted-lists-8.jpg)
+![合并实例](./merge-two-sorted-lists-1.jpg)
+![合并实例](./merge-two-sorted-lists-2.jpg)
+![合并实例](./merge-two-sorted-lists-3.jpg)
+![合并实例](./merge-two-sorted-lists-4.jpg)
+![合并实例](./merge-two-sorted-lists-5.jpg)
+![合并实例](./merge-two-sorted-lists-6.jpg)
+![合并实例](./merge-two-sorted-lists-7.jpg)
+![合并实例](./merge-two-sorted-lists-8.jpg)
 
 kotlin
 

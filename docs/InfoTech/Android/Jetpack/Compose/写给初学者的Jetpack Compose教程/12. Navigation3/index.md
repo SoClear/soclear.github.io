@@ -64,15 +64,15 @@ jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serializati
 
 接下来在app/build.gradle.kts中添加如下依赖：
 
-```gradle
+```kotlin
 plugins {
-    ...
+    // ...
     // Optional, provides the @Serialize annotation for autogeneration of Serializers.
     alias(libs.plugins.jetbrains.kotlin.serialization)
 }
 
 dependencies {
-    ...
+    // ...
     implementation(libs.androidx.navigation3.ui)
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.lifecycle.viewmodel.navigation3)
