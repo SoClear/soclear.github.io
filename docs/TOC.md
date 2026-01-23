@@ -213,7 +213,6 @@
     - [Git历史](InfoTech/Git/history.md)
     - [工作区、暂存区和版本库](InfoTech/Git/workspace-stage-repo.md)
     - [工作流程](InfoTech/Git/procedure.md)
-    - [创建仓库](InfoTech/Git/create-repo.md)
     - [文件操作](InfoTech/Git/file-operation.md)
     - [管理分支](InfoTech/Git/branches-management.md)
     - [查看提交历史](InfoTech/Git/log-blame.md)
