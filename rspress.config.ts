@@ -1,19 +1,11 @@
 import * as path from 'node:path';
 import { defineConfig } from '@rspress/core';
-import ghPages from 'rspress-plugin-gh-pages';
 import katex from 'rspress-plugin-katex';
 import mermaid from 'rspress-plugin-mermaid';
 
 export default defineConfig({
   root: path.join(__dirname, 'docs'),
-  plugins: [
-    ghPages({
-      repo: 'https://github.com/SoClear/soclear.github.io.git',
-      branch: 'rspress',
-    }),
-    katex(),
-    mermaid()
-  ],
+  plugins: [katex(), mermaid()],
   title: 'My Site',
   icon: '/rspress-icon.png',
   logo: {
