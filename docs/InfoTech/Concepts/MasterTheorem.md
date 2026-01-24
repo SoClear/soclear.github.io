@@ -6,7 +6,9 @@
 
 主定理适用于求解以下形式的递归关系式：
 
-$$ T(n) = a T(n/b) + f(n) $$
+```math
+T(n) = a T(n/b) + f(n)
+```
 
 其中：
 
@@ -57,26 +59,52 @@ $$ T(n) = a T(n/b) + f(n) $$
 ### 情况 1：叶子节点占主导 (Heavy Leaves)
 
 如果 $f(n)$ 的增长速率**多项式地小于** $n^{\log_b a}$，即存在常数 $\epsilon > 0$，使得：
-$$ f(n) = O(n^{\log_b a - \epsilon}) $$
+
+```math
+f(n) = O(n^{\log_b a - \epsilon})
+```
+
 那么，递归树叶子层的工作量决定了总复杂度：
-$$ T(n) = \Theta(n^{\log_b a}) $$
+
+```math
+T(n) = \Theta(n^{\log_b a})
+```
 
 ### 情况 2：权重平衡 (Balanced)
 
 如果 $f(n)$ 的增长速率与 $n^{\log_b a}$ **相当**（通常只差一个对数因子），即：
-$$ f(n) = \Theta(n^{\log_b a} \log^k n) $$
+
+```math
+f(n) = \Theta(n^{\log_b a} \log^k n)
+```
+
 其中 $k \ge 0$（最常见的是 $k=0$）。那么，总复杂度为：
-$$ T(n) = \Theta(n^{\log_b a} \log^{k+1} n) $$
+
+```math
+T(n) = \Theta(n^{\log_b a} \log^{k+1} n)
+```
+
 > **特例**：当 $k=0$ 时（即 $f(n) = \Theta(n^{\log_b a})$），$T(n) = \Theta(n^{\log_b a} \log n)$。这也是归并排序的情况。
 
 ### 情况 3：根节点占主导 (Heavy Root)
 
 如果 $f(n)$ 的增长速率**多项式地大于** $n^{\log_b a}$，即存在常数 $\epsilon > 0$，使得：
-$$ f(n) = \Omega(n^{\log_b a + \epsilon}) $$
+
+```math
+f(n) = \Omega(n^{\log_b a + \epsilon})
+```
+
 **且** 满足 **正则性条件 (Regularity Condition)** ：存在常数 $c < 1$ 和足够大的 $n$，使得：
-$$ a f(n/b) \le c f(n) $$
+
+```math
+a f(n/b) \le c f(n)
+```
+
 那么，递归树根节点的工作量决定了总复杂度：
-$$ T(n) = \Theta(f(n)) $$
+
+```math
+T(n) = \Theta(f(n))
+```
 
 ---
 
