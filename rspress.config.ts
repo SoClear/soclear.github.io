@@ -31,26 +31,6 @@ export default defineConfig({
     },
   },
   builderConfig: {
-    html: {
-      tags: [
-        {
-          tag: 'link',
-          attrs: {
-            rel: 'preconnect',
-            href: 'https://cdn.jsdelivr.net',
-          },
-        },
-        {
-          tag: 'link',
-          attrs: {
-            rel: 'stylesheet',
-            href: 'https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-web/style.css',
-            crossorigin: 'anonymous',
-            referrerpolicy: 'no-referrer',
-          },
-        },
-      ],
-    },
     tools: {
       rspack: {
         resolve: {

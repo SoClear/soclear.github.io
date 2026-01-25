@@ -37,6 +37,11 @@
   },
   {
     "type": "file",
+    "name": "Rspress更换字体",
+    "label": "Rspress更换字体"
+  },
+  {
+    "type": "file",
     "name": "WSL2_net",
     "label": "新版 WSL2 2.0 设置 Windows 和 WSL 镜像网络教程"
   },

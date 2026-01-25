@@ -1,25 +1,17 @@
-/* 定义本地代码字体 */
+/* 定义本地字体 */
 @font-face {
-  font-family: "MapleMonoNormalNL-Regular";
-  src: url("./MapleMonoNormalNL-Regular.ttf.woff2") format("woff2");
+  font-family: "MapleMonoNormalNL-CN-Regular";
+  src: url("./MapleMonoNormalNL-CN-Regular.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
 /* 应用字体变量 */
-/*
-LXGW WenKai Screen (全字符集，正文用)
-LXGW WenKai GB Screen (GB2312 常用字集，体积小，正文用)
-LXGW WenKai Mono Screen (全字符集，代码用)
-LXGW WenKai Mono GB Screen (GB2312 常用字集，代码用)
-*/
 :root {
   --rp-font-family-base:
-    "LXGW WenKai GB Screen", "Inter var experimental", "Inter var", -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans",
-    "Helvetica Neue", sans-serif;
+    "MapleMonoNormalNL-CN-Regular", "Inter var experimental", "Inter var", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   --rp-font-family-mono:
-    "MapleMonoNormalNL-Regular", "JetBrains Mono", "LXGW WenKai GB Screen",
-    Menlo, Monaco, Consolas, "Courier New", monospace;
+    "MapleMonoNormalNL-CN-Regular", Menlo, Monaco, Consolas, "Courier New",
+    monospace;
 }
