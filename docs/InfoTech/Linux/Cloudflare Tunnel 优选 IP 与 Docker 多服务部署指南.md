@@ -64,6 +64,11 @@
 
 *适合不想频繁测速，使用第三方维护好的优选线路（如 `www.shopify.com`）。*
 
+寻找优选 CNAME 的网站：
+
+- [CloudFlare公共优选Cname域名地址](https://www.wetest.vip/page/cloudflare/cname.html)
+- [enhanced-FaaS-in-China](https://github.com/xingpingcn/enhanced-FaaS-in-China)
+
 1. 进入 **DNS** -> **Records**。
 2. 添加记录：
     - **Type**: `CNAME`
