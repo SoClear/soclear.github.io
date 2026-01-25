@@ -13,6 +13,11 @@
   },
   {
     "type": "file",
+    "name": "Cloudflare Tunnel 优选 IP 与 Docker 多服务部署指南",
+    "label": "Cloudflare Tunnel 优选 IP 与 Docker 多服务部署指南"
+  },
+  {
+    "type": "file",
     "name": "code-server_cron",
     "label": "code-server 配置 cron"
   },
