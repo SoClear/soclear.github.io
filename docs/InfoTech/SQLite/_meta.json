@@ -71,6 +71,11 @@
   },
   {
     "type": "file",
+    "name": "concat",
+    "label": "拼接字段"
+  },
+  {
+    "type": "file",
     "name": "where-clause",
     "label": "Where 子句"
   },
