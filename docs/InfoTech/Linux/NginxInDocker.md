@@ -1,4 +1,8 @@
-# 在 Docker 中使用 Nginx
+---
+tags: ["Docker", "Nginx", "Cloudflare"]
+---
+
+# 在 Docker 中使用 Nginx 的最佳实践
 
 虽然已经有可视化配置 Nginx 的项目了，比如 [nginx-proxy-manager](https://github.com/NginxProxyManager/nginx-proxy-manager) 和 [Zoraxy](https://github.com/tobychui/zoraxy) ，但是遇到问题难以排查，而且占用资源相比纯 Nginx 更多。对于 IT 从业者来说，学会配置 Nginx 还是很有用的。
 
@@ -95,14 +99,32 @@ location /.well-known/acme-challenge/ {
 
 对于通配符证书是多余的，可以删掉。
 
+### conf.d/00-map.conf
+
+```nginx
+# 动态决定 Connection 头的值
+# $http_upgrade 是客户端发来的 Upgrade 头的值
+# 这个文件会自动被加载到 http {} 块中
+map $http_upgrade $connection_upgrade {
+    # 如果客户端发来了 Upgrade (例如 "websocket")，则变量值为 "upgrade"
+    default upgrade;
+    
+    # 如果客户端没发 Upgrade (为空)，则变量值为空字符串 (为了启用 Keep-Alive)
+    ''      "";
+}
+```
+
+解释：这是动态判断请求，当客户端发来的请求包含 Upgrade 头（WebSocket 握手）时，转发给后端的 Connection 也是 Upgrade；否则，转发空的 Connection 头（激活 HTTP/1.1 长连接）。
+
+- **如果是 WebSocket 请求**：将 Connection 头设为 Upgrade。
+- **如果是普通 HTTP 请求**：将 Connection 头设为 "" (清空)，从而开启后端 Keep-Alive。
+
+00-map.conf 绝对不能 放在 `conf.d/snippets/` 下，它必须直接放在 `conf.d/` 目录下，不然不会被 Nginx 自动加载。
+
 ### conf.d/snippets/proxy-common.conf
 
 ```nginx
 # 公共代理配置，所有反向代理都可以引用
-
-# 默认情况下 Nginx 使用 HTTP/1.0 连接后端，而 WebSocket 必须使用 HTTP/1.1
-# 必须指定 HTTP 1.1，否则 WebSocket 无法握手
-proxy_http_version 1.1;
 
 # 允许客户端上传无限大小的请求体（解决 413 Request Entity Too Large）
 client_max_body_size 0;
@@ -113,8 +135,13 @@ proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 proxy_set_header X-Forwarded-Proto $scheme;
 
 # WebSocket 支持
+# 默认情况下 Nginx 使用 HTTP/1.0 连接后端，而 WebSocket 必须使用 HTTP/1.1
+# 必须指定 HTTP 1.1，否则 WebSocket 无法握手
+proxy_http_version 1.1;
 proxy_set_header Upgrade $http_upgrade;
-proxy_set_header Connection "upgrade";
+# 使用刚才在 00-map.conf 里定义好的全局变量
+# 既能自动处理 WebSocket 握手，又能让普通请求保持长连接
+proxy_set_header Connection $connection_upgrade;
 ```
 
 ### conf.d/snippets/ssl-common.conf
@@ -209,7 +236,7 @@ server {
     http2 on;
 
     # 你的域名
-    server_name code.your.domain *.your.domain;
+    server_name code.your.domain;
 
     # 复用 SSL 配置
     include /etc/nginx/conf.d/snippets/ssl-common.conf;
@@ -258,8 +285,8 @@ services:
       - PGID=1000
       - TZ=Asia/Shanghai
       - PASSWORD=YourPassword
-      - PROXY_DOMAIN=your.domain
       - SUDO_PASSWORD=YourSudoPassword
+      #- PROXY_DOMAIN=your.domain
     volumes:
       - ./config:/config
     #ports:
@@ -272,13 +299,16 @@ networks:
     name: scoobydoo
 ```
 
-`code.your.domain.conf` 中的 `*.your.domain` 与 `docker-compose.yml` 中的 `- PROXY_DOMAIN=your.domain` 配合使用。
+如果在 `docker-compose.yml` 中的 `environment` 配置了 `- PROXY_DOMAIN=your.domain` ，
+那么 code-server 支持通过子域名访问项目的端口，例如 `https://3000.your.domain/` 。
 
-这样 code-server 支持通过子域名访问项目的端口，例如 `https://3000.your.domain/` ，
+但是不推荐这样做，既然我总归是要为项目配置一条反向代理，那么何必配置 `- PROXY_DOMAIN=your.domain` 呢
+
+为项目配置一条新的反向代理，而不是使用 `https://code.your.domain/proxy/3000/` 有以下好处：
 
 - 此时项目运行在域名的根目录 `/` 下，不再需要剥离 `/proxy/3000/` 前缀。
 - 不需要更改项目配置，所有的懒编译、静态资源、路由都默认工作正常。
-- 需要输入 code-server 的密码才能访问你的项目。
+- 不需要输入 code-server 的密码就能访问项目，给他人展示时不需要告诉他 code-server 的密码。
 - 能够利用 `*.your.domain` 泛域名证书，不用再单独为 `*.code.your.domain` 创建新的证书。
 
 ## Cloudflare API Token
@@ -322,6 +352,8 @@ networks:
     name: scoobydoo
 ```
 
+由于容器隔离，acme 无法直接通知 nginx 重载，所以采用了 Nginx 容器内部每 6 小时自动重载配置的策略，以确保读取到最新的证书。
+
 注意底部的
 
 ```yml
@@ -333,7 +365,11 @@ networks:
 
 默认加入外部网络 `scoobydoo`，当然名字可以自定义。这样每个加入该网络的容器都可以互相访问到了。
 
-如果没有该网络，则需手动创建该网络：`docker network create scoobydoo`
+如果没有该网络，则需手动创建该网络：
+
+```bash
+docker network create scoobydoo
+```
 
 ## 申请通配符证书
 
@@ -459,7 +495,21 @@ server {
 }
 ```
 
-### 3. 核心注意事项（非常重要）
+### 3. 重载 Nginx
+
+检查配置：
+
+```bash
+docker compose exec nginx nginx -t
+```
+
+重载 Nginx：
+
+```bash
+docker compose exec nginx nginx -s reload
+```
+
+### 4. 核心注意事项（非常重要）
 
 配置了上述 `default_server` 后，必须遵循一条铁律：
 

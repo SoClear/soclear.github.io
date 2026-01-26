@@ -34,7 +34,7 @@
   {
     "type": "file",
     "name": "NginxInDocker",
-    "label": "在 Docker 中使用 Nginx"
+    "label": "在 Docker 中使用 Nginx 的最佳实践"
   },
   {
     "type": "file",
