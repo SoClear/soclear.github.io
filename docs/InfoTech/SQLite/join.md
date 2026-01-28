@@ -125,6 +125,18 @@ SELECT EMP_ID, NAME, DEPT FROM COMPANY, DEPARTMENT where conditional_expression 
 SELECT ... FROM table1 [INNER] JOIN table2 ON conditional_expression ...
 ```
 
+多表连接：
+
+```sql
+SELECT 
+    t1.列名1, 
+    t2.列名2, 
+    t3.列名3
+FROM 表1 t1
+INNER JOIN 表2 t2 ON t1.关联字段 = t2.关联字段
+INNER JOIN 表3 t3 ON t2.关联字段 = t3.关联字段;
+```
+
 为了避免冗余，并保持较短的措辞，可以使用 **USING** 表达式声明内连接（INNER JOIN）条件。这个表达式指定一个或多个列的列表：
 
 ```sql
