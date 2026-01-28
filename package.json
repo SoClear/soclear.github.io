@@ -5,7 +5,7 @@
   "scripts": {
     "build": "rspress build",
     "check": "biome check --write",
-    "dev": "rspress dev",
+    "dev": "rspress dev --port 9292",
     "format": "biome format --write",
     "preview": "rspress preview"
   },

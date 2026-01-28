@@ -71,6 +71,11 @@
   },
   {
     "type": "file",
+    "name": "case",
+    "label": "条件分支"
+  },
+  {
+    "type": "file",
     "name": "concat",
     "label": "拼接字段"
   },
