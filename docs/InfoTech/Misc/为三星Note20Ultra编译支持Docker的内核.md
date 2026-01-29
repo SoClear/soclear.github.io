@@ -506,13 +506,11 @@ DOCKER_SUBNET="172.16.0.0/12"
 # 如果你不需要或想禁用此功能，请将引号内容留空，例如 EASYTIER_SUBNET=""
 EASYTIER_SUBNET="10.144.144.0/24"
 
-
 # 自定义路由表 ID (防止污染系统表)
 DOCKER_TABLE_ID=100
+DOCKER_REPLY_TABLE_ID=101
 
-# 路由规则优先级 (优先级设为 2500)
-# Android VPN 的优先级通常在 10000+，本地 WiFi 在 20000+
-# 我们设为 2500，既能优先接管 Docker 流量，又不干扰系统自身的高优先级规则
+# 路由规则优先级
 RULE_PREF=2500
 # ===========================================
 
@@ -522,46 +520,41 @@ if [ "$(id -u)" != "0" ]; then
     exit $?
 fi
 
-echo "=== 🚀 Android Docker 智能启动 (VPN 共存版) ==="
+echo "=== 🚀 Android Docker 智能启动 (完全版) ==="
 
 # ----------------------------------------------------------------
-# 1. 自动配置 daemon.json (修复 MTU 和 DNS 痛点)
+# 1. 自动配置 daemon.json
 # ----------------------------------------------------------------
-# 如果配置不存在，自动创建；如果存在，暂不覆盖以免丢失个性化设置
-# 强制推荐：MTU 1280 (适配所有 VPN)，DNS 使用公共 DNS
 CONF_DIR="/data/data/com.termux/files/usr/etc/docker"
 CONF_FILE="$CONF_DIR/daemon.json"
 
 if [ ! -f "$CONF_FILE" ]; then
-    echo "[1/6] Creating daemon.json (MTU 1280 + DNS)..."
+    echo "[1/7] Creating daemon.json..."
     mkdir -p "$CONF_DIR"
-    cat > "$CONF_FILE" <<EOF
+    cat > "$CONF_FILE" <<'DAEMON_EOF'
 {
     "data-root": "/data/data/com.termux/files/usr/lib/docker",
     "exec-root": "/data/data/com.termux/files/usr/var/run/docker",
     "pidfile": "/data/data/com.termux/files/usr/var/run/docker.pid",
-    "mtu": 1280,
-    "dns": [
-        "223.5.5.5",
-        "119.29.29.29",
-        "8.8.8.8"
-    ],
+    "dns": ["223.5.5.5", "119.29.29.29", "8.8.8.8"],
+    "userland-proxy": false,
     "ip-masq": true,
+    "iptables": true,
     "bridge": "docker0",
-    "hosts": [
-        "unix:///data/data/com.termux/files/usr/var/run/docker.sock"
-    ],
+    "hosts": ["unix:///data/data/com.termux/files/usr/var/run/docker.sock"],
     "storage-driver": "overlay2"
 }
-EOF
+DAEMON_EOF
 else
-    echo "[1/6] daemon.json exists, skipping overwrite."
+    echo "[1/7] daemon.json exists, skipping overwrite."
 fi
+
+# 如果网络不行，daemon.json 中可以设置 "mtu": 1280, 来排除这个可能
 
 # ----------------------------------------------------------------
 # 2. 基础环境挂载 (Cgroups)
 # ----------------------------------------------------------------
-echo "[2/6] Mounting Cgroups..."
+echo "[2/7] Mounting Cgroups..."
 if [ ! -d /sys/fs/cgroup ]; then mkdir -p /sys/fs/cgroup; fi
 if ! mountpoint -q /sys/fs/cgroup; then mount -t tmpfs -o mode=755 tmpfs /sys/fs/cgroup; fi
 for subsys in cpu cpuacct memory devices freezer blkio perf_event pids cpuset; do
@@ -572,30 +565,31 @@ for subsys in cpu cpuacct memory devices freezer blkio perf_event pids cpuset; d
 done
 
 # ----------------------------------------------------------------
-# 3. 内核参数优化 (开启转发 + 关闭 rp_filter)
+# 3. 内核参数优化
 # ----------------------------------------------------------------
-echo "[3/6] Enabling IP Forwarding & Fixing rp_filter..."
+echo "[3/7] Enabling IP Forwarding & Fixing rp_filter..."
 sysctl -w net.ipv4.ip_forward=1 > /dev/null
 sysctl -w net.ipv4.conf.all.forwarding=1 > /dev/null
 
-# 关闭所有网卡的反向路径过滤（解决 VPN/WiFi 切换丢包核心）
 for file in /proc/sys/net/ipv4/conf/*/rp_filter; do
     echo 0 > "$file"
 done
 
 # ----------------------------------------------------------------
-# 4. 智能路由配置 (核心修复：只动 Docker，不动系统)
+# 4. 智能路由配置
 # ----------------------------------------------------------------
-echo "[4/6] Configuring Routing Strategy..."
+echo "[4/7] Configuring Routing Strategy..."
 
-# A. 清理旧的、可能导致冲突的“霸道”规则 (如 pref 1)
+# A. 清理旧规则
 while ip rule del from all lookup main pref 1 2>/dev/null; do true; done
 while ip rule del from all lookup main pref 30000 2>/dev/null; do true; done
-# 清理我们自己可能残留的规则
 while ip rule del from $DOCKER_SUBNET lookup $DOCKER_TABLE_ID 2>/dev/null; do true; done
+while ip rule del to $DOCKER_SUBNET lookup main 2>/dev/null; do true; done
+while ip rule del fwmark 0x20233 lookup main 2>/dev/null; do true; done
+while ip rule del fwmark 0x999 lookup main 2>/dev/null; do true; done
+while ip rule del from 172.17.0.0/16 lookup $DOCKER_REPLY_TABLE_ID 2>/dev/null; do true; done
 
-# B. 探测当前外网出口 (自动识别 VPN tun0 或 WiFi wlan0)
-# 我们询问系统：“去阿里 DNS 怎么走？” 系统会告诉我们当前有效的出口
+# B. 探测当前外网出口
 ROUTE_INFO=$(ip route get 223.5.5.5 2>/dev/null)
 INTERFACE=$(echo "$ROUTE_INFO" | grep -oP 'dev \K\S+')
 GATEWAY=$(echo "$ROUTE_INFO" | grep -oP 'via \K\S+')
@@ -603,123 +597,174 @@ GATEWAY=$(echo "$ROUTE_INFO" | grep -oP 'via \K\S+')
 if [ -n "$INTERFACE" ]; then
     echo "    -> 当前系统主出口: $INTERFACE (网关: ${GATEWAY:-直连})"
 
-    # C. 为 Docker 建立独立路由表
+    # C. 为 Docker 出站建立独立路由表
     ip route flush table $DOCKER_TABLE_ID
     if [ -n "$GATEWAY" ]; then
-        # 如果有网关 (WiFi)，通过网关转发
         ip route add default via "$GATEWAY" dev "$INTERFACE" table $DOCKER_TABLE_ID
     else
-        # 如果没网关 (通常是 VPN tun 设备)，直接从接口发出去
         ip route add default dev "$INTERFACE" table $DOCKER_TABLE_ID
     fi
 
-    # D. 添加策略：只有 Docker 的流量才查这张表
-    # 这就是“互不打扰”的关键！
+    # D. Docker 出站策略
     ip rule add from $DOCKER_SUBNET lookup $DOCKER_TABLE_ID pref $RULE_PREF
-    echo "    -> 策略已生效: Docker 流量 -> Table $DOCKER_TABLE_ID -> $INTERFACE"
+    echo "    -> 策略已生效: Docker 出站流量 -> Table $DOCKER_TABLE_ID -> $INTERFACE"
+
+    # E. Docker 入站策略（去往 Docker 的流量走 main 表）
+    ip rule add to $DOCKER_SUBNET lookup main pref $((RULE_PREF - 1))
+    echo "    -> 回程路由: 去往 Docker -> main table"
+
+    # F. fwmark 绕过 Android VPN
+    ip rule add fwmark 0x20233 lookup main pref 100
+    echo "    -> fwmark 规则: 0x20233 -> main table"
 else
-    echo "⚠️  警告: 未检测到网络连接，Docker 可能无法上网"
+    echo "⚠️  警告: 未检测到网络连接"
 fi
 
-# E. 修复 EasyTier (根据配置动态执行)
+# G. 修复 EasyTier
 if [ -n "$EASYTIER_SUBNET" ]; then
-    echo "检测到 EasyTier 配置，正在添加指向性路由..."
-
-    # 1. 先尝试清理可能存在的旧规则 (防止重复添加)
+    echo "检测到 EasyTier 配置..."
     while ip rule del to "$EASYTIER_SUBNET" lookup main pref 1 2>/dev/null; do true; done
-
-    # 2. 添加规则：只让去往 EasyTier 网段的包查 main 表
     ip rule add to "$EASYTIER_SUBNET" lookup main pref 1
-
-    # 3. 配合 NAT (防止源 IP 选错，针对 tun0 接口)
-    # 注意：这里假设 EasyTier 接口名为 tun0，如果是其他名字请按需修改
-    # iptables -t nat -C POSTROUTING -o tun0 -j MASQUERADE 2>/dev/null
-    # if [ $? -ne 0 ]; then
-    #     iptables -t nat -I POSTROUTING -o tun0 -j MASQUERADE
-    # fi
-
-    echo "✅ EasyTier 修复完成: to $EASYTIER_SUBNET -> main table"
-else
-    echo "EasyTier 网段未配置，跳过修复。"
+    echo "    -> EasyTier 路由: to $EASYTIER_SUBNET -> main table"
 fi
 
-
-
 # ----------------------------------------------------------------
-# 5. 防火墙与 NAT (Snapdragon 修复版)
+# 5. 防火墙与 NAT
 # ----------------------------------------------------------------
-echo "[5/6] Applying Firewall & NAT Rules..."
+echo "[5/7] Applying Firewall & NAT Rules..."
 
-# 清理 NAT 规则防止堆积
+# 清理规则
 iptables -t nat -F POSTROUTING 2>/dev/null
+iptables -t mangle -F OUTPUT 2>/dev/null
+iptables -t mangle -F POSTROUTING 2>/dev/null
 
-# A. 允许转发 (FORWARD)
+# A. 允许转发
 iptables -P FORWARD ACCEPT
 iptables -I FORWARD 1 -j ACCEPT
 
-# B. 万能 NAT 规则
-# 只要源是 Docker，且目标不是 Docker 内部，就伪装成出口 IP
+# B. Docker 基础 NAT
 iptables -t nat -A POSTROUTING -s "$DOCKER_SUBNET" ! -d "$DOCKER_SUBNET" -j MASQUERADE
 
-# C. 修复高通硬件校验和 (Checksum Fix)
-# 必须要有，否则包发出去会被路由器丢弃
-iptables -t mangle -F POSTROUTING 2>/dev/null
+# C. 高通硬件校验和修复
 iptables -t mangle -A POSTROUTING -p tcp -j CHECKSUM --checksum-fill 2>/dev/null
 iptables -t mangle -A POSTROUTING -p udp -j CHECKSUM --checksum-fill 2>/dev/null
 
+# D. fwmark 标记
+iptables -t mangle -A OUTPUT -d $DOCKER_SUBNET -j MARK --set-mark 0x20233
+echo "    -> iptables 标记: 去往 Docker -> fwmark 0x20233"
 
 # ----------------------------------------------------------------
 # 6. 启动 Docker
 # ----------------------------------------------------------------
-echo "[6/6] Starting Dockerd..."
+echo "[6/7] Starting Dockerd..."
 
-# 杀掉残留进程防止死锁
 pkill dockerd 2>/dev/null
+sleep 2
 pkill containerd 2>/dev/null
 sleep 1
 
-# 启动 (参数都在 daemon.json 里了，这里保持干净)
-# 依然保留 --iptables=false，由脚本接管防火墙，防止冲突
-dockerd --iptables=false > /dev/null 2>&1 &
+dockerd > /dev/null 2>&1 &
 
-# 定义一个标志位，默认为失败
 IS_RUNNING=0
-
-# 等待启动检查
 for i in {1..10}; do
     if [ -S "/data/data/com.termux/files/usr/var/run/docker.sock" ]; then
         echo "✅ Docker Daemon is Running!"
-        # 自动设置客户端变量，方便直接使用
         export DOCKER_HOST="unix:///data/data/com.termux/files/usr/var/run/docker.sock"
-        echo "   Host: unix:///data/data/com.termux/files/usr/var/run/docker.sock"
-
-        # 标记为成功
         IS_RUNNING=1
         break
     fi
     sleep 1
 done
 
-# 根据标志位判断结果
 if [ "$IS_RUNNING" -eq 1 ]; then
-    # 尝试运行 docker ps 验证 (比 pgrep 更准)
     if docker ps >/dev/null 2>&1; then
         echo "   服务响应正常 (docker ps OK)"
     fi
 else
-    echo "❌ 启动超时或失败，请检查日志"
-    # 只有失败时才尝试用 pgrep 看看进程还在不在
-    if pgrep dockerd > /dev/null; then
-        echo "   (dockerd 进程存在，但 Socket 未生成，可能是权限或配置错误)"
+    echo "❌ 启动失败"
+    exit 1
+fi
+
+# ----------------------------------------------------------------
+# 7. 配置局域网访问（动态检测）
+# ----------------------------------------------------------------
+echo "[7/7] Configuring LAN Access..."
+
+# 等待 Docker 网络就绪
+sleep 2
+
+# 动态检测物理网络接口和 IP
+detect_lan_interface() {
+    # 优先级：wlan0 > eth0 > rndis0 > usb0
+    for iface in wlan0 eth0 rndis0 usb0; do
+        if ip link show $iface 2>/dev/null | grep -q "state UP"; then
+            local lan_ip=$(ip -4 addr show $iface 2>/dev/null | grep -oP '(?<=inet\s)\d+(\.\d+){3}' | head -1)
+            if [ -n "$lan_ip" ]; then
+                echo "$iface:$lan_ip"
+                return 0
+            fi
+        fi
+    done
+    return 1
+}
+
+LAN_INFO=$(detect_lan_interface)
+if [ -n "$LAN_INFO" ]; then
+    LAN_IFACE=$(echo $LAN_INFO | cut -d: -f1)
+    LAN_IP=$(echo $LAN_INFO | cut -d: -f2)
+    LAN_SUBNET=$(echo $LAN_IP | cut -d. -f1-3).0/24
+    
+    echo "    -> 检测到局域网接口: $LAN_IFACE ($LAN_IP)"
+    
+    # A. 为 Docker 回程创建路由表
+    ip route flush table $DOCKER_REPLY_TABLE_ID 2>/dev/null
+    ip route add $LAN_SUBNET dev $LAN_IFACE src $LAN_IP table $DOCKER_REPLY_TABLE_ID
+    
+    # 尝试添加默认路由（如果有网关）
+    LAN_GW=$(ip route | grep "default.*$LAN_IFACE" | grep -oP 'via \K\S+' | head -1)
+    if [ -n "$LAN_GW" ]; then
+        ip route add default via $LAN_GW dev $LAN_IFACE table $DOCKER_REPLY_TABLE_ID 2>/dev/null
     else
-        echo "   (dockerd 进程已退出)"
+        ip route add default dev $LAN_IFACE table $DOCKER_REPLY_TABLE_ID 2>/dev/null
     fi
+    
+    # B. 添加策略路由（Docker 回程走专用表）
+    ip rule add from 172.17.0.0/16 lookup $DOCKER_REPLY_TABLE_ID pref 98
+    echo "    -> 回程路由表: 172.17.0.0/16 -> table $DOCKER_REPLY_TABLE_ID"
+    
+    # C. FORWARD 链允许
+    iptables -I FORWARD 1 -i $LAN_IFACE -o docker0 -j ACCEPT
+    iptables -I FORWARD 1 -i docker0 -o $LAN_IFACE -j ACCEPT
+    echo "    -> FORWARD: $LAN_IFACE <-> docker0"
+    
+    # D. SNAT（回程地址转换）
+    iptables -t nat -I POSTROUTING 1 -s 172.17.0.0/16 -o $LAN_IFACE -j SNAT --to-source $LAN_IP
+    echo "    -> SNAT: 172.17.0.0/16 -> $LAN_IP"
+    
+    # E. INPUT 链允许（可选，更安全的方式）
+    iptables -I INPUT 1 -i $LAN_IFACE -p tcp --dport 1024:65535 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+    echo "    -> INPUT: 允许 $LAN_IFACE 访问高位端口"
+    
+    echo "✅ 局域网访问已配置完成"
+    echo "   局域网设备可通过 http://$LAN_IP:<端口> 访问容器"
+else
+    echo "⚠️  未检测到活跃的局域网接口，跳过局域网访问配置"
+    echo "   (仅支持本机访问 http://172.17.0.1:<端口>)"
+fi
+
+echo ""
+echo "=== 🎉 Docker 启动完成 ==="
+echo "本机访问: http://172.17.0.1:<端口>"
+if [ -n "$LAN_IP" ]; then
+    echo "局域网访问: http://$LAN_IP:<端口>"
 fi
 ```
 
 保存并退出 (`Ctrl+O` -> `Enter` -> `Ctrl+X`)。
 
 ### 第三步 配置 docker 相关文件
+
+如果完整执行了上一步，则不需要此步。
 
 #### 配置 DOCKER_HOST
 
@@ -738,15 +783,12 @@ source ~/.bashrc
     "data-root": "/data/data/com.termux/files/usr/lib/docker",
     "exec-root": "/data/data/com.termux/files/usr/var/run/docker",
     "pidfile": "/data/data/com.termux/files/usr/var/run/docker.pid",
-    "dns": [
-        "223.5.5.5",
-        "119.29.29.29"
-    ],
+    "dns": ["223.5.5.5", "119.29.29.29", "8.8.8.8"],
+    "userland-proxy": false,
     "ip-masq": true,
+    "iptables": true,
     "bridge": "docker0",
-    "hosts": [
-        "unix:///data/data/com.termux/files/usr/var/run/docker.sock"
-    ],
+    "hosts": ["unix:///data/data/com.termux/files/usr/var/run/docker.sock"],
     "storage-driver": "overlay2"
 }
 ```
