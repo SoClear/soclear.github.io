@@ -28,6 +28,11 @@
   },
   {
     "type": "file",
+    "name": "io_uring",
+    "label": "io_uring"
+  },
+  {
+    "type": "file",
     "name": "nginx-proxy-manager",
     "label": "Nginx Proxy Manager"
   },
