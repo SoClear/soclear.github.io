@@ -311,6 +311,8 @@ networks:
 - 不需要输入 code-server 的密码就能访问项目，给他人展示时不需要告诉他 code-server 的密码。
 - 能够利用 `*.your.domain` 泛域名证书，不用再单独为 `*.code.your.domain` 创建新的证书。
 
+另外注意在使用 code-server 的时候，如果开发的网页不能及时更新，请打开 Cloudflare 的开发模式。
+
 ## Cloudflare API Token
 
 在 [Cloudflare API Token](https://dash.cloudflare.com/profile/api-tokens) 点击创建令牌，点击 `编辑区域 DNS` 后面的模板，权限分别选择 `区域` `DNS` `编辑` ，区域资源选择 `包括` `特定区域` `你的域名` ，点击底部的 `继续以显示摘要` ，将会显示 API Token，复制下来，关闭页面就再也不会显示了。
