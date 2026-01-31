@@ -753,3 +753,79 @@ git reset --hard 0254ea7
 ```
 
 然后使用git reset就可以把main改回到之前的commit，这提供了一个在历史被意外更改情况下的安全网。
+
+## 我在 GitHub 上看到一个分支，可我本地执行 `git branch -r` 看不到这个分支
+
+这是一个非常常见的问题。简单来说，是因为 **Git 是分布式的，你的本地仓库不会自动与远程仓库保持实时同步**。
+
+你在 GitHub 网页上看到的是远程仓库的最新状态，而你本地电脑上的 Git 只记录了它**上一次**与远程通信时的状态。
+
+以下是导致这种情况的两个主要原因及解决方法：
+
+### 原因一：本地没有更新远程分支列表（最常见）
+
+Git 不会自动在后台轮询远程仓库的变更。如果别人（或者你在网页上）创建了 `rspress` 分支，但你本地还没有执行过“获取”命令，你的本地 Git 就完全不知道这个新分支的存在。
+
+**解决方法：**
+
+只需要运行以下命令来同步远程的元数据：
+
+```bash
+git fetch
+```
+
+执行完后，再次查看远程分支：
+
+```bash
+git branch -r
+```
+
+你应该就能看到 `origin/rspress` 了。
+
+_补充：如果你想直接切换到这个分支进行开发，Git 会自动在本地创建一个同名分支并关联远程分支：_
+
+```bash
+git checkout rspress
+```
+
+### 原因二：克隆时使用了“单分支”模式（较少见，但有可能）
+
+如果你（或者工具）在最初克隆代码时使用了 `--single-branch` 参数，或者只指定了克隆 `main` 分支，Git 的配置文件可能会限制它只获取 `main` 分支的更新，而忽略其他所有分支。
+
+**检查方法：**
+
+查看项目的 `.git/config` 文件，找到 `[remote "origin"]` 这一节。
+
+**如果是有问题的配置（只抓取 main）：**
+
+```ini
+[remote "origin"]
+    url = https://github.com/xxx/xxx.git
+    fetch = +refs/heads/main:refs/remotes/origin/main  <-- 注意这里指定了具体的 main
+```
+
+**正常的配置（抓取所有分支）：**
+
+```ini
+[remote "origin"]
+    url = https://github.com/xxx/xxx.git
+    fetch = +refs/heads/*:refs/remotes/origin/*      <-- 注意这里是星号 *
+```
+
+**解决方法：**
+
+1. 运行命令修改配置，允许获取所有分支：
+
+    ```bash
+    git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+    ```
+
+2. 然后再次执行同步：
+
+    ```bash
+    git fetch
+    ```
+
+### 总结
+
+90% 的情况下，你只需要运行 **`git fetch`** 就能解决这个问题。就像刷新网页一样，你需要手动刷新本地的 Git 记录。
