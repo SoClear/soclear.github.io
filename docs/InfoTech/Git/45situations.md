@@ -829,3 +829,72 @@ git checkout rspress
 ### 总结
 
 90% 的情况下，你只需要运行 **`git fetch`** 就能解决这个问题。就像刷新网页一样，你需要手动刷新本地的 Git 记录。
+
+## GitHub 贡献者显示“双重身份”及 Co-authored-by
+
+### 1. 现象描述
+
+在为开源项目贡献代码后，更新日志（Changelog）或提交记录（Commit History）中出现了两个名字（例如：`清 and clear`），且详情页显示 `Co-authored-by` 标记。
+
+**身份对应关系：**
+
+- **GitHub 账号：** `SoClear`（用户名），`清`（显示昵称）。
+- **本地 Git 配置：** `clear`（`user.name`），`clear@gmail.com`（`user.email`）。
+
+### 2. 核心原因分析
+
+#### 2.1 Git 的底层签名逻辑
+
+Git 每次提交都会记录两项关键信息，这与 GitHub 账号的 UI 显示是独立的：
+
+1. **Author Name (`user.name`)**: 对应你本地设置的 `clear`。
+2. **Author Email (`user.email`)**: 对应你本地设置的 `clear@gmail.com`。
+
+#### 2.2 GitHub 的账号关联机制
+
+GitHub 会根据提交中的 **Email** 来尝试关联对应的 GitHub 账号。
+
+- 如果 Email 匹配成功，它会显示你的 GitHub 账号（`SoClear / 清`）。
+- 但在显示作者列表时，如果它检测到 **本地签名中的名字 (`clear`)** 与 **GitHub 账号显示的昵称 (`清`)** 字符不完全一致，且合并方式触发了特定的逻辑，系统为了保证署名的严谨性，会保留两个名字。
+
+#### 2.3 为什么会出现 `Co-authored-by`？
+
+这通常发生在项目维护者使用 **Squash and merge（压缩并合并）** 时：
+
+1. 你在 PR 中有多次提交，其 Author 信息是 `clear <clear@gmail.com>`。
+2. GitHub 在执行“压缩合并”生成最终 Commit 时，会由 GitHub 的系统账号（或维护者）操作。
+3. 系统检测到：操作者是 `SoClear`，但原始代码贡献者在签名里叫 `clear`。
+4. 由于 `clear` 和 `清` 在字符串上不匹配，GitHub 自动在提交说明（Commit Message）末尾添加了 `Co-authored-by` 标签，以确保“每一个名字都被正确致谢”。
+
+### 3. 解决方案与预防建议
+
+为了确保以后只显示一个名字，需要保持 **“本地配置”** 与 **“GitHub 线上配置”** 的三位一体。
+
+#### 第一步：统一本地 Git 配置
+
+将本地的 `user.name` 修改为与 GitHub 昵称或账号一致。
+
+```bash
+# 查看当前配置
+git config --global user.name
+git config --global user.email
+
+# 修改配置（建议与 GitHub 昵称一致）
+git config --global user.name "SoClear"
+git config --global user.email "clear@gmail.com"
+```
+
+#### 第二步：检查 GitHub 邮箱验证状态
+
+确保你的本地邮箱已在 GitHub 中通过验证并绑定。
+
+1. 访问 GitHub **Settings -> Emails**。
+2. 确认 `clear@gmail.com` 处于 **Verified** 状态。
+3. 如果你开启了 `Keep my email addresses private`，则需要将本地 `user.email` 设置为 GitHub 提供的那个 `@users.noreply.github.com` 隐私邮箱。
+
+#### 第三步：提交 PR 时的注意事项
+
+在 Pull Request 页面，如果维护者准备合并代码：
+
+1. **检查描述栏**：如果 Squash Merge 的描述框中自动出现了 `Co-authored-by: ...` 且是你自己的另一个名字，你可以手动删掉这部分内容。
+2. **保持一致性**：一旦本地配置修改完成，后续新的 Commit 将只携带一个身份信息。
