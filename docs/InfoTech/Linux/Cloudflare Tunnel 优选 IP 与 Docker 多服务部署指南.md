@@ -72,6 +72,7 @@ tags: ["Cloudflare", "CloudflareTunnel", "Docker", "Nginx"]
 
 - [CloudFlare公共优选Cname域名地址](https://www.wetest.vip/page/cloudflare/cname.html)
 - [enhanced-FaaS-in-China](https://github.com/xingpingcn/enhanced-FaaS-in-China)
+- [CloudFlare 优选域名](https://cf.090227.xyz/)
 
 1. 进入 **DNS** -> **Records**。
 2. 添加记录：
