@@ -6,13 +6,64 @@
  ls / 
 ```
 
-你会看到如下图所示:
+你会看到如下所示:
 
-![根目录](dirs-1.png)
+```text
+root@debian:~# ls /
+bin  boot  dev  etc  home lib  lib64  lost+found  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+```
 
 树状目录结构：
 
-![树状目录结构](dirs-2.jpg)
+```text
+/
+├── bin -> usr/bin
+├── boot
+├── dev
+├── etc
+│   ├── hostname
+│   ├── hosts
+│   └── ssh
+├── home
+│   └── clear
+├── lib -> usr/lib
+├── lib64 -> usr/lib64
+├── lost+found
+├── media
+├── mnt
+├── opt
+├── proc
+│   └── 1
+├── root
+├── run
+├── sbin -> usr/sbin
+├── srv
+├── sys
+├── tmp
+├── usr
+│   ├── bin
+│   ├── games
+│   ├── include
+│   ├── lib
+│   ├── lib64
+│   ├── libexec
+│   ├── local
+│   ├── sbin
+│   ├── share
+│   └── src
+└── var
+    ├── backups
+    ├── cache
+    ├── lib
+    ├── local
+    ├── lock -> /run/lock
+    ├── log
+    ├── mail
+    ├── opt
+    ├── run -> /run
+    ├── spool
+    └── tmp
+```
 
 以下是对这些目录的解释：
 
