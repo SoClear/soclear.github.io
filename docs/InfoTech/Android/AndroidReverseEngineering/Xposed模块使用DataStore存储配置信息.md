@@ -48,7 +48,7 @@ public fun Context.dataStoreFile(fileName: String): File {
 
 ### 劫持模块自身 DataStore 创建文件
 
-那么就有一个绝妙的思路：劫持模块自身 `DataStore` 创建文件！我们在上述路径下创建一个文件，并通过 hook 返回该文件：
+那么就有一个绝妙的思路：劫持模块自身 `DataStore` 创建文件！在上述路径下创建一个文件，并通过 hook 返回该文件：
 
 ```kotlin
 object SelfHook {
@@ -144,7 +144,7 @@ val Context.dataStore by dataStore("whatever", PreferenceSerializer)
 
 很不幸，还是 600 不可读……
 
-思索良久，每次写入配置文件都要设置全部可读权限，那能不能在写入配置文件完毕后，一次性设置为全部可读权限呢，只要保证设置权限之后不再修改模块配置，就能保证宿主可读取。那这不就是生命周期该干的事情吗？一个好的安卓开发此时应该意识到了 `onPause()` ，在 Activity 失去焦点时便会调用它，正符合我们的需求。
+思索良久，每次写入配置文件都要设置全部可读权限，那能不能在写入配置文件完毕后，一次性设置为全部可读权限呢，只要保证设置权限之后不再修改模块配置，就能保证宿主可读取。那这不就是生命周期该干的事情吗？一个好的安卓开发此时应该意识到了 `onPause()` ，在 Activity 失去焦点时便会调用它，正符合需求。
 
 修改 `MainActivity` :
 
@@ -182,24 +182,19 @@ public fun Context.dataStoreFile(fileName: String): File {
 此时没有 `applicationContext`，所以崩溃了。好办，直接一手
 
 ```kotlin
-val preferenceFile = try {
-    dataStoreFile("whatever")
-} catch (_: Exception) {
-    null
-}
+val preferenceFile by lazy { dataStoreFile("whatever") }
+
+@SuppressLint("SetWorldReadable")
+private fun setWorldReadable(): Boolean = preferenceFile.setReadable(true, false)
 
 @SuppressLint("SetWorldReadable")
 override fun onPause() {
     super.onPause()
-    preferenceFile?.setReadable(true, false)
+    setWorldReadable()
 }
 ```
 
-完美解决，而且还可以通过判空来判断模块是否被启用：
-
-```kotlin
-fun checkModuleEnabled(): Boolean = preferenceFile != null
-```
+完美解决，而且还可以通过 `setWorldReadable()` 来判断模块是否被启用：
 
 ### ProGuard/R8 压缩
 
@@ -262,13 +257,21 @@ object PreferenceProvider {
 
     val preference: Preference? = try {
         Json.decodeFromString<Preference>(getPreferenceFile().readText())
-    } catch (_: Exception) {
+    } catch (_: Throwable) {
         null
     }
 
     fun getPreferenceFile(): File {
         val path = XSharedPreferences(BuildConfig.APPLICATION_ID).file.parent
-        return File(path, PREFERENCE_FILE_NAME)
+        val file = File(path, PREFERENCE_FILE_NAME)
+
+        if (!file.exists()) {
+            file.writeText("{}")
+            @SuppressLint("SetWorldReadable")
+            file.setReadable(true, false)
+        }
+
+        return file
     }
 }
 ```
@@ -279,12 +282,7 @@ SelfHook :
 object SelfHook {
     fun enableDataStoreFileSharing(loadPackageParam: LoadPackageParam) {
         if (loadPackageParam.packageName != BuildConfig.APPLICATION_ID) return
-        val file = PreferenceProvider.getPreferenceFile()
-        if (!file.exists()) {
-            file.writeText("{}")
-            @SuppressLint("SetWorldReadable")
-            file.setReadable(true, false)
-        }
+        val callback = returnConstant(PreferenceProvider.getPreferenceFile())
 
         findAndHookMethod(
             "androidx.datastore.core.DeviceProtectedDataStoreFile",
@@ -292,7 +290,7 @@ object SelfHook {
             "deviceProtectedDataStoreFile",
             Context::class.java,
             String::class.java,
-            returnConstant(file)
+            callback
         )
         findAndHookMethod(
             "androidx.datastore.DataStoreFile",
@@ -300,7 +298,7 @@ object SelfHook {
             "dataStoreFile",
             Context::class.java,
             String::class.java,
-            returnConstant(file)
+            callback
         )
     }
 }
@@ -329,16 +327,15 @@ class MainHook : IXposedHookLoadPackage, IXposedHookInitPackageResources {
 MainActivity :
 
 ```kotlin
-val preferenceFile = try {
-    dataStoreFile("whatever")
-} catch (_: Exception) {
-    null
-}
+val preferenceFile by lazy { dataStoreFile("whatever") }
+
+@SuppressLint("SetWorldReadable")
+private fun setWorldReadable(): Boolean = preferenceFile.setReadable(true, false)
 
 @SuppressLint("SetWorldReadable")
 override fun onPause() {
     super.onPause()
-    preferenceFile?.setReadable(true, false)
+    setWorldReadable()
 }
 ```
 
