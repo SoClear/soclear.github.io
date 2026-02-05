@@ -1,6 +1,11 @@
 [
   {
     "type": "file",
+    "name": "introduction",
+    "label": "介绍"
+  },
+  {
+    "type": "file",
     "name": "install",
     "label": "安装"
   },

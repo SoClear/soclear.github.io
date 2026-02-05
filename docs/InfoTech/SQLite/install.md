@@ -1,12 +1,24 @@
 # 安装 SQLite
 
-## apt安装
+## Windows
 
-ubuntu:  
+```bash
+winget install SQLite.SQLite
+```
+
+## Linux
+
+Debian/Ubuntu:  
 
 ```bash
 sudo apt update
 sudo apt install sqlite3
+```
+
+## MacOS
+
+```bash
+brew install sqlite3
 ```
 
 ## 源码编译安装

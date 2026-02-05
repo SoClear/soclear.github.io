@@ -13,7 +13,7 @@ sqlite>
 
 ## 命令列表
 
-如需获取可用的点命令的清单，可以在任何时候输入 ".help"。例如：
+**如需** 获取可用的点命令的清单，可以在任何时候输入 ".help"。例如：
 
 ```bash
 sqlite>.help
@@ -36,7 +36,7 @@ sqlite>.help
 | .indices ?TABLE? | 显示所有索引的名称。如果指定了 TABLE 表，则只显示匹配 LIKE 模式的 TABLE 表的索引。 |
 | .load FILE ?ENTRY? | 加载一个扩展库。 |
 | .log FILE\|off | 开启或关闭日志。FILE 文件可以是 stderr（标准错误）/stdout（标准输出）。 |
-| .mode MODE | 设置输出模式，MODE 可以是下列之一：<br/>csv 逗号分隔的值<br/>column 左对齐的列<br/>html HTML 的 \<table\> 代码<br/>insert TABLE 表的 SQL 插入（insert）语句<br/>line 每行一个值<br/>list 由 .separator 字符串分隔的值<br/>tabs 由 Tab 分隔的值<br/>tcl TCL 列表元素|
+| .mode MODE | 设置输出模式，MODE 可以是下列之一：<ul><li><p><b>csv</b> 逗号分隔的值</p></li><li><p><b>column</b> 左对齐的列</p></li><li><p><b>html</b> HTML 的 &lt;table&gt; 代码</p></li><li><p><b>insert</b> TABLE 表的 SQL 插入（insert）语句</p></li><li><p><b>line</b> 每行一个值</p></li><li><p><b>list</b> 由 .separator 字符串分隔的值</p></li><li><p><b>tabs</b> 由 Tab 分隔的值</p></li><li><p><b>tcl</b> TCL 列表元素</p></li></ul> |
 | .nullvalue STRING | 在 NULL 值的地方输出 STRING 字符串。 |
 | .output FILENAME | 发送输出到 FILENAME 文件。 |
 | .output stdout | 发送输出到屏幕。 |
