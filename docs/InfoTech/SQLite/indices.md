@@ -57,7 +57,7 @@ DROP INDEX idx_users_email;
 
 SQLite 支持多种类型的索引，适用于不同的场景。
 
-### 4.1 唯一索引 (Unique Index)
+### 唯一索引 (Unique Index)
 
 不仅提高查询速度，还强制列中的值必须唯一。通常用于用户名、邮箱等字段。
 
@@ -67,7 +67,7 @@ CREATE UNIQUE INDEX idx_users_username ON Users(username);
 
 *尝试插入重复的 username 会抛出错误。*
 
-### 4.2 多列索引 (Multi-column Index)
+### 多列索引 (Multi-column Index)
 
 也称为复合索引。当你经常在 `WHERE` 子句中同时使用多个条件时非常有用。
 
@@ -82,7 +82,7 @@ SQLite 使用复合索引时，查询必须从索引的最左侧列开始匹配�
 - ✅ `WHERE age = 30` (使用索引)
 - ❌ `WHERE created_at > '2023-01-01'` (不使用索引，因为跳过了 age)
 
-### 4.3 隐式索引 (Implicit Index)
+### 隐式索引 (Implicit Index)
 
 当你定义 `PRIMARY KEY` 或 `UNIQUE` 约束时，SQLite 会自动为你创建索引，无需手动添加。
 
@@ -90,7 +90,7 @@ SQLite 使用复合索引时，查询必须从索引的最左侧列开始匹配�
 
 这是 SQLite 区别于其他数据库的强大之处。
 
-### 5.1 部分索引 (Partial Indexes)
+### 部分索引 (Partial Indexes)
 
 如果你只关心满足特定条件的数据，可以创建一个只包含部分行的索引。这能显著节省磁盘空间并提高写入速度。
 
@@ -102,7 +102,7 @@ CREATE INDEX idx_active_users_email ON Users(email) WHERE is_banned = 0;
 
 *这个索引不会包含被封禁用户的数据，因此体积更小。*
 
-### 5.2 表达式索引 (Indexes on Expressions)
+### 表达式索引 (Indexes on Expressions)
 
 你可以对列的计算结果进行索引。这在处理大小写敏感或复杂计算时非常有用。
 
@@ -151,14 +151,67 @@ EXPLAIN QUERY PLAN SELECT email FROM Users WHERE age = 25;
 -- 输出: SEARCH TABLE Users USING COVERING INDEX idx_age_email (age=?)
 ```
 
-## 7. 索引的代价 (Trade-offs)
+## 7. 强制索引 (INDEXED BY)
+
+通常情况下，SQLite 的查询优化器（Query Optimizer）非常智能，它会自动分析统计数据，决定是全表扫描还是使用某个特定的索引。但在极少数情况下，优化器可能会“犯傻”，选错了索引，或者你为了调试性能，想要强行指定 SQLite 使用某一个索引。
+
+这时，你可以使用 `INDEXED BY` 子句。
+
+它是一条指令，告诉 SQLite：“ **不要自己思考，必须使用我指定的这个索引。如果用不了，就直接报错。** ”
+
+### 语法与示例
+
+假设我们有一个索引 `idx_users_age`：
+
+```sql
+CREATE INDEX idx_users_age ON Users(age);
+```
+
+**普通查询（由 SQLite 决定）：**
+
+```sql
+SELECT * FROM Users WHERE age > 25;
+```
+
+**强制使用索引（人工干预）：**
+
+```sql
+-- 语法: FROM 表名 INDEXED BY 索引名
+SELECT * FROM Users INDEXED BY idx_users_age WHERE age > 25;
+```
+
+### 注意
+
+使用 `INDEXED BY` 是一把双刃剑，**请务必谨慎使用**：
+
+- **查询失败风险**：如果你强制使用的索引无法用于当前的查询（例如 `WHERE` 条件中没有涉及该索引的列），SQLite 不会退回到全表扫描，而是直接抛出错误：`Error: no query solution`。
+- **维护成本高**：如果你将来更改了索引的名字或删除了该索引，所有使用了 `INDEXED BY` 的 SQL 代码都会报错。
+- **性能倒退**：随着数据量的变化，原本最优的索引可能不再是最优的。如果你写死了 `INDEXED BY`，SQLite 就无法自动切换到更快的执行计划。
+
+什么时候使用？
+
+- **性能调试**：当你怀疑 SQLite 选错了索引，想对比不同索引的性能差异时。
+- **回归测试**：确保某个关键查询在版本更新后依然使用特定的索引。
+- **修复优化器 Bug**：在极个别情况下，优化器可能因为数据分布极其不均而选择了全表扫描，此时可以用它来“手动挡”驾驶。
+
+### 扩展：NOT INDEXED
+
+如果你想反其道而行之，强制 SQLite **不使用任何索引**（即强制全表扫描），可以使用 `NOT INDEXED`：
+
+```sql
+SELECT * FROM Users NOT INDEXED WHERE age > 25;
+```
+
+*这通常用于验证全表扫描在小数据量下是否比索引更快，或者用于测试性能基准。*
+
+## 8. 索引的代价 (Trade-offs)
 
 索引不是免费的午餐，它有副作用：
 
 1. **写入变慢**：每次 `INSERT`、`UPDATE` 或 `DELETE` 时，SQLite 不仅要更新数据表，还要更新所有相关的索引。索引越多，写入越慢。
 2. **占用磁盘空间**：索引文件可能会比数据文件本身还大。
 
-## 8. 最佳实践总结
+## 9. 最佳实践总结
 
 1. **高基数列 (High Cardinality) 适合索引**：包含许多不同值的列（如 ID、邮箱、时间戳）。
 2. **低基数列 (Low Cardinality) 避免索引**：只有很少几个值的列（如 性别、布尔值状态）。数据库全表扫描通常比读索引再回表更快。
