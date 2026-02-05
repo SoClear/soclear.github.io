@@ -1,4 +1,4 @@
-# UNION子句
+# UNION 子句
 
 SQLite的 **UNION** 子句/运算符用于合并两个或多个 SELECT 语句的结果，不返回任何重复的行。
 

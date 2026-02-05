@@ -61,6 +61,11 @@
   },
   {
     "type": "file",
+    "name": "distinct",
+    "label": "Distinct 关键字"
+  },
+  {
+    "type": "file",
     "name": "operators",
     "label": "运算符"
   },
@@ -101,6 +106,11 @@
   },
   {
     "type": "file",
+    "name": "null",
+    "label": "NULL 值"
+  },
+  {
+    "type": "file",
     "name": "delete",
     "label": "Delete 语句"
   },
@@ -136,9 +146,20 @@
   },
   {
     "type": "file",
-    "name": "distinct",
-    "label": "Distinct 关键字"
+    "name": "window-functions",
+    "label": "开窗函数"
   },
+  {
+    "type": "file",
+    "name": "join",
+    "label": "Join"
+  },
+  {
+    "type": "file",
+    "name": "union",
+    "label": "UNION 子句"
+  },
+
   {
     "type": "file",
     "name": "pragma",
@@ -151,13 +172,13 @@
   },
   {
     "type": "file",
-    "name": "join",
-    "label": "Join"
+    "name": "trigger",
+    "label": "触发器"
   },
   {
     "type": "file",
-    "name": "union",
-    "label": "UNION"
+    "name": "indices",
+    "label": "索引"
   },
   {
     "type": "file",
