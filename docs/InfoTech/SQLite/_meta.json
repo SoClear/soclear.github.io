@@ -159,7 +159,11 @@
     "name": "union",
     "label": "UNION 子句"
   },
-
+  {
+    "type": "file",
+    "name": "subquery",
+    "label": "子查询"
+  },
   {
     "type": "file",
     "name": "pragma",
@@ -194,6 +198,11 @@
     "type": "file",
     "name": "transaction",
     "label": "事务"
+  },
+  {
+    "type": "file",
+    "name": "autoincrement",
+    "label": "自增"
   },
   {
     "type": "file",
