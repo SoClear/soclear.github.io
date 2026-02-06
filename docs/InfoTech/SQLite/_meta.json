@@ -46,6 +46,31 @@
   },
   {
     "type": "file",
+    "name": "primary-key",
+    "label": "主键"
+  },
+  {
+    "type": "file",
+    "name": "foreign-key",
+    "label": "外键"
+  },
+  {
+    "type": "file",
+    "name": "constraints",
+    "label": "约束"
+  },
+  {
+    "type": "file",
+    "name": "autoincrement",
+    "label": "自增"
+  },
+  {
+    "type": "file",
+    "name": "alter-table",
+    "label": "修改表结构"
+  },
+  {
+    "type": "file",
     "name": "drop-table",
     "label": "删除表"
   },
@@ -53,6 +78,31 @@
     "type": "file",
     "name": "insert",
     "label": "Insert 语句"
+  },
+  {
+    "type": "file",
+    "name": "update",
+    "label": "Update 语句"
+  },
+  {
+    "type": "file",
+    "name": "delete",
+    "label": "Delete 语句"
+  },
+  {
+    "type": "file",
+    "name": "replace",
+    "label": "REPLACE"
+  },
+  {
+    "type": "file",
+    "name": "upsert",
+    "label": "UPSERT"
+  },
+  {
+    "type": "file",
+    "name": "returning",
+    "label": "RETURNING"
   },
   {
     "type": "file",
@@ -66,31 +116,6 @@
   },
   {
     "type": "file",
-    "name": "operators",
-    "label": "运算符"
-  },
-  {
-    "type": "file",
-    "name": "expressions",
-    "label": "表达式"
-  },
-  {
-    "type": "file",
-    "name": "alias",
-    "label": "别名"
-  },
-  {
-    "type": "file",
-    "name": "case",
-    "label": "条件分支"
-  },
-  {
-    "type": "file",
-    "name": "concat",
-    "label": "拼接字段"
-  },
-  {
-    "type": "file",
     "name": "where-clause",
     "label": "Where 子句"
   },
@@ -101,18 +126,13 @@
   },
   {
     "type": "file",
-    "name": "update",
-    "label": "Update 语句"
+    "name": "operators",
+    "label": "运算符"
   },
   {
     "type": "file",
-    "name": "null",
-    "label": "NULL 值"
-  },
-  {
-    "type": "file",
-    "name": "delete",
-    "label": "Delete 语句"
+    "name": "expressions",
+    "label": "表达式"
   },
   {
     "type": "file",
@@ -136,6 +156,31 @@
   },
   {
     "type": "file",
+    "name": "null",
+    "label": "NULL 值"
+  },
+  {
+    "type": "file",
+    "name": "alias",
+    "label": "别名"
+  },
+  {
+    "type": "file",
+    "name": "case",
+    "label": "条件分支"
+  },
+  {
+    "type": "file",
+    "name": "concat",
+    "label": "拼接字段"
+  },
+  {
+    "type": "file",
+    "name": "aggregate-functions",
+    "label": "聚合函数"
+  },
+  {
+    "type": "file",
     "name": "group-by",
     "label": "Group By"
   },
@@ -143,11 +188,6 @@
     "type": "file",
     "name": "having",
     "label": "Having 子句"
-  },
-  {
-    "type": "file",
-    "name": "window-functions",
-    "label": "开窗函数"
   },
   {
     "type": "file",
@@ -176,28 +216,13 @@
   },
   {
     "type": "file",
-    "name": "pragma",
-    "label": "PRAGMA"
+    "name": "date-time",
+    "label": "日期与时间"
   },
   {
     "type": "file",
-    "name": "constraints",
-    "label": "约束"
-  },
-  {
-    "type": "file",
-    "name": "trigger",
-    "label": "触发器"
-  },
-  {
-    "type": "file",
-    "name": "indices",
-    "label": "索引"
-  },
-  {
-    "type": "file",
-    "name": "alter-table",
-    "label": "修改表结构"
+    "name": "window-functions",
+    "label": "开窗函数"
   },
   {
     "type": "file",
@@ -206,13 +231,18 @@
   },
   {
     "type": "file",
-    "name": "transaction",
-    "label": "事务"
+    "name": "indices",
+    "label": "索引"
   },
   {
     "type": "file",
-    "name": "autoincrement",
-    "label": "自增"
+    "name": "trigger",
+    "label": "触发器"
+  },
+  {
+    "type": "file",
+    "name": "transaction",
+    "label": "事务"
   },
   {
     "type": "file",
@@ -226,38 +256,8 @@
   },
   {
     "type": "file",
-    "name": "date-time",
-    "label": "日期与时间"
-  },
-  {
-    "type": "file",
-    "name": "aggregate-functions",
-    "label": "聚合函数"
-  },
-  {
-    "type": "file",
-    "name": "replace",
-    "label": "REPLACE"
-  },
-  {
-    "type": "file",
-    "name": "upsert",
-    "label": "UPSERT"
-  },
-  {
-    "type": "file",
-    "name": "returning",
-    "label": "RETURNING"
-  },
-  {
-    "type": "file",
-    "name": "primary-key",
-    "label": "主键"
-  },
-  {
-    "type": "file",
-    "name": "foreign-key",
-    "label": "外键"
+    "name": "pragma",
+    "label": "PRAGMA"
   },
   {
     "type": "file",
