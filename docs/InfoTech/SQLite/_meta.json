@@ -157,7 +157,12 @@
   {
     "type": "file",
     "name": "union",
-    "label": "UNION 子句"
+    "label": "UNION"
+  },
+  {
+    "type": "file",
+    "name": "except",
+    "label": "EXCEPT"
   },
   {
     "type": "file",
