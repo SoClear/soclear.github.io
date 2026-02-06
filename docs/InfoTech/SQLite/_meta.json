@@ -246,6 +246,11 @@
   },
   {
     "type": "file",
+    "name": "returning",
+    "label": "RETURNING"
+  },
+  {
+    "type": "file",
     "name": "sqlite-in-android",
     "label": "在安卓中使用 SQLite"
   }
