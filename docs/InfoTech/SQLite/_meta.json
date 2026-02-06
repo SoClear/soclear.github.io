@@ -182,6 +182,11 @@
   },
   {
     "type": "file",
+    "name": "alter-table",
+    "label": "修改表结构"
+  },
+  {
+    "type": "file",
     "name": "sqlite-in-android",
     "label": "在安卓中使用 SQLite"
   }
