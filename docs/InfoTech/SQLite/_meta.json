@@ -206,6 +206,11 @@
   },
   {
     "type": "file",
+    "name": "explain",
+    "label": "查询分析"
+  },
+  {
+    "type": "file",
     "name": "sqlite-in-android",
     "label": "在安卓中使用 SQLite"
   }
