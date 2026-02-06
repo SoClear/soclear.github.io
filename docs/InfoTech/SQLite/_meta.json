@@ -192,6 +192,11 @@
   },
   {
     "type": "file",
+    "name": "transaction",
+    "label": "事务"
+  },
+  {
+    "type": "file",
     "name": "sqlite-in-android",
     "label": "在安卓中使用 SQLite"
   }
