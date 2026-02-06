@@ -211,6 +211,21 @@
   },
   {
     "type": "file",
+    "name": "vacuum",
+    "label": "VACUUM"
+  },
+  {
+    "type": "file",
+    "name": "date-time",
+    "label": "日期与时间"
+  },
+  {
+    "type": "file",
+    "name": "aggregate-functions",
+    "label": "聚合函数"
+  },
+  {
+    "type": "file",
     "name": "sqlite-in-android",
     "label": "在安卓中使用 SQLite"
   }
