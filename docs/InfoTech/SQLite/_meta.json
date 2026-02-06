@@ -256,6 +256,11 @@
   },
   {
     "type": "file",
+    "name": "foreign-key",
+    "label": "外键"
+  },
+  {
+    "type": "file",
     "name": "sqlite-in-android",
     "label": "在安卓中使用 SQLite"
   }
