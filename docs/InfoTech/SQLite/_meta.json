@@ -236,6 +236,16 @@
   },
   {
     "type": "file",
+    "name": "replace",
+    "label": "REPLACE"
+  },
+  {
+    "type": "file",
+    "name": "upsert",
+    "label": "UPSERT"
+  },
+  {
+    "type": "file",
     "name": "sqlite-in-android",
     "label": "在安卓中使用 SQLite"
   }
