@@ -263,6 +263,10 @@
     "type": "file",
     "name": "full-text-search",
     "label": "全文搜索"
+  },{
+    "type": "file",
+    "name": "journal_mode",
+    "label": "日志模式"
   },
   {
     "type": "file",
