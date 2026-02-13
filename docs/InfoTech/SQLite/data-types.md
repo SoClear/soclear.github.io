@@ -1,99 +1,144 @@
 # 数据类型
 
-SQLite 数据类型是一个用来指定任何对象的数据类型的属性。SQLite 中的每一列，每个变量和表达式都有相关的数据类型。
+SQLite 的数据类型系统与其他主流关系型数据库（如 MySQL、PostgreSQL）有着本质的区别。理解这种差异对于编写高效、稳定的 SQLite 应用程序至关重要。
 
-您可以在创建表的同时使用这些数据类型。SQLite 使用一个更普遍的动态类型系统。在 SQLite 中，值的数据类型与值本身是相关的，而不是与它的容器相关。
+本文将详细介绍 SQLite 的动态类型系统、存储类、类型亲和性以及如何处理布尔值和日期时间。
 
-## SQLite 存储类
+## 1. 核心概念：动态类型系统
 
-每个存储在 SQLite 数据库中的值都具有以下存储类之一：
+大多数 SQL 数据库引擎使用**静态类型（Static Typing）**。这意味着数据类型与**列（Column）**绑定，存入的数据必须符合该列定义的类型。
+
+相反，SQLite 使用**动态类型（Dynamic Typing）**，也称为**清单类型（Manifest Typing）**。在 SQLite 中：
+
+- 数据类型与 **值（Value）** 绑定，而不是与容器（列）绑定。
+- 你可以在定义为 `INTEGER` 的列中存储字符串，或者在 `TEXT` 列中存储浮点数（除非使用了 STRICT 表）。
+- 尽管如此，SQLite 仍然允许在创建表时指定数据类型，这主要用于确定**类型亲和性（Type Affinity）**。
+
+## 2. 存储类（Storage Classes）
+
+在数据库底层，SQLite 支持 5 种基本的存储类。数据库中存储的每个值都属于以下之一：
 
 | 存储类 | 描述 |
-| --- | --- |
-| NULL | 值是一个 NULL 值。 |
-| INTEGER | 值是一个带符号的整数，根据值的大小存储在 1、2、3、4、6 或 8 字节中。 |
-| REAL | 值是一个浮点值，存储为 8 字节的 IEEE 浮点数字。 |
-| TEXT | 值是一个文本字符串，使用数据库编码（UTF-8、UTF-16BE 或 UTF-16LE）存储。 |
-| BLOB | 值是一个 blob 数据，完全根据它的输入存储。 |
+| :--- | :--- |
+| **NULL** | 空值。 |
+| **INTEGER** | 有符号整数。根据数值的大小，自动存储为 1、2、3、4、6 或 8 字节。 |
+| **REAL** | 浮点数。存储为 8 字节的 IEEE 浮点数。 |
+| **TEXT** | 文本字符串。使用数据库编码（UTF-8、UTF-16BE 或 UTF-16LE）存储。 |
+| **BLOB** | 二进制大对象。数据完全按输入原样存储，不做任何转换。 |
 
-SQLite 的存储类稍微比数据类型更普遍。INTEGER 存储类，例如，包含 6 种不同的不同长度的整数数据类型。
+## 3. 类型亲和性（Type Affinity）
 
-## SQLite 亲和(Affinity)类型
+为了最大限度地兼容 SQL 标准和其他数据库引擎，SQLite 支持列的“类型亲和性”。亲和性是指列推荐存储的数据类型。当数据插入时，SQLite 会尝试将数据转换为该列的首选类型。
 
-SQLite支持列的亲和类型概念。任何列仍然可以存储任何类型的数据，当数据插入时，该字段的数据将会优先采用亲缘类型作为该值的存储方式。SQLite目前的版本支持以下五种亲缘类型：
+SQLite 定义了 5 种亲和性：
 
-| 亲和类型 | 描述 |
-| --- | --- |
-| TEXT | 数值型数据在被插入之前，需要先被转换为文本格式，之后再插入到目标字段中。 |
-| NUMERIC | 当文本数据被插入到亲缘性为NUMERIC的字段中时，如果转换操作不会导致数据信息丢失以及完全可逆，那么SQLite就会将该文本数据转换为INTEGER或REAL类型的数据，如果转换失败，SQLite仍会以TEXT方式存储该数据。对于NULL或BLOB类型的新数据，SQLite将不做任何转换，直接以NULL或BLOB的方式存储该数据。需要额外说明的是，对于浮点格式的常量文本，如"30000.0"，如果该值可以转换为INTEGER同时又不会丢失数值信息，那么SQLite就会将其转换为INTEGER的存储方式。 |
-| INTEGER | 对于亲缘类型为INTEGER的字段，其规则等同于NUMERIC，唯一差别是在执行CAST表达式时。 |
-| REAL | 其规则基本等同于NUMERIC，唯一的差别是不会将"30000.0"这样的文本数据转换为INTEGER存储方式。 |
-| NONE | 不做任何的转换，直接以该数据所属的数据类型进行存储。　　 |
+### 3.1 TEXT
 
-## SQLite 亲和类型(Affinity)及类型名称
+该列首选存储 `NULL`、`TEXT` 或 `BLOB`。如果插入数值数据（`INTEGER` 或 `REAL`），系统会在存储前将其转换为文本形式。
 
-下表列出了当创建 SQLite3 表时可使用的各种数据类型名称，同时也显示了相应的亲和类型：
+- **常见声明类型：** `CHARACTER(20)`, `VARCHAR(255)`, `TEXT`, `CLOB`
 
-<table>
-<tbody><tr><th style="width:30%">数据类型</th><th style="width:70%">亲和类型</th></tr>
-<tr><td>
-<ul class="list">
-<li><p>INT</p></li>
-<li><p>INTEGER</p></li>
-<li><p>TINYINT</p></li>
-<li><p>SMALLINT</p></li>
-<li><p>MEDIUMINT</p></li>
-<li><p>BIGINT</p></li>
-<li><p>UNSIGNED BIG INT</p></li>
-<li><p>INT2</p></li>
-<li><p>INT8</p></li>
-</ul>
-</td><td>INTEGER</td></tr>
-<tr><td>
-<ul class="list">
-<li><p>CHARACTER(20)</p></li>
-<li><p>VARCHAR(255)</p></li>
-<li><p>VARYING CHARACTER(255)</p></li>
-<li><p>NCHAR(55)</p></li>
-<li><p>NATIVE CHARACTER(70)</p></li>
-<li><p>NVARCHAR(100)</p></li>
-<li><p>TEXT</p></li>
-<li><p>CLOB</p></li>
-</ul>
-</td><td>TEXT</td></tr>
-<tr><td>
-<ul class="list">
-<li><p>BLOB</p></li>
-<li><p>no datatype specified</p></li>
-</ul>
-</td><td>NONE</td></tr>
-<tr><td>
-<ul class="list">
-<li><p>REAL</p></li>
-<li><p>DOUBLE</p></li>
-<li><p>DOUBLE PRECISION</p></li>
-<li><p>FLOAT</p></li>
-</ul>
-</td><td>REAL</td></tr>
-<tr><td>
-<ul class="list">
-<li><p>NUMERIC</p></li>
-<li><p>DECIMAL(10,5)</p></li>
-<li><p>BOOLEAN</p></li>
-<li><p>DATE</p></li>
-<li><p>DATETIME</p></li>
-</ul>
-</td><td>NUMERIC</td></tr>
-</tbody></table>
+### 3.2 NUMERIC
 
-SQLite 没有单独的 Boolean 存储类。相反，布尔值被存储为整数 0（false）和 1（true）。
+该列可以包含所有 5 种存储类。如果插入文本数据且该文本看起来像数字（例如字符串 "12.34"），系统会尝试将其转换为 `INTEGER` 或 `REAL`。如果转换失败，则按 `TEXT` 存储。
 
-SQLite 没有一个单独的用于存储日期和/或时间的存储类，但 SQLite 能够把日期和时间存储为 TEXT、REAL 或 INTEGER 值。
+- **常见声明类型：** `NUMERIC`, `DECIMAL(10,5)`, `BOOLEAN`, `DATE`, `DATETIME`
 
-| 存储类 | 日期格式 |
-| --- | --- |
-| TEXT | 格式为 "YYYY-MM-DD HH:MM:SS.SSS" 的日期。 |
-| REAL | 从公元前 4714 年 11 月 24 日格林尼治时间的正午开始算起的天数。 |
-| INTEGER | 从 1970-01-01 00:00:00 UTC 算起的秒数。 |
+### 3.3 INTEGER
 
-您可以以任何上述格式来存储日期和时间，并且可以使用内置的日期和时间函数来自由转换不同格式。
+行为与 `NUMERIC` 类似，但有一个关键区别：如果插入浮点数且没有小数部分（例如 12.0），它会被转换为整数（12）存储。
+
+- **常见声明类型：** `INT`, `INTEGER`, `TINYINT`, `SMALLINT`, `BIGINT`
+
+### 3.4 REAL
+
+行为与 `NUMERIC` 类似，但它会将整数强制转换为浮点数表示。
+
+- **常见声明类型：** `REAL`, `DOUBLE`, `FLOAT`
+
+### 3.5 BLOB
+
+该列没有类型偏好，不进行任何数据转换。
+
+- **常见声明类型：** `BLOB`, 或者未指定数据类型。
+
+### 示例：类型转换演示
+
+```sql
+CREATE TABLE example (
+    t_col TEXT,
+    n_col NUMERIC,
+    i_col INTEGER
+);
+
+-- 插入整数 500
+INSERT INTO example VALUES (500, 500, 500);
+-- 结果存储为:
+-- t_col: '500' (TEXT)
+-- n_col: 500   (INTEGER)
+-- i_col: 500   (INTEGER)
+
+-- 插入字符串 '500'
+INSERT INTO example VALUES ('500', '500', '500');
+-- 结果存储为:
+-- t_col: '500' (TEXT)
+-- n_col: 500   (INTEGER) -> 被转换
+-- i_col: 500   (INTEGER) -> 被转换
+```
+
+## 4. 特殊数据类型的处理
+
+SQLite 没有专门的 Boolean 或 Date/Time 存储类，而是采用通用的方式处理。
+
+### 4.1 布尔类型 (Boolean)
+
+SQLite 没有单独的 `BOOLEAN` 类型。布尔值被存储为整数：
+
+- **0** 代表 `FALSE`
+- **1** 代表 `TRUE`
+
+虽然你可以定义列类型为 `BOOLEAN`，但这只是给了它 `NUMERIC` 亲和性。
+
+### 4.2 日期和时间 (Date and Time)
+
+SQLite 没有 `DATETIME` 对象。开发者通常选择以下三种格式之一存储时间：
+
+1. **TEXT**: ISO8601 字符串 (`"YYYY-MM-DD HH:MM:SS.SSS"`). 可读性好，内置函数支持佳。
+2. **REAL**: 儒略日 (Julian Day Numbers). 适合复杂的日期计算。
+3. **INTEGER**: Unix 时间戳 (自 1970-01-01 以来的秒数). 存储空间小，排序快。
+
+**推荐做法**：通常建议使用 `TEXT` (ISO8601) 或 `INTEGER` (Unix Timestamp)，取决于是否需要跨语言可读性或性能优先。
+
+## 5. 主键的特殊行为
+
+在 SQLite 中，定义为 `INTEGER PRIMARY KEY` 的列具有特殊意义：
+
+1. 它是 **ROWID** 的别名。
+2. 它必须存储 64 位有符号整数。
+3. 如果插入非整数值，SQLite 会报错（这一点类似静态类型数据库）。
+
+**注意**：`INT PRIMARY KEY` 不具备这种特性，只有精确的 `INTEGER PRIMARY KEY` 才会触发这种行为。
+
+## 6. STRICT 表 (SQLite 3.37.0+)
+
+从 SQLite 3.37.0 版本开始，引入了 `STRICT` 表选项。如果在创建表时使用了 `STRICT` 关键字，SQLite 将强制执行数据类型检查，禁止将不匹配的数据类型插入列中。
+
+```sql
+CREATE TABLE strict_table (
+    id INTEGER PRIMARY KEY,
+    name TEXT,
+    price REAL
+) STRICT;
+
+-- 下面的语句会报错，因为 price 列要求 REAL，不能存入文本
+INSERT INTO strict_table (name, price) VALUES ('Widget', 'expensive');
+```
+
+STRICT 表支持的数据类型有限：`INT`, `INTEGER`, `REAL`, `TEXT`, `BLOB`, `ANY`。
+
+## 7. 总结与最佳实践
+
+1. **理解灵活性**：不要因为 SQLite 允许乱存类型就滥用这一特性。保持列数据的一致性是应用层的责任。
+2. **显式声明**：尽管可以不写类型，但为了代码可读性和亲和性转换的预期行为，建议始终显式声明列类型（如 `TEXT`, `INTEGER`）。
+3. **时间处理**：在项目开始时统一时间存储格式（推荐 ISO8601 字符串或 Unix 时间戳），避免后期混乱。
+4. **使用 STRICT**：对于新项目，如果希望获得类似 MySQL/PostgreSQL 的严格类型约束，建议启用 `STRICT` 模式。
