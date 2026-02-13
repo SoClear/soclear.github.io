@@ -6,8 +6,8 @@
 
 ```bash
 $ sqlite3
-SQLite version 3.3.6
-Enter ".help" for instructions
+SQLite version 3.51.2 2026-01-09 17:27:48
+Enter ".help" for usage hints.
 sqlite>
 ```
 
@@ -21,54 +21,127 @@ sqlite>.help
 
 上面的命令会显示各种重要的 SQLite 点命令的列表，如下所示：
 
-| 命令 | 描述 |
-| --- | --- |
-| .backup ?DB? FILE | 备份 DB 数据库（默认是 "main"）到 FILE 文件。 |
-| .bail ON\|OFF | 发生错误后停止。默认为 OFF。 |
-| .databases | 列出数据库的名称及其所依附的文件。 |
-| .dump ?TABLE? | 以 SQL 文本格式转储数据库。如果指定了 TABLE 表，则只转储匹配 LIKE 模式的 TABLE 表。 |
-| .echo ON\|OFF | 开启或关闭 echo 命令。 |
-| .exit | 退出 SQLite 提示符。 |
-| .explain ON\|OFF | 开启或关闭适合于 EXPLAIN 的输出模式。如果没有带参数，则为 EXPLAIN on，即开启 EXPLAIN。 |
-| .header(s) ON\|OFF | 开启或关闭头部显示。 |
-| .help | 显示消息。 |
-| .import FILE TABLE | 导入来自 FILE 文件的数据到 TABLE 表中。 |
-| .indices ?TABLE? | 显示所有索引的名称。如果指定了 TABLE 表，则只显示匹配 LIKE 模式的 TABLE 表的索引。 |
-| .load FILE ?ENTRY? | 加载一个扩展库。 |
-| .log FILE\|off | 开启或关闭日志。FILE 文件可以是 stderr（标准错误）/stdout（标准输出）。 |
-| .mode MODE | 设置输出模式，MODE 可以是下列之一：<ul><li><p><b>csv</b> 逗号分隔的值</p></li><li><p><b>column</b> 左对齐的列</p></li><li><p><b>html</b> HTML 的 &lt;table&gt; 代码</p></li><li><p><b>insert</b> TABLE 表的 SQL 插入（insert）语句</p></li><li><p><b>line</b> 每行一个值</p></li><li><p><b>list</b> 由 .separator 字符串分隔的值</p></li><li><p><b>tabs</b> 由 Tab 分隔的值</p></li><li><p><b>tcl</b> TCL 列表元素</p></li></ul> |
-| .nullvalue STRING | 在 NULL 值的地方输出 STRING 字符串。 |
-| .output FILENAME | 发送输出到 FILENAME 文件。 |
-| .output stdout | 发送输出到屏幕。 |
-| .print STRING... | 逐字地输出 STRING 字符串。 |
-| .prompt MAIN CONTINUE | 替换标准提示符。 |
-| .quit | 退出 SQLite 提示符。 |
-| .read FILENAME | 执行 FILENAME 文件中的 SQL。 |
-| .schema ?TABLE? | 显示 CREATE 语句。如果指定了 TABLE 表，则只显示匹配 LIKE 模式的 TABLE 表。 |
-| .separator STRING | 改变输出模式和 .import 所使用的分隔符。 |
-| .show | 显示各种设置的当前值。 |
-| .stats ON\|OFF | 开启或关闭统计。 |
-| .tables ?PATTERN? | 列出匹配 LIKE 模式的表的名称。 |
-| .timeout MS | 尝试打开锁定的表 MS 毫秒。 |
-| .width NUM NUM | 为 "column" 模式设置列宽度。 |
-| .timer ON\|OFF | 开启或关闭 CPU 定时器。 |
+| 命令                      | 描述                                               |
+|---------------------------|----------------------------------------------------|
+| .archive ...              | Manage SQL archives                                |
+| .auth ON\|OFF             | Show authorizer callbacks                          |
+| .backup ?DB? FILE         | Backup DB (default "main") to FILE                 |
+| .bail on\|off             | Stop after hitting an error.  Default OFF          |
+| .cd DIRECTORY             | Change the working directory to DIRECTORY          |
+| .changes on\|off          | Show number of rows changed by SQL                 |
+| .check GLOB               | Fail if output since .testcase does not match      |
+| .clone NEWDB              | Clone data into NEWDB from the existing database   |
+| .connection [close] [#]   | Open or close an auxiliary database connection     |
+| .crlf ?on\|off?           | Whether or not to use \r\n line endings            |
+| .databases                | List names and files of attached databases         |
+| .dbconfig ?op? ?val?      | List or change sqlite3_db_config() options         |
+| .dbinfo ?DB?              | Show status information about the database         |
+| .dbtotxt                  | Hex dump of the database file                      |
+| .dump ?OBJECTS?           | Render database content as SQL                     |
+| .echo on\|off             | Turn command echo on or off                        |
+| .eqp on\|off\|full\|...   | Enable or disable automatic EXPLAIN QUERY PLAN     |
+| .excel                    | Display the output of next command in spreadsheet  |
+| .exit ?CODE?              | Exit this program with return-code CODE            |
+| .expert                   | EXPERIMENTAL. Suggest indexes for queries          |
+| .explain ?on\|off\|auto?  | Change the EXPLAIN formatting mode.  Default: auto |
+| .filectrl CMD ...         | Run various sqlite3_file_control() operations      |
+| .fullschema ?--indent?    | Show schema and the content of sqlite_stat tables  |
+| .headers on\|off          | Turn display of headers on or off                  |
+| .help ?-all? ?PATTERN?    | Show help text for PATTERN                         |
+| .import FILE TABLE        | Import data from FILE into TABLE                   |
+| .imposter INDEX TABLE     | Create imposter table TABLE on index INDEX         |
+| .indexes ?TABLE?          | Show names of indexes                              |
+| .intck ?STEPS_PER_UNLOCK? | Run an incremental integrity check on the db       |
+| .limit ?LIMIT? ?VAL?      | Display or change the value of an SQLITE_LIMIT     |
+| .lint OPTIONS             | Report potential schema issues.                    |
+| .load FILE ?ENTRY?        | Load an extension library                          |
+| .log FILE\|on\|off        | Turn logging on or off.  FILE can be stderr/stdout |
+| .mode ?MODE? ?OPTIONS?    | Set output mode                                    |
+| .nonce STRING             | Suspend safe mode for one command if nonce matches |
+| .nullvalue STRING         | Use STRING in place of NULL values                 |
+| .once ?OPTIONS? ?FILE?    | Output for the next SQL command only to FILE       |
+| .open ?OPTIONS? ?FILE?    | Close existing database and reopen FILE            |
+| .output ?FILE?            | Send output to FILE or stdout if FILE is omitted   |
+| .parameter CMD ...        | Manage SQL parameter bindings                      |
+| .print STRING...          | Print literal STRING                               |
+| .progress N               | Invoke progress handler after every N opcodes      |
+| .prompt MAIN CONTINUE     | Replace the standard prompts                       |
+| .quit                     | Stop interpreting input stream, exit if primary.   |
+| .read FILE                | Read input from FILE or command output             |
+| .recover                  | Recover as much data as possible from corrupt db.  |
+| .restore ?DB? FILE        | Restore content of DB (default "main") from FILE   |
+| .save ?OPTIONS? FILE      | Write database to FILE (an alias for .backup ...)  |
+| .scanstats on\|off\|est   | Turn sqlite3_stmt_scanstatus() metrics on or off   |
+| .schema ?PATTERN?         | Show the CREATE statements matching PATTERN        |
+| .separator COL ?ROW?      | Change the column and row separators               |
+| .sha3sum ...              | Compute a SHA3 hash of database content            |
+| .shell CMD ARGS...        | Run CMD ARGS... in a system shell                  |
+| .show                     | Show the current values for various settings       |
+| .stats ?ARG?              | Show stats or turn stats on or off                 |
+| .system CMD ARGS...       | Run CMD ARGS... in a system shell                  |
+| .tables ?TABLE?           | List names of tables matching LIKE pattern TABLE   |
+| .timeout MS               | Try opening locked tables for MS milliseconds      |
+| .timer on\|off            | Turn SQL timer on or off                           |
+| .trace ?OPTIONS?          | Output each SQL statement as it is run             |
+| .version                  | Show source, library and compiler versions         |
+| .vfsinfo ?AUX?            | Information about the top-level VFS                |
+| .vfslist                  | List all available VFSes                           |
+| .vfsname ?AUX?            | Print the name of the VFS stack                    |
+| .width NUM1 NUM2 ...      | Set minimum column widths for columnar output      |
+| .www                      | Display output of the next command in web browser  |
 
 让我们尝试使用 **.show** 命令，来查看 SQLite 命令提示符的默认设置。
 
 ```text
-sqlite>.show
-     echo: off
-  explain: off
-  headers: off
-     mode: column
-nullvalue: ""
-   output: stdout
-separator: "|"
-    width:
+sqlite> .show
+        echo: off
+         eqp: off
+     explain: auto
+     headers: off
+        mode: list
+   nullvalue: ""
+      output: stdout
+colseparator: "|"
+rowseparator: "\n"
+       stats: off
+       width:
+    filename: :memory:
 sqlite>
 ```
 
 > 确保 sqlite> 提示符与点命令之间没有空格，否则将无法正常工作。
+
+## 查看所有支持的 .mode（输出格式）
+
+```text
+sqlite> .help mode
+.mode ?MODE? ?OPTIONS?   Set output mode
+   MODE is one of:
+     ascii       Columns/rows delimited by 0x1F and 0x1E
+     box         Tables using unicode box-drawing characters
+     csv         Comma-separated values
+     column      Output in columns.  (See .width)
+     html        HTML <table> code
+     insert      SQL insert statements for TABLE
+     json        Results in a JSON array
+     line        One value per line
+     list        Values delimited by "|"
+     markdown    Markdown table format
+     qbox        Shorthand for "box --wrap 60 --quote"
+     quote       Escape answers as for SQL
+     table       ASCII-art table
+     tabs        Tab-separated values
+     tcl         TCL list elements
+   OPTIONS: (for columnar modes or insert mode):
+     --escape T     ctrl-char escape; T is one of: symbol, ascii, off
+     --wrap N       Wrap output lines to no longer than N characters
+     --wordwrap B   Wrap or not at word boundaries per B (on/off)
+     --ww           Shorthand for "--wordwrap 1"
+     --quote        Quote output text as SQL literals
+     --noquote      Do not quote output text
+     TABLE          The name of SQL table used for "insert" mode
+sqlite>
+```
 
 ## 格式化输出
 
@@ -76,24 +149,21 @@ sqlite>
 
 ```bash
 sqlite>.header on
-sqlite>.mode column
+sqlite>.mode box
 sqlite>.timer on
-sqlite>
 ```
 
 上面设置将产生如下格式的输出：
 
-```sql
-ID          NAME        AGE         ADDRESS     SALARY
-----------  ----------  ----------  ----------  ----------
-1           Paul        32          California  20000.0
-2           Allen       25          Texas       15000.0
-3           Teddy       23          Norway      20000.0
-4           Mark        25          Rich-Mond   65000.0
-5           David       27          Texas       85000.0
-6           Kim         22          South-Hall  45000.0
-7           James       24          Houston     10000.0
-CPU Time: user 0.000000 sys 0.000000
+```text
+┌────┬──────┬───────┐
+│ id │ name │ score │
+├────┼──────┼───────┤
+│ 1  │ 张三 │ 30    │
+│ 2  │ 李四 │ 40    │
+│ 3  │ 王五 │ 50    │
+│ 4  │ 赵六 │ 60    │
+└────┴──────┴───────┘
 ```
 
 ## sqlite_master 表格
