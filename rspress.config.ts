@@ -2,10 +2,11 @@ import * as path from 'node:path';
 import { defineConfig } from '@rspress/core';
 import katex from 'rspress-plugin-katex';
 import mermaid from 'rspress-plugin-mermaid';
+import { pluginTags } from './pluginTags';
 
 export default defineConfig({
   root: path.join(__dirname, 'docs'),
-  plugins: [katex(), mermaid()],
+  plugins: [katex(), mermaid(), pluginTags()],
   title: 'My Site',
   icon: '/rspress-icon.png',
   logo: {
