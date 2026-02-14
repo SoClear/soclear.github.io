@@ -1,42 +1,43 @@
-# 附加数据库
+# 附加数据库 (ATTACH DATABASE)
 
-假设这样一种情况，当在同一时间有多个数据库可用，您想使用其中的任何一个。SQLite 的 **ATTACH DATABASE** 语句是用来选择一个特定的数据库，使用该命令后，所有的 SQLite 语句将在附加的数据库下执行。
+SQLite 的一个强大特性是允许在同一个数据库连接中同时访问多个独立的数据库文件。这通过 `ATTACH DATABASE` 语句实现。
 
-## 语法
+## 1. 为什么要附加数据库？
 
-SQLite 的 ATTACH DATABASE 语句的基本语法如下：
+- **跨库查询**：你可以在一个 SQL 语句中关联（JOIN）不同数据库文件中的表。
+- **数据归档**：可以将旧数据移动到单独的文件中，需要时再挂载查询。
+- **临时操作**：将一个临时的数据库文件附加到当前会话中进行数据处理。
 
-```sql
-ATTACH DATABASE file_name AS database_name;
-```
-
-如果数据库尚未被创建，上面的命令将创建一个数据库，如果数据库已存在，则把数据库文件名称与逻辑数据库 'Alias-Name' 绑定在一起。
-
-打开的数据库和使用 ATTACH附加进来的数据库的必须位于同一文件夹下。
-
-## 实例
-
-如果想附加一个现有的数据库 **testDB.db**，则 ATTACH DATABASE 语句将如下所示：
+## 2. 语法
 
 ```sql
-sqlite> ATTACH DATABASE 'testDB.db' as 'TEST';
+ATTACH DATABASE '文件路径' AS 别名;
 ```
 
-使用 SQLite **.database** 命令来显示附加的数据库。
+或者简写为：
 
 ```sql
-sqlite> .database
-seq  name             file
----  ---------------  ----------------------
-0    main             /home/sqlite/testDB.db
-2    test             /home/sqlite/testDB.db
+ATTACH '文件路径' AS 别名;
 ```
 
-数据库名称 **main** 和 **temp** 被保留用于主数据库和存储临时表及其他临时数据对象的数据库。这两个数据库名称可用于每个数据库连接，且不应该被用于附加，否则将得到一个警告消息，如下所示：
+## 3. 示例
+
+假设你当前连接在 `main.db`，现在想把 `logs.db` 里的数据也纳入查询范围：
 
 ```sql
-sqlite>  ATTACH DATABASE 'testDB.db' as 'TEMP';
-Error: database TEMP is already in use
-sqlite>  ATTACH DATABASE 'testDB.db' as 'main';
-Error: database main is already in use；
+-- 将 logs.db 附加为别名 "daily_logs"
+ATTACH DATABASE '/path/to/logs.db' AS daily_logs;
+
+-- 现在你可以跨库查询了
+-- 比如：查询 main.db 中的 users 表和 logs.db 中的 errors 表
+SELECT u.username, e.error_msg
+FROM main.users u
+JOIN daily_logs.errors e ON u.id = e.user_id;
 ```
+
+### 2.4 关键点
+
+- **main 和 temp**：每个 SQLite 连接默认都有两个数据库：`main`（主数据库文件）和 `temp`（用于存储临时表）。
+- **文件路径**：文件名必须用引号括起来。
+- **别名唯一性**：别名不能与现有的数据库别名（如 `main` 或 `temp`）冲突。
+- **限制**：SQLite 限制了同时附加数据库的数量（编译时默认通常是 10 个或 62 个，具体取决于版本）。
