@@ -130,41 +130,46 @@ android {
 }
 ```
 
-如果是 Xposed 模块，请将 `minifyEnabled` 设置为 `false` ；或者 `minifyEnabled true` ，并在 `proguard-rules.pro` 中添加规则
-`--keep class your.package.YourHookClass` 。
+如果是 Xposed 模块，请将 `minifyEnabled` 设置为 `false` ；或者 `minifyEnabled true` ，并在 `proguard-rules.pro` 中添加规则：
 
-为了确保 ProGuard 在代码混淆过程中保留 `your.package.YourHookClass` 类及其所有成员，你需要在你的 `proguard-rules.pro` 文件中添加特定的规则。以下是如何实现这一点的说明：
+```java
+--keep class your.packagename.YourHookClass {
+    <init>();
+}
+```
+
+为了确保 ProGuard 在代码混淆过程中保留 `your.packagename.YourHookClass` 类及其所有成员，你需要在你的 `proguard-rules.pro` 文件中添加特定的规则。以下是如何实现这一点的说明：
 
 1. 保留整个类：
     如果你想要保留整个类不被混淆并且不被移除，可以使用 `-keep` 指令。
 
     ```text
-    -keep your.package.YourHookClass { *; }
+    -keep your.packagename.YourHookClass { *; }
     ```
 
-    这条规则会告诉 ProGuard 保持 `your.package.YourHookClass` 类不变，并且保留该类的所有方法和字段。
+    这条规则会告诉 ProGuard 保持 `your.packagename.YourHookClass` 类不变，并且保留该类的所有方法和字段。
 
 2. 如果你只希望保留类本身但允许其成员（方法和字段）被混淆，你可以这样做：
 
     ```text
-    -keep class your.package.YourHookClass
+    -keep class your.packagename.YourHookClass
     ```
 
 3. 如果你有特定的方法或字段需要保留，你可以明确指出它们。例如：
 
     ```text
-    -keepclassmembers your.package.YourHookClass {
+    -keepclassmembers your.packagename.YourHookClass {
         <fields>;
         <methods>;
     }
     ```
 
-    这将保留 `your.package.YourHookClass` 类中的所有字段和方法，但仍然会对它们进行混淆，除非它们也被 `-keep` 或类似的指令保护。
+    这将保留 `your.packagename.YourHookClass` 类中的所有字段和方法，但仍然会对它们进行混淆，除非它们也被 `-keep` 或类似的指令保护。
 
 4. 如果这个类是用于反射或者动态加载，你应该确保它的构造函数、方法签名和字段名都被保留下来：
 
     ```text
-    -keep,allowobfuscation your.package.YourHookClass {
+    -keep,allowobfuscation your.packagename.YourHookClass {
         *;
     }
     ```
