@@ -210,3 +210,159 @@ Java.perform(() => {
 这个时候，启动被控设备上的该应用，就会在控制台打印 `onResume() got called!`
 
 每次修改代码后，保存一下就会自动编译，并加载到被控设备上
+
+## 3. 示例
+
+### 3.1 ZombieHunter.ts
+
+```ts
+import "frida-il2cpp-bridge"
+
+function main() {
+    console.log("[-] Starting Field Hook...");
+
+    const ActiveGun = Il2Cpp.domain.assembly("Assembly-CSharp").image.class("ActiveGun");
+
+    // 1. Hook 初始化/配置加载方法
+    // 当枪支初始化属性时，强制将换弹时间改为 0
+    const TryLoadGunStatByConfig = ActiveGun.method("TryLoadGunStatByConfig");
+    // for (let i = 0; i < ActiveGun.fields.length; i++) {
+    //     console.log(ActiveGun.fields[i].name)
+    // }
+
+    TryLoadGunStatByConfig.implementation = function () {
+        // 1. 先执行原始的加载逻辑，确保其他属性正常
+        this.method("TryLoadGunStatByConfig").invoke();
+
+        // 2. 修改当前实例的 ReloadTime 字段
+        // 注意：字段名必须与 Dump 中的一致
+        try {
+            // 换弹时间
+            this.field("ReloadTime").value = 0.0;
+
+            // 射速
+            this.field("FireRate").value = 50000000
+
+            // 弹夹容量
+            this.field("ClipSize").value = 2147483647;
+
+            // 无子弹散布
+            this.field("BulletSpread").value = 0.0;
+
+            // 伤害
+            this.field("Damage").value = 9000
+        } catch (e) {
+            console.error(`[!] Failed to patch field: ${e}`);
+        }
+    };
+}
+
+Il2Cpp.perform(main).catch(e => console.error(e))
+```
+
+### 3.2 ShadowHunter.ts
+
+```ts
+// import Java from 'frida-java-bridge'
+import "frida-il2cpp-bridge"
+// godmode_player_only.js
+
+// ----------------
+
+console.log("[*] Frida GodMode 脚本已启动...");
+
+// 等待 il2cpp 初始化完成
+Il2Cpp.perform(() => {
+    console.log("[*] Il2Cpp API 已准备就绪。");
+    const assembly = Il2Cpp.domain.assembly('Assembly-CSharp');
+    godMode(assembly)
+    noSkillCooldown()
+}).catch(e => console.error(e))
+
+
+function godMode(
+    assembly: Il2Cpp.Assembly = Il2Cpp.domain.assembly('Assembly-CSharp'),
+    invincible: boolean = true,
+    damage: number = 2147483647
+) {
+    const characterClass = assembly.image.class('SH.Combat.Skills.Impl.DefaultSkillCharacter');
+    const entityTagComponentClass = assembly.image.class('EntityComponentSystem.Components.EntityTagComponent');
+    // const artemisAssembly = Il2Cpp.domain.assembly('Assembly-CSharp-firstpass');
+    // const entityClass = artemisAssembly.image.class('Artemis.Entity');
+    // const damageFromAttackClass = assembly.image.class('ES.Core.Skills.Logics.DamageFromAttack');
+
+    const receiveDamageMethod = characterClass.method('ReceiveDamage');
+    const originalReceiveDamage = new NativeFunction(
+        receiveDamageMethod.virtualAddress,
+        'void', // C# 的 void 返回值
+        ['pointer', 'pointer'] // 参数: [this, DamageFromAttack damage]
+    );
+
+    // RVA: 0x269f754 VA: 0x75c70dd754
+    // public override Void ReceiveDamage(DamageFromAttack damage) { }
+    Interceptor.replace(
+        receiveDamageMethod.virtualAddress,
+        new NativeCallback(function (characterPointer: NativePointer, damageFromAttackPointer: NativePointer): void {
+            const character = new Il2Cpp.Object(characterPointer);
+            const entity = character.field<Il2Cpp.Object>('entity').value
+            const getComponentMethod = entity.method<Il2Cpp.Object>('GetComponent', 0).inflate(entityTagComponentClass);
+            const tagComponent = getComponentMethod.invoke();
+            const isMainCharacter = tagComponent.method<boolean>('IsMainCharacter').invoke();
+            if (isMainCharacter && invincible) {
+                return
+            }
+            if (!isMainCharacter){
+                const damageFromAttack = new Il2Cpp.Object(damageFromAttackPointer)
+                damageFromAttack.method('SetOverrideDmg').invoke(damage);
+            }
+            originalReceiveDamage(characterPointer, damageFromAttackPointer);
+        }, "void", ["pointer", "pointer"])
+    )
+
+    console.log((invincible ? '已': '未') + '开启无敌')
+    console.log(`已开启 ${damage} 伤害`)
+}
+
+function noSkillCooldown(assembly: Il2Cpp.Assembly = Il2Cpp.domain.assembly('Assembly-CSharp')) {
+    try {
+        const TimeCooldown = assembly.image.class("ES.Core.Skills.Cooldowns.TimeCooldown");
+
+        let instance: NativePointer;
+        // Start
+        Interceptor.attach(TimeCooldown.method('Start').virtualAddress, {
+            onEnter: function(args: NativePointer[]) {
+                instance = args[0]!
+            },
+            onLeave() {
+                instance.add(0x18).writeFloat(0)
+            }
+        });
+        console.log('已开启技能无冷却')
+    } catch (e: any) {
+        console.error("开启技能无冷却失败" + e.message);
+    }
+}
+
+function getReceiveDamageBaseAddress(): NativePointer {
+    // --- 配置区 ---
+    // HealthComponent.ReceiveDamage 的 RVA
+    const receiveDamageRVA = 0x237a8ec;
+    // 获取 libil2cpp.so 的基地址
+    const il2cppBase = Il2Cpp.module.base;
+
+    // 1. 计算 ReceiveDamage 的绝对地址
+    const receiveDamageAddr = il2cppBase.add(receiveDamageRVA);
+    console.log(`[+] HealthComponent.ReceiveDamage 位于: ${receiveDamageAddr}`);
+    return receiveDamageAddr;
+}
+
+function getIl2cppBaseAddress() {
+    return Il2Cpp.module.base;
+}
+
+rpc.exports = {
+    noSkillCooldown,
+    getReceiveDamageBaseAddress,
+    getIl2cppBaseAddress
+}
+```
