@@ -1,3 +1,7 @@
+---
+tags: ["GitHub", "GitHubActions", "Android"]
+---
+
 # 使用 GitHub Actions 创建 Android Releases
 
 ## 1. 创建 keystore.properties
