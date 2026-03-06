@@ -1,0 +1,20 @@
+diff --git a/dist/index.js b/dist/index.js
+index 4c8b235b6a7429c552ec41755da7a7270949f780..fb8c6c55bb5feaecdcec97a8801f529045d8fe94 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -1,6 +1,7 @@
+ import remarkMath from 'remark-math';
+ import rehypeKatex from 'rehype-katex';
+ import { visit } from 'unist-util-visit';
++import { createRequire } from 'node:module';
+ const remarkCodeBlockToMath = () => {
+     return (tree) => {
+         visit(tree, 'code', (node) => {
+@@ -16,6 +17,7 @@ const remarkCodeBlockToMath = () => {
+     };
+ };
+ export default function rspressPluginKatex(options = {}) {
++    const require = createRequire(import.meta.url);
+     const katexCss = require.resolve('katex/dist/katex.min.css');
+     return {
+         name: 'rspress-plugin-katex',
