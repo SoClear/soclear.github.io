@@ -237,6 +237,10 @@ jobs:
       - name: Build Release APKs
         run: ./gradlew assembleRelease
 
+    #   - name: Rename APK
+    #     run: | 
+    #       mv app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/prefix_${{ github.ref_name }}.apk
+          
       # 上传所有相关的 Release APKs (兼容单/多 APK)
       - name: Upload Release Assets
         uses: softprops/action-gh-release@v2
