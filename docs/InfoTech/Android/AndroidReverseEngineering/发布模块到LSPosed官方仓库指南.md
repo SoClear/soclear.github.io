@@ -22,12 +22,14 @@
 1. **接受协作邀请**：
    - 检查与你 GitHub 账号关联的邮箱。
    - 查收来自 `XposedBot` 的邮件，标题为 *“XposedBot invited you to Xposed-Modules-Repo/[包名]”*。
-   - 点击邮件中的 **View invitation** 并同意邀请。至此，仓库绑定成功。
+   - 点击邮件中的 **View invitation** 跳转到 GitHub 授权页面。
+   - 点击授权页面 *“XposedBot invited you to collaborate on Xposed-Modules-Repo/[包名]”* 下的 `Accept invitation`
+   - 顶部提示 *“You now have admin access to the Xposed-Modules-Repo/[包名] repository.”* 就拥有这个仓库啦。
 
 2. **设置管理员权限（关键）**：
    - 进入该专属仓库，点击顶部导航栏的 **⚙️ Settings**（设置）按钮。
    - 在左侧菜单栏中选择 **Collaborators and teams**（协作者与团队）。
-   - 在成员列表中找到你自己的 GitHub 账号，确保将你的角色（Role）修改/确认为 **Admin**（管理员）。
+   - 在 **Manage access** 下的 **Direct access** 中找到你自己的 GitHub 账号，确保将你的角色（Role）修改/确认为 **Admin**（管理员）。
    - *(注意：必须保证有 Admin 权限，才能顺利进行后续的仓库信息修改。)*
 
 3. **修改仓库详情（Edit repository details）**：
