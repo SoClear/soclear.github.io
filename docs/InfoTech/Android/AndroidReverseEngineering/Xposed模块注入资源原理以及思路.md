@@ -313,39 +313,32 @@ class MainHook : IXposedHookLoadPackage, IXposedHookZygoteInit {
     }
 
     override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
-        if (loadPackageParam.packageName == "com.target.app") {
-            XposedHelpers.findAndHookMethod(
-                Application::class.java,
-                "attach",
-                Context::class.java,
-                object : XC_MethodHook() {
-                    override fun afterHookedMethod(param: MethodHookParam) {
+        if (loadPackageParam.packageName != "com.target.app") return
+        XposedHelpers.findAndHookMethod(
+            ContextWrapper::class.java,
+            "attachBaseContext",
+            Context::class.java,
+            object : XC_MethodHook() {
+                override fun afterHookedMethod(param: MethodHookParam) {
+                    val context = param.thisObject as Context
+                    if (context !is Application) return
+                    try {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                            val context = param.args[0] as Context
-                            val loader = ResourcesLoader()
-                            val moduleFile = File(modulePath)
-                            val parcelFileDescriptor = ParcelFileDescriptor.open(
-                                moduleFile,
-                                ParcelFileDescriptor.MODE_READ_ONLY
-                            )
-                            val provider = ResourcesProvider.loadFromApk(parcelFileDescriptor)
-                            loader.addProvider(provider)
-                            context.resources.addLoaders(loader)
+                            val moduleApk = File(modulePath)
+                            val parcelFileDescriptor = ParcelFileDescriptor.open(moduleApk, ParcelFileDescriptor.MODE_READ_ONLY)
+                            val resourcesProvider = ResourcesProvider.loadFromApk(parcelFileDescriptor)
+                            val resourcesLoader = ResourcesLoader()
+                            resourcesLoader.addProvider(resourcesProvider)
+                            context.resources.addLoaders(resourcesLoader)
                         } else {
-                            val context = param.args[0] as Context
-                            val cookie = XposedHelpers.callMethod(
-                                context.assets,
-                                "addAssetPath",
-                                modulePath
-                            )
-                            val isResourcesInjected = (cookie as? Int ?: 0) > 0
-                            val resourcesInjectLog = if (isResourcesInjected) "成功" else "失败"
-                            XposedBridge.log(resourcesInjectLog)
+                            XposedHelpers.callMethod(context.assets, "addAssetPath", modulePath)
                         }
+                    } catch (t: Throwable) {
+                        XposedBridge.log(t)
                     }
                 }
-            )
-        }
+            }
+        )
     }
 }
 ```
