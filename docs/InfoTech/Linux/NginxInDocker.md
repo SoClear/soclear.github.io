@@ -419,6 +419,19 @@ docker exec acme --install-cert -d your.domain \
 2. 检查配置：`docker compose exec nginx nginx -t`
 3. 重载 Nginx：`docker compose exec nginx nginx -s reload`
 
+## 注意：Nginx 反向代理 Docker 容器的 IP 缓存问题
+
+在 Docker 环境下，当后端服务容器（如 Cloudreve、code-server 等）更新镜像或重建后，Docker 会为其分配全新的内网 IP。
+但 Nginx 默认机制是：**只在启动或执行 `reload` 时解析一次容器域名，并将解析到的 IP 永久缓存在内存中**。
+这会导致后端容器更新后，Nginx 依然将流量转发至已经失效的旧 IP，并在日志中产生 `Connection refused` 或 `Host is unreachable` 错误，导致网站无法访问。
+
+所以每次更新或重建后端容器后，务必手动重载一次 Nginx 配置，强制其重新解析并获取最新 IP：
+
+```bash
+docker compose exec nginx nginx -s reload
+# 或者直接重启容器 docker compose restart nginx
+```
+
 ## 进阶：隐藏源站 IP 防止网络测绘（Security）
 
 在使用 CDN（如 Cloudflare）时，我们希望攻击者无法直接通过 IP 访问到源站。但如果 Nginx 配置不当，网络空间测绘引擎（如 Fofa、Shodan）扫描全网 IP 的 443 端口时，Nginx 会默认返回包含你真实域名的 SSL 证书。这样，攻击者就能通过“IP 反查域名”找到你的源站 IP。
