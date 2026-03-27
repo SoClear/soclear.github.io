@@ -1,6 +1,6 @@
 # Rspress website
 
-[点击直达docs](https://soclear.github.io/docs)
+[点击直达docs](https://soclear.github.io/)
 
 ## Setup
 
