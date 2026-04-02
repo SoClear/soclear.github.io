@@ -206,4 +206,31 @@ fun showFloatingWindow(modulePath: String, content: @Composable (ComposeViewCont
 }
 ```
 
+## 更简单的实现方式
+
+```kotlin
+fun patchComposeRecursion(classLoader: ClassLoader) {
+    try {
+        // 1. 找到 Compose 内部引发崩溃的那个类
+        // 注意：这个类在 androidx.compose.ui.platform 包下
+        val targetClass = XposedHelpers.findClassIfExists(
+            "androidx.compose.ui.platform.AndroidComposeView",
+            classLoader
+        )
+
+        if (targetClass != null) {
+            // 2. 彻底替换这个导致死循环的方法
+            findAndHookMethod(
+                targetClass,
+                "findViewByAccessibilityIdTraversal",
+                Int::class.javaPrimitiveType, // 参数是一个 int 类型的 ID
+                XC_MethodReplacement.returnConstant(null)
+            )
+        }
+    } catch (t: Throwable) {
+        XposedBridge.log(t)
+    }
+}
+```
+
 其中向宿主注入模块资源 见 [Xposed模块注入资源原理以及思路](Xposed模块注入资源原理以及思路.md)
