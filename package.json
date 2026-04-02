@@ -11,17 +11,17 @@
     "preview": "rspress preview --port 9292"
   },
   "dependencies": {
-    "@rspress/core": "^2.0.4"
+    "@rspress/core": "^2.0.8"
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.11",
-    "@types/node": "^25.0.9",
-    "@types/react": "^19.2.9",
+    "@types/node": "^25.5.0",
+    "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
     "rspress-plugin-katex": "^1.0.0",
-    "rspress-plugin-mermaid": "^1.0.0"
+    "rspress-plugin-mermaid": "^1.0.1"
   },
   "patchedDependencies": {
     "rspress-plugin-katex@1.0.0": "patches/rspress-plugin-katex@1.0.0.patch"
