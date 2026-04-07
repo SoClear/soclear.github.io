@@ -69,5 +69,10 @@
     "type": "file",
     "name": "plus-one",
     "label": "加一"
+  },
+  {
+    "type": "file",
+    "name": "merge-sorted-array",
+    "label": "合并两个有序数组"
   }
 ]
