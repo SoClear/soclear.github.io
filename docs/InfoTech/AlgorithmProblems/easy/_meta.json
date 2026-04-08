@@ -74,5 +74,20 @@
     "type": "file",
     "name": "merge-sorted-array",
     "label": "合并两个有序数组"
+  },
+  {
+    "type": "file",
+    "name": "reverse-linked-list",
+    "label": "反转链表"
+  },
+  {
+    "type": "file",
+    "name": "子结构判断",
+    "label": "子结构判断"
+  },
+  {
+    "type": "file",
+    "name": "getKthFromEnd",
+    "label": "单向链表倒第 k 个节点"
   }
 ]
