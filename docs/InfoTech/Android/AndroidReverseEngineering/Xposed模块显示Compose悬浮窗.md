@@ -209,6 +209,7 @@ fun showFloatingWindow(modulePath: String, content: @Composable (ComposeViewCont
 ## 更简单的实现方式
 
 ```kotlin
+// 为了防止影响宿主，要使用模块的 classLoader
 fun patchComposeRecursion(classLoader: ClassLoader) {
     try {
         // 1. 找到 Compose 内部引发崩溃的那个类
@@ -231,6 +232,30 @@ fun patchComposeRecursion(classLoader: ClassLoader) {
         XposedBridge.log(t)
     }
 }
+```
+
+使用方式示例：
+
+```kotlin
+dialog.setContentView(ComposeView(moduleContext).apply {
+    // 1. 彻底禁用自动填充，防止宿主的 Autofill 服务介入模块的 ComposeView
+    importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS
+
+    // 2. 彻底隐藏无障碍节点，防止宿主的无障碍服务遍历模块的 ComposeView dao'b死循环
+    importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
+    setContent {
+        EdgeXTheme {
+            Scaffold(
+                modifier = Modifier
+                // 3. 清除该节点及其子节点的所有语义（Accessibility/Autofill 也就看不到它了）
+                .clearAndSetSemantics{}
+                .fillMaxWidth()
+            ) { innerPadding ->
+                MainScreen(viewModel = viewModel, modifier = androidx.compose.ui.Modifier.padding(innerPadding))
+            }
+        }
+    }
+})
 ```
 
 其中向宿主注入模块资源 见 [Xposed模块注入资源原理以及思路](Xposed模块注入资源原理以及思路.md)
