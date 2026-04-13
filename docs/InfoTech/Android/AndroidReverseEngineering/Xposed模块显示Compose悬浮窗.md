@@ -212,22 +212,46 @@ fun showFloatingWindow(modulePath: String, content: @Composable (ComposeViewCont
 // 为了防止影响宿主，要使用模块的 classLoader
 fun patchComposeRecursion(classLoader: ClassLoader) {
     try {
-        // 1. 找到 Compose 内部引发崩溃的那个类
         // 注意：这个类在 androidx.compose.ui.platform 包下
-        val targetClass = XposedHelpers.findClassIfExists(
+        val targetClass = findClassIfExists(
             "androidx.compose.ui.platform.AndroidComposeView",
             classLoader
+        ) ?: return
+
+        val returnNull = XC_MethodReplacement.returnConstant(null)
+
+        // 拦截无障碍 ID 遍历
+        findAndHookMethod(
+            targetClass,
+            "findViewByAccessibilityIdTraversal",
+            Int::class.javaPrimitiveType, // 参数是一个 int 类型的 ID
+            returnNull
         )
 
-        if (targetClass != null) {
-            // 2. 彻底替换这个导致死循环的方法
-            findAndHookMethod(
-                targetClass,
-                "findViewByAccessibilityIdTraversal",
-                Int::class.javaPrimitiveType, // 参数是一个 int 类型的 ID
-                XC_MethodReplacement.returnConstant(null)
-            )
-        }
+        // 拦截 Assist 结构分发 (防止抓取屏幕结构时死循环)
+        findAndHookMethod(
+            targetClass,
+            "dispatchProvideStructure",
+            android.view.ViewStructure::class.java,
+            returnNull
+        )
+
+        // 拦截 Autofill 虚拟结构提供 (防止 Edge 密码/表单自动填充死循环，最直接的 OOM 触发点)
+        findAndHookMethod(
+            targetClass,
+            "onProvideAutofillVirtualStructure",
+            android.view.ViewStructure::class.java,
+            Int::class.javaPrimitiveType,
+            returnNull
+        )
+
+        // (可选) 拦截 Autofill 动作执行
+        findAndHookMethod(
+            targetClass,
+            "autofill",
+            android.util.SparseArray::class.java,
+            returnNull
+        )
     } catch (t: Throwable) {
         XposedBridge.log(t)
     }
