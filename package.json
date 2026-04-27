@@ -20,10 +20,7 @@
     "@types/react-dom": "^19.2.3",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
-    "rspress-plugin-katex": "^1.0.0",
+    "rspress-plugin-katex": "^1.0.1",
     "rspress-plugin-mermaid": "^1.0.1"
-  },
-  "patchedDependencies": {
-    "rspress-plugin-katex@1.0.0": "patches/rspress-plugin-katex@1.0.0.patch"
   }
 }

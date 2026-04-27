@@ -5,22 +5,19 @@
     "": {
       "name": "r",
       "dependencies": {
-        "@rspress/core": "^2.0.8",
+        "@rspress/core": "^2.0.9",
       },
       "devDependencies": {
         "@biomejs/biome": "2.3.11",
-        "@types/node": "^25.5.0",
+        "@types/node": "^25.6.0",
         "@types/react": "^19.2.14",
         "@types/react-dom": "^19.2.3",
-        "react": "^19.2.4",
-        "react-dom": "^19.2.4",
-        "rspress-plugin-katex": "^1.0.0",
+        "react": "^19.2.5",
+        "react-dom": "^19.2.5",
+        "rspress-plugin-katex": "^1.0.1",
         "rspress-plugin-mermaid": "^1.0.1",
       },
     },
-  },
-  "patchedDependencies": {
-    "rspress-plugin-katex@1.0.0": "patches/rspress-plugin-katex@1.0.0.patch",
   },
   "packages": {
     "@biomejs/biome": ["@biomejs/biome@2.3.11", "", { "optionalDependencies": { "@biomejs/cli-darwin-arm64": "2.3.11", "@biomejs/cli-darwin-x64": "2.3.11", "@biomejs/cli-linux-arm64": "2.3.11", "@biomejs/cli-linux-arm64-musl": "2.3.11", "@biomejs/cli-linux-x64": "2.3.11", "@biomejs/cli-linux-x64-musl": "2.3.11", "@biomejs/cli-win32-arm64": "2.3.11", "@biomejs/cli-win32-x64": "2.3.11" }, "bin": { "biome": "bin/biome" } }, "sha512-/zt+6qazBWguPG6+eWmiELqO+9jRsMZ/DBU3lfuU2ngtIQYzymocHhKiZRyrbra4aCOoyTg/BmY+6WH5mv9xmQ=="],
@@ -595,7 +592,7 @@
 
     "rspress-plugin-devkit": ["rspress-plugin-devkit@1.0.0", "", { "dependencies": { "@types/estree-jsx": "^1.0.5", "@types/hast": "^3.0.4", "@types/mdast": "^4.0.4", "@types/node": "^25.0.3", "clsx": "^2.1.1", "lodash-es": "^4.17.22", "mdast-util-from-markdown": "^2.0.2", "mdast-util-mdx-jsx": "^3.2.0", "mdast-util-mdxjs-esm": "^2.0.1", "mdast-util-to-markdown": "^2.1.2", "mdast-util-to-string": "^4.0.0", "remark-mdc": "^3.10.0", "ts-morph": "^27.0.2", "unified": "^11.0.5", "unist-util-visit": "^5.0.0", "unist-util-visit-parents": "^6.0.2", "util-ts-types": "^1.0.0", "vfile": "^6.0.3", "vfile-reporter": "^8.1.1" }, "peerDependencies": { "@rspress/core": "^2.0.0-rc.4 || ^2.0.0" } }, "sha512-Xe+yxu9X9a+SBH8CSPZJSiqm0OtaIvx9FCXI1MQMpfmaK75/F+3Rvbz/zJw7nFxxpo5HsePb86ScGOYNIKNLFg=="],
 
-    "rspress-plugin-katex": ["rspress-plugin-katex@1.0.0", "", { "dependencies": { "katex": "^0.16.10", "rehype-katex": "^7.0.0", "remark-math": "^6.0.0", "rspress-plugin-devkit": "^1.0.0", "unist-util-visit": "^5.0.0" }, "peerDependencies": { "@rspress/core": "^2.0.0-rc.4 || ^2.0.0" } }, "sha512-DTLIOkHqJkqgF5UV5gdRLzj7jFrp7rHPqCS3ABSMa24ajzOpKRXmcpYQJE/qBVPe7kgOBZwtqcHeXewgj4wenA=="],
+    "rspress-plugin-katex": ["rspress-plugin-katex@1.0.1", "", { "dependencies": { "katex": "^0.16.10", "rehype-katex": "^7.0.0", "remark-math": "^6.0.0", "rspress-plugin-devkit": "^1.0.0", "unist-util-visit": "^5.0.0" }, "peerDependencies": { "@rspress/core": "^2.0.0-rc.4 || ^2.0.0" } }, "sha512-8Cv10o2a+n6T7s0aFpSq25QbtSt/JepUydh0bIt779mvVTN3qT4rmHtc5m5+bffCbQxZqTRlhGxrzJ/Y3fFoOw=="],
 
     "rspress-plugin-mermaid": ["rspress-plugin-mermaid@1.0.1", "", { "dependencies": { "mermaid": "^10.9.0", "rspress-plugin-devkit": "^1.0.0" }, "peerDependencies": { "@rspress/core": "^2.0.0-rc.4 || ^2.0.0" } }, "sha512-FAL9Q5+DZJqCnuYPCYaOr+FY6WS56jFBJy5YyXKQWwzIYqWmS/tBgaNSdCBctLAG8AKeyUlFODg/7s6WqTY2/Q=="],
 
