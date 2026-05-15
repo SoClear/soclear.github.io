@@ -60,6 +60,9 @@ networks:
 
 接下来，在当前目录下执行 `docker compose up -d` ，便会拉取镜像，并运行容器。
 
+更新镜像：`docker compose up -d --pull always`
+清理镜像：`docker image prune`
+
 ### 两种不同方式创建network的区别
 
 第一种：
