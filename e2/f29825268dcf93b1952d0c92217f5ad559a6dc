@@ -1,0 +1,25 @@
+docs/InfoTech/Android/AndroidReverseEngineering/AI逆向工具推荐.md
+  ffd746cb89824702 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "e2f29825268dcf93b1952d0c92217f5ad559a6dc",
+  "prompts": {
+    "ffd746cb89824702": {
+      "agent_id": {
+        "tool": "trae-cue",
+        "id": "ai_tab-icr-19a095db-4228-4933-89a6-c39b3b37659e",
+        "model": "default"
+      },
+      "human_author": "SoClear <48470201+soclear@users.noreply.github.com>",
+      "messages": [],
+      "total_additions": 1,
+      "total_deletions": 1,
+      "accepted_lines": 1,
+      "overriden_lines": 0
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
