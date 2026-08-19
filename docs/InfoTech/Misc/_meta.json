@@ -74,5 +74,10 @@
     "type": "file",
     "name": "编程字体推荐",
     "label": "编程字体推荐"
+  },
+  {
+    "type": "file",
+    "name": "regex",
+    "label": "正则表达式"
   }
 ]
