@@ -158,6 +158,27 @@ xposedModule.hook(method).intercept { chain ->
 
 `intercept {}` 中最后一个表达式的值作为返回值，也就是被 hook 的方法的返回值。
 
+注意：框架会忽略 void 方法和构造方法的返回值，因此不用特意写 intercept 的返回值。相关源码如下：
+
+```java
+/**
+ * Hooker for a method or constructor.
+ */
+interface Hooker {
+    /**
+     * Intercepts a method / constructor call.
+     *
+     * @param chain The interceptor chain for the call
+     * @return The result to be returned from the interceptor. If the hooker does not want to
+     * change the result, it should call {@code chain.proceed()} and return its result.
+     * <p>For void methods and constructors, the return value is ignored by the framework.</p>
+     * @throws Throwable Throw any exception from the interceptor. The exception will
+     *                   propagate to the caller if not caught by any interceptor.
+     */
+    Object intercept(@NonNull Chain chain) throws Throwable;
+}
+```
+
 ### 5.2 修改入参调用原方法
 
 ```kotlin
@@ -189,10 +210,9 @@ xposedModule.hook(method).intercept { true }
 ```kotlin
 targetClass.declaredConstructors.forEach { constructor ->
     xposedModule.hook(constructor).intercept { chain ->
-        val result = chain.proceed()
+        chain.proceed()
         // 对象实例化后修改内部私有属性
         chain.thisObject.setField("mInitialized", true)
-        result
     }
 }
 ```
@@ -793,6 +813,7 @@ import android.os.ParcelFileDescriptor
 import android.util.Log
 import io.github.libxposed.api.XposedModule
 import java.io.File
+import java.lang.reflect.Method
 
 @SuppressLint("PrivateApi", "DiscouragedPrivateApi")
 fun getSystemContext(): Context {
@@ -827,13 +848,27 @@ fun getPackageVersionCode(name: String = getCurrentPackageName()): Long {
 val Context.longVersionCode get() = packageManager.getPackageInfo(packageName, 0).longVersionCode
 
 @SuppressLint("DiscouragedPrivateApi")
+private val attachMethod: Method = Application::class.java.getDeclaredMethod("attach", Context::class.java)
+
 context(xposedModule: XposedModule)
 fun afterAttach(action: Context.() -> Unit) {
-    val method = Application::class.java.getDeclaredMethod("attach", Context::class.java)
-    xposedModule.hook(method).intercept { chain ->
+    xposedModule.hook(attachMethod).intercept { chain ->
         val result = chain.proceed()
         action(chain.args[0] as Context)
         result
+    }
+}
+
+context(xposedModule: XposedModule)
+fun afterAttachTry(canRunAction: Boolean = true, action: Context.() -> Unit) {
+    if (canRunAction) {
+        afterAttach {
+            try {
+                action()
+            } catch (t: Throwable) {
+                xlog(t)
+            }
+        }
     }
 }
 
@@ -929,10 +964,8 @@ fun xlog(
 
     // tag 必须为 null，确保 Vector/LSPosed 守护进程的白名单能正常收集到 modules 日志
     if (actualThrowable != null) {
-        android.util.Log.e("OneUIX", sb.toString(), actualThrowable)
         xposedModule.log(priority, null, sb.toString(), actualThrowable)
     } else {
-        android.util.Log.e("OneUIX", sb.toString())
         xposedModule.log(priority, null, sb.toString())
     }
 }
