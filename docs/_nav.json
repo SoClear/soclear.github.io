@@ -1,5 +1,9 @@
 [
   {
+    "text": "博客",
+    "link": "/blog"
+  },
+  {
     "text": "IT",
     "link": "/InfoTech/index"
   },
