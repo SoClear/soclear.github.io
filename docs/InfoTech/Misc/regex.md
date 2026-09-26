@@ -1,5 +1,15 @@
 # 正则表达式
 
+<style>
+  pre u {
+    color: var(--rp-c-link);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-skip-ink: none;
+    font-weight: bold;
+  }
+</style>
+
 <p align="center">
     <br/>
     <a href="https://github.com/ziishaned/learn-regex">
@@ -47,7 +57,7 @@
 例如：一个正则表达式 `the`，它表示一个规则：由字母 `t` 开始，接着是 `h`，再接着是 `e`。
 
 <pre>
-"the" => The fat cat sat on <a style="text-decoration: underline;"><strong>the</strong></a> mat.
+"the" => The fat cat sat on <u>the</u> mat.
 </pre>
 
 [在线练习](https://regex101.com/r/dmRygT/1)
@@ -57,7 +67,7 @@
 正则表达式是大小写敏感的，所以 `The` 不会匹配 `the`。
 
 <pre>
-"The" => <a style="text-decoration: underline;"><strong>The</strong></a> fat cat sat on the mat.
+"The" => <u>The</u> fat cat sat on the mat.
 </pre>
 
 [在线练习](https://regex101.com/r/1paXsy/1)
@@ -89,7 +99,7 @@
 例如，表达式 `.ar` 匹配一个任意字符后面跟着是 `a` 和 `r` 的字符串。
 
 <pre>
-".ar" => The <a style="text-decoration: underline;"><strong>car</strong></a> <a style="text-decoration: underline;"><strong>par</strong></a>ked in the <a style="text-decoration: underline;"><strong>gar</strong></a>age.
+".ar" => The <u>car</u> <u>par</u>ked in the <u>gar</u>age.
 </pre>
 
 [在线练习](https://regex101.com/r/xc9GkU/1)
@@ -103,7 +113,7 @@
 例如，表达式 `[Tt]he` 匹配 `the` 和 `The`。
 
 <pre>
-"[Tt]he" => <a style="text-decoration: underline;"><strong>The</strong></a> car parked in <a style="text-decoration: underline;"><strong>the</strong></a> garage.
+"[Tt]he" => <u>The</u> car parked in <u>the</u> garage.
 </pre>
 
 [在线练习](https://regex101.com/r/2ITLQ4/1)
@@ -112,7 +122,7 @@
 表达式 `ar[.]` 匹配 `ar.` 字符串。
 
 <pre>
-"ar[.]" => A garage is a good place to park a c<a style="text-decoration: underline;"><strong>ar.</strong></a>
+"ar[.]" => A garage is a good place to park a c<u>ar.</u>
 </pre>
 
 [在线练习](https://regex101.com/r/wL3xtE/1)
@@ -123,7 +133,7 @@
 例如，表达式 `[^c]ar` 匹配一个后面跟着 `ar` 的除了 `c` 的任意字符。
 
 <pre>
-"[^c]ar" => The car <a style="text-decoration: underline;"><strong>par</strong></a>ked in the <a style="text-decoration: underline;"><strong>gar</strong></a>age.
+"[^c]ar" => The car <u>par</u>ked in the <u>gar</u>age.
 </pre>
 
 [在线练习](https://regex101.com/r/nNNlq3/1)
@@ -139,7 +149,7 @@
 例如，表达式 `a*` 匹配 0 或更多个以 a 开头的字符。表达式 `[a-z]*` 匹配一个行中所有以小写字母开头的字符串。
 
 <pre>
-"[a-z]*" => T<a style="text-decoration: underline;"><strong>he</strong></a> <a style="text-decoration: underline;"><strong>car</strong></a> <a style="text-decoration: underline;"><strong>parked</strong></a> <a style="text-decoration: underline;"><strong>in</strong></a> <a style="text-decoration: underline;"><strong>the</strong></a> <a style="text-decoration: underline;"><strong>garage</strong></a> #21.
+"[a-z]*" => T<u>he</u> <u>car</u> <u>parked</u> <u>in</u> <u>the</u> <u>garage</u> #21.
 </pre>
 
 [在线练习](https://regex101.com/r/7m8me5/1)
@@ -148,7 +158,7 @@
 `*` 和表示匹配空格的符号 `\s` 连起来用，如表达式 `\s*cat\s*` 匹配 0 或更多个空格开头和 0 或更多个空格结尾的 cat 字符串。
 
 <pre>
-"\s*cat\s*" => The fat<a style="text-decoration: underline;"><strong> cat </strong></a>sat on the con<a style="text-decoration: underline;"><strong>cat</strong></a>enation.
+"\s*cat\s*" => The fat<u> cat </u>sat on the con<u>cat</u>enation.
 </pre>
 
 [在线练习](https://regex101.com/r/gGrwuz/1)
@@ -159,7 +169,7 @@
 例如表达式 `c.+t` 匹配以首字母 `c` 开头以 `t` 结尾，中间跟着至少一个字符的字符串。
 
 <pre>
-"c.+t" => The fat <a style="text-decoration: underline;"><strong>cat sat on the mat</strong></a>.
+"c.+t" => The fat <u>cat sat on the mat</u>.
 </pre>
 
 [在线练习](https://regex101.com/r/Dzf9Aa/1)
@@ -170,13 +180,13 @@
 例如，表达式 `[T]?he` 匹配字符串 `he` 和 `The`。
 
 <pre>
-"[T]he" => <a style="text-decoration: underline;"><strong>The</strong></a> car is parked in the garage.
+"[T]he" => <u>The</u> car is parked in the garage.
 </pre>
 
 [在线练习](https://regex101.com/r/cIg9zm/1)
 
 <pre>
-"[T]?he" => <a style="text-decoration: underline;"><strong>The</strong></a> car is parked in t<a style="text-decoration: underline;"><strong>he</strong></a> garage.
+"[T]?he" => <u>The</u> car is parked in t<u>he</u> garage.
 </pre>
 
 [在线练习](https://regex101.com/r/kPpO2x/1)
@@ -187,7 +197,7 @@
 例如，表达式 `[0-9]{2,3}` 匹配最少 2 位最多 3 位 0~9 的数字。
 
 <pre>
-"[0-9]{2,3}" => The number was 9.<a style="text-decoration: underline;"><strong>999</strong></a>7 but we rounded it off to <a style="text-decoration: underline;"><strong>10</strong></a>.0.
+"[0-9]{2,3}" => The number was 9.<u>999</u>7 but we rounded it off to <u>10</u>.0.
 </pre>
 
 [在线练习](https://regex101.com/r/juM86s/1)
@@ -198,13 +208,13 @@
 例如，`[0-9]{3}` 匹配 3 位数字。
 
 <pre>
-"[0-9]{2,}" => The number was 9.<a style="text-decoration: underline;"><strong>9997</strong></a> but we rounded it off to <a style="text-decoration: underline;"><strong>10</strong></a>.0.
+"[0-9]{2,}" => The number was 9.<u>9997</u> but we rounded it off to <u>10</u>.0.
 </pre>
 
 [在线练习](https://regex101.com/r/Gdy4w5/1)
 
 <pre>
-"[0-9]{3}" => The number was 9.<a style="text-decoration: underline;"><strong>999</strong></a>7 but we rounded it off to 10.0.
+"[0-9]{3}" => The number was 9.<u>999</u>7 but we rounded it off to 10.0.
 </pre>
 
 [在线练习](https://regex101.com/r/Sivu30/1)
@@ -219,7 +229,7 @@
 我们还可以在 `()` 中用或字符 `|` 表示或。例如，`(c|g|p)ar` 匹配 `car` 或 `gar` 或 `par`.
 
 <pre>
-"(c|g|p)ar" => The <a style="text-decoration: underline;"><strong>car</strong></a> is <a style="text-decoration: underline;"><strong>par</strong></a>ked in the <a style="text-decoration: underline;"><strong>gar</strong></a>age.
+"(c|g|p)ar" => The <u>car</u> is <u>par</u>ked in the <u>gar</u>age.
 </pre>
 
 [在线练习](https://regex101.com/r/tUxrBG/1)
@@ -232,7 +242,7 @@
 非捕获组匹配字符但不捕获该组。 一个非捕获组由在括号 `（...）` 内的一个 `?` 后跟一个 `:` 表示。 例如，正则表达式 `(?:c|g|p)ar` 和 `(c|g|p)ar` 类似，可以匹配相同的字符，但不会创建捕获组。
 
 <pre>
-"(?:c|g|p)ar" => The <a style="text-decoration: underline;"><strong>car</strong></a> is <a style="text-decoration: underline;"><strong>par</strong></a>ked in the <a style="text-decoration: underline;"><strong>gar</strong></a>age.
+"(?:c|g|p)ar" => The <u>car</u> is <u>par</u>ked in the <u>gar</u>age.
 </pre>
 
 [在线练习](https://regex101.com/r/Rm7Me8/1)
@@ -247,7 +257,7 @@
 例如 `(T|t)he|car` 匹配 `(T|t)he` 或 `car`。
 
 <pre>
-"(T|t)he|car" => <a style="text-decoration: underline;"><strong>The</strong></a> <a style="text-decoration: underline;"><strong>car</strong></a> is parked in <a style="text-decoration: underline;"><strong>the</strong></a> garage.
+"(T|t)he|car" => <u>The</u> <u>car</u> is parked in <u>the</u> garage.
 </pre>
 
 [在线练习](https://regex101.com/r/fBXyX0/1)
@@ -262,7 +272,7 @@
 以下这个例子 `\.?` 是选择性匹配 `.`。
 
 <pre>
-"(f|c|m)at\.?" => The <a style="text-decoration: underline;"><strong>fat</strong></a> <a style="text-decoration: underline;"><strong>cat</strong></a> sat on the <a style="text-decoration: underline;"><strong>mat.</strong></a>
+"(f|c|m)at\.?" => The <u>fat</u> <u>cat</u> sat on the <u>mat.</u>
 </pre>
 
 [在线练习](https://regex101.com/r/DOc5Nu/1)
@@ -282,13 +292,13 @@
 例如，`^(T|t)he` 匹配以 `The` 或 `the` 开头的字符串。
 
 <pre>
-"(T|t)he" => <a style="text-decoration: underline;"><strong>The</strong></a> car is parked in <a style="text-decoration: underline;"><strong>the</strong></a> garage.
+"(T|t)he" => <u>The</u> car is parked in <u>the</u> garage.
 </pre>
 
 [在线练习](https://regex101.com/r/5ljjgB/1)
 
 <pre>
-"^(T|t)he" => <a style="text-decoration: underline;"><strong>The</strong></a> car is parked in the garage.
+"^(T|t)he" => <u>The</u> car is parked in the garage.
 </pre>
 
 [在线练习](https://regex101.com/r/jXrKne/1)
@@ -300,13 +310,13 @@
 例如，`(at\.)$` 匹配以 `at.` 结尾的字符串。
 
 <pre>
-"(at\.)" => The fat c<a style="text-decoration: underline;"><strong>at.</strong></a> s<a style="text-decoration: underline;"><strong>at.</strong></a> on the m<a style="text-decoration: underline;"><strong>at.</strong></a>
+"(at\.)" => The fat c<u>at.</u> s<u>at.</u> on the m<u>at.</u>
 </pre>
 
 [在线练习](https://regex101.com/r/y4Au4D/1)
 
 <pre>
-"(at\.)$" => The fat cat. sat. on the m<a style="text-decoration: underline;"><strong>at.</strong></a>
+"(at\.)$" => The fat cat. sat. on the m<u>at.</u>
 </pre>
 
 [在线练习](https://regex101.com/r/t0AkOd/1)
@@ -357,7 +367,7 @@
 例如，表达式 `(T|t)he(?=\sfat)` 匹配 `The` 和 `the`，在括号中我们又定义了正先行断言 `(?=\sfat)` ，即 `The` 和 `the` 后面紧跟着 `(空格)fat`。
 
 <pre>
-"(T|t)he(?=\sfat)" => <a style="text-decoration: underline;"><strong>The</strong></a> fat cat sat on the mat.
+"(T|t)he(?=\sfat)" => <u>The</u> fat cat sat on the mat.
 </pre>
 
 [在线练习](https://regex101.com/r/IDDARt/1)
@@ -370,7 +380,7 @@
 表达式 `(T|t)he(?!\sfat)` 匹配 `The` 和 `the`，且其后不跟着 `(空格)fat`。
 
 <pre>
-"(T|t)he(?!\sfat)" => The fat cat sat on <a style="text-decoration: underline;"><strong>the</strong></a> mat.
+"(T|t)he(?!\sfat)" => The fat cat sat on <u>the</u> mat.
 </pre>
 
 [在线练习](https://regex101.com/r/V32Npg/1)
@@ -381,7 +391,7 @@
 例如，表达式 `(?<=(T|t)he\s)(fat|mat)` 匹配 `fat` 和 `mat`，且其前跟着 `The` 或 `the`。
 
 <pre>
-"(?<=(T|t)he\s)(fat|mat)" => The <a style="text-decoration: underline;"><strong>fat</strong></a> cat sat on the <a style="text-decoration: underline;"><strong>mat</strong></a>.
+"(?<=(T|t)he\s)(fat|mat)" => The <u>fat</u> cat sat on the <u>mat</u>.
 </pre>
 
 [在线练习](https://regex101.com/r/avH165/1)
@@ -392,7 +402,7 @@
 例如，表达式 `(?<!(T|t)he\s)(cat)` 匹配 `cat`，且其前不跟着 `The` 或 `the`。
 
 <pre>
-"(?&lt;!(T|t)he\s)(cat)" => The cat sat on <a style="text-decoration: underline;"><strong>cat</strong></a>.
+"(?&lt;!(T|t)he\s)(cat)" => The cat sat on <u>cat</u>.
 </pre>
 
 [在线练习](https://regex101.com/r/8Efx5G/1)
@@ -414,13 +424,13 @@
 例如，表达式 `/The/gi` 表示在全局搜索 `The`，在后面的 `i` 将其条件修改为忽略大小写，则变成搜索 `the` 和 `The`，`g` 表示全局搜索。
 
 <pre>
-"The" => <a style="text-decoration: underline;"><strong>The</strong></a> fat cat sat on the mat.
+"The" => <u>The</u> fat cat sat on the mat.
 </pre>
 
 [在线练习](https://regex101.com/r/dpQyf9/1)
 
 <pre>
-"/The/gi" => <a style="text-decoration: underline;"><strong>The</strong></a> fat cat sat on <a style="text-decoration: underline;"><strong>the</strong></a> mat.
+"/The/gi" => <u>The</u> fat cat sat on <u>the</u> mat.
 </pre>
 
 [在线练习](https://regex101.com/r/ahfiuh/1)
@@ -431,13 +441,13 @@
 例如，表达式 `/.(at)/g` 表示搜索 任意字符（除了换行）+ `at`，并返回全部结果。
 
 <pre>
-"/.(at)/" => The <a style="text-decoration: underline;"><strong>fat</strong></a> cat sat on the mat.
+"/.(at)/" => The <u>fat</u> cat sat on the mat.
 </pre>
 
 [在线练习](https://regex101.com/r/jnk6gM/1)
 
 <pre>
-"/.(at)/g" => The <a style="text-decoration: underline;"><strong>fat</strong></a> <a style="text-decoration: underline;"><strong>cat</strong></a> <a style="text-decoration: underline;"><strong>sat</strong></a> on the <a style="text-decoration: underline;"><strong>mat</strong></a>.
+"/.(at)/g" => The <u>fat</u> <u>cat</u> <u>sat</u> on the <u>mat</u>.
 </pre>
 
 [在线练习](https://regex101.com/r/dO1nef/1)
@@ -453,15 +463,15 @@
 <pre>
 "/.at(.)?$/" => The fat
                 cat sat
-                on the <a style="text-decoration: underline;"><strong>mat.</strong></a>
+                on the <u>mat.</u>
 </pre>
 
 [在线练习](https://regex101.com/r/hoGMkP/1)
 
 <pre>
-"/.at(.)?$/gm" => The <a style="text-decoration: underline;"><strong>fat</strong></a>
-                  cat <a style="text-decoration: underline;"><strong>sat</strong></a>
-                  on the <a style="text-decoration: underline;"><strong>mat.</strong></a>
+"/.at(.)?$/gm" => The <u>fat</u>
+                  cat <u>sat</u>
+                  on the <u>mat.</u>
 </pre>
 
 [在线练习](https://regex101.com/r/E88WE2/1)
@@ -471,12 +481,12 @@
 正则表达式默认采用贪婪匹配模式，在该模式下意味着会匹配尽可能长的子串。我们可以使用 `?` 将贪婪匹配模式转化为惰性匹配模式。
 
 <pre>
-"/(.*at)/" => <a style="text-decoration: underline;"><strong>The fat cat sat on the mat</strong></a>. </pre>
+"/(.*at)/" => <u>The fat cat sat on the mat</u>. </pre>
 
 [在线练习](https://regex101.com/r/AyAdgJ/1)
 
 <pre>
-"/(.*?at)/" => <a style="text-decoration: underline;"><strong>The fat</strong></a> cat sat on the mat. </pre>
+"/(.*?at)/" => <u>The fat</u> cat sat on the mat. </pre>
 
 [在线练习](https://regex101.com/r/AyAdgJ/2)
 
